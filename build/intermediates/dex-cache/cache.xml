@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\DAVE H\StudioProjects\SevenEleven\app\libs\nineoldandroids.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
+        <dex dex="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\nineoldandroids-05bff581ce142ae51d3200eab4c6db0accb1a587.jar" />
+    </item>
+    <item
+        jar="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-443b426271a6c61f2bd23fbfe4d94673392ec7f3.jar" />
+    </item>
+    <item
+        jar="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-7892222ab40dfc06286c897677a6f6a90ca67a3c.jar" />
+    </item>
+    <item
+        jar="C:\Users\DAVE H\StudioProjects\SevenEleven\app\libs\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-0f930e62c0992bd834039eb19d3bf47800143fca.jar" />
+    </item>
+    <item
+        jar="C:\Users\DAVE H\Documents\myPortable Eclipse Workspace\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="C:\Users\DAVE H\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-4c3ba1c8f4fbc88dcd872fd6c2b48fb3f1c858f3.jar" />
+    </item>
+
+</items>
