@@ -255,7 +255,7 @@ public class CustomerOrder extends Activity implements OnClickListener,
 		InputStream inputstream = null;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/get_all_products.php");
+				"http://seveneleven.esy.es/android_connect/get_all_products.php");
 
 		try {
 
@@ -334,7 +334,7 @@ public class CustomerOrder extends Activity implements OnClickListener,
 		InputStream inputstream = null;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16//android_connect/get_price.php");
+				"http://seveneleven.esy.es/android_connect/get_price.php");
 		// http://192.168.254.16/
 		try {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);

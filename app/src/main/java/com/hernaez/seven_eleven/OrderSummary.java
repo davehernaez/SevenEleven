@@ -62,6 +62,8 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 
 		Bundle extras = getIntent().getExtras();
 
+		orderid = "1";
+
 		if (extras != null) {
 			userid = extras.getString("user_id");
 			Log.e("userid", userid);
@@ -228,9 +230,15 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								order(userid);
-								getOrder();
-								deleteAll();
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										order(userid);
+										getOrder();
+										deleteAll();
+									}
+								});
+
 
 							}
 
@@ -273,9 +281,10 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 		if (c.moveToFirst()) {
 			while (!c.isAfterLast()) {
 				//String prodname = c.getString(c.getColumnIndex("product_name"));
-				String prodid = c.getString(c.getColumnIndex("_id"));
-				String prodqty = c.getString(c.getColumnIndex("product_qty"));
-				placeOrder(orderid, prodid, prodqty);
+				String prodid_fromdb = c.getString(c.getColumnIndex("_id"));
+				String prodqty_fromdb = c.getString(c.getColumnIndex("product_qty"));
+				placeOrder(orderid, prodid_fromdb, prodqty_fromdb);
+				Log.e("from db", prodid_fromdb+prodqty_fromdb);
 				c.moveToNext();
 			}
 		}
@@ -293,7 +302,7 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/order.php");
+				"http://seveneleven.esy.es/android_connect/order.php");
 
 		try {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -353,10 +362,10 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/place_order.php");
+				"http://seveneleven.esy.es/android_connect/place_order.php");
 
 		try {
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("order_id", orderid));
 			nameValuePairs.add(new BasicNameValuePair("product_id", prodid));
 			nameValuePairs.add(new BasicNameValuePair("order_qty", qty));

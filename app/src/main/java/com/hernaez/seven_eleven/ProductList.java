@@ -69,7 +69,7 @@ public class ProductList extends Activity {
 		rowItems = new ArrayList<RowItem>();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/get_all_products.php");
+				"http://seveneleven.esy.es/android_connect/get_all_products.php");
 
 		try {
 

@@ -35,7 +35,7 @@ import android.widget.Toast;
 public class ReOrder extends Activity implements OnItemClickListener {
 	ListView lv;
 	EditText dialog_qty;
-	TextView prodname;
+	TextView tv_prodname;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,8 @@ public class ReOrder extends Activity implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int id,
 			long position) {
 		// TODO Auto-generated method stub
-		prodname = (TextView) view.findViewById(R.id.textViewProduct_name);
+
+		tv_prodname = (TextView) view.findViewById(R.id.textViewProduct_name);
 
 		dialog();
 
@@ -69,7 +70,7 @@ public class ReOrder extends Activity implements OnItemClickListener {
 		rowItems = new ArrayList<RowItem>();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/get_all_products.php");
+				"http://seveneleven.esy.es/android_connect/get_all_products.php");
 
 		try {
 
@@ -138,13 +139,18 @@ public class ReOrder extends Activity implements OnItemClickListener {
 		View dialog = inflater.inflate(R.layout.dialog_reorder, null);
 		builder.setView(dialog);
 
+        final AlertDialog ad = builder.create();
+        ad.show();
+        ad.setCancelable(false);
+
 		Button btn_minus = (Button) dialog
 				.findViewById(R.id.buttondialog_minus);
 		Button btn_plus = (Button) dialog.findViewById(R.id.buttondialog_plus);
 		Button btn_ok = (Button) dialog.findViewById(R.id.buttondialog_ok);
-		final AlertDialog ad = builder.create();
-		ad.show();
-		ad.setCancelable(false);
+		Button btn_cancel = (Button) dialog.findViewById(R.id.buttondialog_cancel);
+
+        TextView tv_title = (TextView) dialog.findViewById(R.id.textView_dialog_title);
+        tv_title.setText("How many "+ tv_prodname.getText().toString()+"(s) would you like to order from supplier?");
 
 		dialog_qty = (EditText) dialog
 				.findViewById(R.id.editText_dialog_qty);
@@ -186,10 +192,19 @@ public class ReOrder extends Activity implements OnItemClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				reOrder(prodname.getText().toString(),dialog_qty.getText().toString());
+				reOrder(tv_prodname.getText().toString(),dialog_qty.getText().toString());
 				ad.dismiss();
 				Toast.makeText(getApplicationContext(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
 				getAll();
+			}
+		});
+
+
+
+		btn_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ad.dismiss();
 			}
 		});
 		
@@ -204,7 +219,7 @@ public class ReOrder extends Activity implements OnItemClickListener {
 
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16/android_connect/reorder.php");
+				"http://seveneleven.esy.es/android_connect/reorder.php");
 
 		try {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(0);

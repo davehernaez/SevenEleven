@@ -1,5 +1,7 @@
 package com.hernaez.seven_eleven;
 
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,209 +27,269 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 public class Login extends Activity {
 
-	EditText edtx_username, edtx_password;
-	Button btn_login;
-	// JSON Node names
-	private static final String TAG_SUCCESS = "success";
+    EditText edtx_username, edtx_password;
+    Button btn_login;
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
 
-	String username, password;
+    String username, password;
 
-	private static final String login = "http://localhost/android_connect/login.php";
+    private static final String login = "http://localhost/android_connect/login.php";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
-		StrictMode.enableDefaults();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
+        StrictMode.enableDefaults();
 
-		edtx_username = (EditText) findViewById(R.id.editText_username);
-		edtx_password = (EditText) findViewById(R.id.editText_password);
 
-		btn_login = (Button) findViewById(R.id.button_login);
+        edtx_username = (EditText) findViewById(R.id.editText_username);
+        edtx_password = (EditText) findViewById(R.id.editText_password);
 
-		btn_login.setOnClickListener(new OnClickListener() {
+        btn_login = (Button) findViewById(R.id.button_login);
 
-			@Override
-			public void onClick(View v) {
-				username = edtx_username.getText().toString();
-				password = edtx_password.getText().toString();
-				// TODO Auto-generated method stub	
-				loginThread=new Thread(){
-					public void run() {
-						login();
-					};
-				};
-				loginThread.start();
-			}
 
-		});
+        btn_login.setOnClickListener(new OnClickListener() {
 
-	}
-	
-	Thread loginThread;
+            @Override
+            public void onClick(View v) {
+                username = edtx_username.getText().toString();
+                password = edtx_password.getText().toString();
+                // TODO Auto-generated method stub
 
-	public void login() {
+                loginThread = new Thread() {
+                    public void run() {
+                        login();
+                    }
 
-		
-		if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+                    ;
+                };
+                loginThread.start();
+            }
 
-			userLogin(username, password);// Login method
+        });
+        btn_login.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                btn_login = (Button) v.findViewById(R.id.button_login);
 
-		} else {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(Login.this, "Please fill up empty field(s)",
-							Toast.LENGTH_LONG).show();
-				}
-			});
-			
-		}
-	}
+                switch (event.getAction()) {
 
-	public void userLogin(String user, String pass) {
+                    case MotionEvent.ACTION_DOWN:
+                        YoYo.with(Techniques.Pulse).duration(400).playOn(btn_login);
+                        if(TextUtils.isEmpty(edtx_username.getText().toString()) && TextUtils.isEmpty(edtx_password.getText().toString())) {
+                            edtx_username.setError("Username cannot be empty!");
+                            edtx_password.setError("Password cannot be empty!");
+                            YoYo.with(Techniques.Wave).duration(500).playOn(edtx_username);
+                            YoYo.with(Techniques.Wave).duration(500).playOn(edtx_password);
 
-		String phpOutput = "";
-		InputStream inputstream = null;
+                        } else if(TextUtils.isEmpty(edtx_username.getText().toString())){
+                            YoYo.with(Techniques.Flash).duration(500).playOn(edtx_username);
 
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppostURL = new HttpPost(
-				"http://192.168.254.16///android_connect/login.php");
+                            edtx_username.setError("Username cannot be empty!");
+                        }
 
-		try {
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(0);
-			nameValuePairs.add(new BasicNameValuePair("username", user));
-			nameValuePairs.add(new BasicNameValuePair("password", pass));
-			httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                         else if(TextUtils.isEmpty(edtx_password.getText().toString())){
+                            YoYo.with(Techniques.Wave).duration(500).playOn(edtx_password);
+                            edtx_password.setError("Password cannot be empty!");
+                        }
+                    /*else{
+                            YoYo.with(Techniques.Wave).duration(500).playOn(btn_login);
+                            Toast.makeText(Login.this, "Please fill up empty field(s)",
+                                    Toast.LENGTH_LONG).show();
 
-			HttpResponse response = httpclient.execute(httppostURL);
-			HttpEntity entity = response.getEntity();
-			inputstream = entity.getContent();
+                        }*/
+                        break;
 
-		} catch (Exception exception) {
-			Log.e("log_tag", "Error in http connection " + exception.toString());
-		}
+                    case MotionEvent.ACTION_UP:
+                        /*YoYo.with(Techniques.ZoomOut).duration(200).playOn(btn_login);
+                        YoYo.with(Techniques.ZoomIn).delay(200).duration(200).playOn(btn_login);*/
 
-		try {
-			BufferedReader bufferedReader = new BufferedReader(
-					new InputStreamReader(inputstream, "iso-8859-1"), 8);
-			StringBuilder stringBuilder = new StringBuilder();
-			String singleLine = null;
+                        break;
 
-			while ((singleLine = bufferedReader.readLine()) != null) {
-				stringBuilder.append(singleLine + "\n");
-			}
+                }
 
-			inputstream.close();
-			phpOutput = stringBuilder.toString();
 
-		} catch (Exception exception) {
-			Log.e("log_tag", "Error converting result" + exception.toString());
-		}
+                return false;
+            }
+        });
 
-		try {
-			phpOutput = phpOutput.replaceAll("\\s+", "");
-			Log.e("phpOutput: ", phpOutput + "");
 
-			JSONArray jasonArray = new JSONArray(phpOutput);
-			JSONObject jsonObject = jasonArray.getJSONObject(0);
+    }
 
-			try {
-				String output = "hi";
-				String admin = "admin";
-				String user_user = "user";
-				Log.e("output value before", output);
-				output = jsonObject.getString("user_name");
-				Log.e("output value after", output);
+    Thread loginThread;
 
-				// Login as admin
-				if (output.equals(username)
-						&& (admin.equals(jsonObject.get("user_type")))) {
+    public void login() {
 
-					
-					final String userid = jsonObject.getString("user_id");
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							Toast.makeText(getApplicationContext(),
-									"Logging in as admin...", Toast.LENGTH_SHORT)
-									.show();
-							Intent intent = new Intent(Login.this, AdminPage.class);
-							intent.putExtra("user_id", userid);
-							startActivity(intent);
-						}
-					});
-					
-				}
-				// Login as normal user
-				else if (output.equals(username)
-						&& (user_user.equals(jsonObject.get("user_type")))) {
-					Toast.makeText(getApplicationContext(), "Logging in...",
-							Toast.LENGTH_SHORT).show();
-					final String userid = jsonObject.getString("user_id");
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							Intent intent = new Intent(Login.this, UserPage.class);
-							intent.putExtra("user_id", userid);
-							startActivity(intent);
-						}
-					});
-				}
-			} catch (Exception ex) {
-			}
-		} catch (final Exception exception) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(Login.this, "Username and password did not match.",
-							Toast.LENGTH_LONG).show();
-					Log.e("log_tag", "Error Parsing Data" + exception.toString());
-				}
-			});
-		}
-	}
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		edtx_username.setText("");
-		edtx_password.setText("");
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password))
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    userLogin(username, password);// Login method
+                }
 
-	}
+            });
 
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
+        /*else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(Login.this, "Please fill up empty field(s)",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
 
-	}
+        }*/
+    }
 
-	@Override
-	public void onBackPressed() {
-		new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setTitle("Exit")
-				.setMessage("Are you sure you want exit?")
-				.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								finish();
-							}
+    public void userLogin(String user, String pass) {
 
-						}).setNegativeButton("No", null).show();
-	}
+        String phpOutput = "";
+        InputStream inputstream = null;
+
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppostURL = new HttpPost(
+                "http://seveneleven.esy.es/android_connect/login.php");
+
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(0);
+            nameValuePairs.add(new BasicNameValuePair("username", user));
+            nameValuePairs.add(new BasicNameValuePair("password", pass));
+            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            HttpResponse response = httpclient.execute(httppostURL);
+            HttpEntity entity = response.getEntity();
+            inputstream = entity.getContent();
+
+        } catch (Exception exception) {
+            Log.e("log_tag", "Error in http connection " + exception.toString());
+        }
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
+            StringBuilder stringBuilder = new StringBuilder();
+            String singleLine = null;
+
+            while ((singleLine = bufferedReader.readLine()) != null) {
+                stringBuilder.append(singleLine + "\n");
+            }
+
+            inputstream.close();
+            phpOutput = stringBuilder.toString();
+
+        } catch (Exception exception) {
+            Log.e("log_tag", "Error converting result" + exception.toString());
+        }
+
+        try {
+            phpOutput = phpOutput.replaceAll("\\s+", "");
+            Log.e("phpOutput: ", phpOutput + "");
+
+            JSONArray jasonArray = new JSONArray(phpOutput);
+            JSONObject jsonObject = jasonArray.getJSONObject(0);
+
+            try {
+                String output = "hi";
+                String admin = "admin";
+                String user_user = "user";
+                Log.e("output value before", output);
+                output = jsonObject.getString("user_name");
+                Log.e("output value after", output);
+
+                // Login as admin
+                if (output.equals(username)
+                        && (admin.equals(jsonObject.get("user_type")))) {
+
+
+                    final String userid = jsonObject.getString("user_id");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Logging in as admin...", Toast.LENGTH_SHORT)
+                                    .show();
+                            Intent intent = new Intent(Login.this, AdminPage.class);
+                            intent.putExtra("user_id", userid);
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+                // Login as normal user
+                else if (output.equals(username)
+                        && (user_user.equals(jsonObject.get("user_type")))) {
+                    Toast.makeText(getApplicationContext(), "Logging in...",
+                            Toast.LENGTH_SHORT).show();
+                    final String userid = jsonObject.getString("user_id");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(Login.this, UserPage.class);
+                            intent.putExtra("user_id", userid);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            } catch (Exception ex) {
+            }
+        } catch (final Exception exception) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(Login.this, "Username and password did not match.",
+                            Toast.LENGTH_LONG).show();
+                    Log.e("log_tag", "Error Parsing Data" + exception.toString());
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        edtx_username.setText("");
+        edtx_password.setText("");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Exit")
+                .setMessage("Are you sure you want exit?")
+                .setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                finish();
+                            }
+
+                        }).setNegativeButton("No", null).show();
+    }
 
 }

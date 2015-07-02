@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hernaez.seven_eleven"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.hernaez.seven_eleven.Splash"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.MAINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.Login"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.LOGIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.UserPage"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.USERPAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.AdminPage"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.ADMINPAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.ProductList"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.PRODUCTLIST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.Imageview"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.IMAGEVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.CustomerOrder"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.CUSTOMERORDER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.OrderSummary"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.ORDERSUMMARY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hernaez.seven_eleven.ReOrder"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.hernaez.seven_eleven.REORDER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
