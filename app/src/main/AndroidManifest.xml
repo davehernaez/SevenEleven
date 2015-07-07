@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Splash"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,17 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.MAINACTIVITY" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".Login"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.LOGIN" />
@@ -42,17 +34,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".UserPage"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.USERPAGE" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".AdminPage"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.AdminPageActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.ADMINPAGE" />
@@ -60,8 +44,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ProductList"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.ProductListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.PRODUCTLIST" />
@@ -70,16 +55,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Imageview"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.IMAGEVIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".CustomerOrder"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.CustomerOrderActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.CUSTOMERORDER" />
@@ -88,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OrderSummary"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.OrderSummaryActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.ORDERSUMMARY" />
@@ -97,7 +73,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReOrder"
+            android:name=".com.hernaez.seven_eleven.model.viecontroller.actvitiy.ReOrderActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.REORDER" />

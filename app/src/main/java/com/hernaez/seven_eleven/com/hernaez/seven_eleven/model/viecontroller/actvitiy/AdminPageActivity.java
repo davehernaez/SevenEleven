@@ -1,0 +1,65 @@
+package com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.viecontroller.actvitiy;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.hernaez.seven_eleven.R;
+
+/**
+ * Created by TAS on 7/7/2015.
+ */
+public class AdminPageActivity extends Activity implements View.OnClickListener {
+    Button btn_all_products, btn_for_reordering;
+    Intent i;
+    String userid;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.admin_page);
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            userid = extras.getString("user_id");
+            Log.e("userid", userid);
+        }
+
+        btn_all_products = (Button) findViewById(R.id.button_productList);
+        btn_for_reordering = (Button) findViewById(R.id.button_for_reorder);
+
+        btn_all_products.setOnClickListener(this);
+        btn_for_reordering.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.button_productList:
+                YoYo.with(Techniques.Pulse).duration(1000).playOn(btn_all_products);
+                i = new Intent(AdminPageActivity.this, ProductListActivity.class);
+                i.putExtra("user_id", userid);
+                startActivity(i);
+                break;
+
+            case R.id.button_for_reorder:
+                YoYo.with(Techniques.Pulse).duration(1000).playOn(btn_for_reordering);
+                i = new Intent(AdminPageActivity.this, ReOrderActivity.class);
+                i.putExtra("user_id", userid);
+                startActivity(i);
+                break;
+
+        }
+
+    }
+
+}
