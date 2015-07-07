@@ -13,13 +13,5 @@
         android:layout_centerVertical="true"
         android:src="@drawable/splash_img" />
 
-    <ImageView
-        android:id="@+id/imageView_splash_bottom_banner"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/img_banner" />
-
 </RelativeLayout>
 <!-- From: file:/C:/Users/TAS/Documents/StudioProjects/SevenEleven/app/src/main/res/layout/splash.xml -->

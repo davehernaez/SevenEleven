@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 public class AdminPage extends Activity implements OnClickListener {
 	Button btn_all_products, btn_for_reordering;
 	Intent i;
@@ -39,12 +42,14 @@ public class AdminPage extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.button_productList:
+			YoYo.with(Techniques.Pulse).duration(1000).playOn(btn_all_products);
 			i = new Intent(AdminPage.this, ProductList.class);
 			i.putExtra("user_id", userid);
 			startActivity(i);
 			break;
 		
 		case R.id.button_for_reorder:
+			YoYo.with(Techniques.Pulse).duration(1000).playOn(btn_for_reordering);
 			i = new Intent(AdminPage.this, ReOrder.class);
 			i.putExtra("user_id", userid);
 			startActivity(i);

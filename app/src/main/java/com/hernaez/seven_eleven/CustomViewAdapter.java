@@ -55,7 +55,7 @@ public class CustomViewAdapter extends ArrayAdapter<RowItem> {
                  
         holder.prodname.setText(rowItem.getProdName());
         holder.prodqty.setText(rowItem.getProdQty());
-        if(Integer.parseInt(rowItem.getProdQty())==0){
+        if(Integer.parseInt(rowItem.getProdQty())<=0){
         	holder.prodqty.setTextColor(Color.RED);
         }
         System.out.println(""+holder.prodqty.getText().toString());

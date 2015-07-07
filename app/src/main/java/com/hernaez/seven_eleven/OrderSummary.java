@@ -40,6 +40,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 public class OrderSummary extends Activity implements OnItemLongClickListener,
 		OnItemClickListener, OnClickListener {
 	DBHelper dbhelper;
@@ -211,6 +214,7 @@ public class OrderSummary extends Activity implements OnItemLongClickListener,
 		switch (v.getId()) {
 
 		case R.id.button_clear_summary:
+			YoYo.with(Techniques.Pulse).duration(500).playOn(btn_confirm);
 			SQLiteDatabase db = dbhelper.getReadableDatabase();
 
 			Cursor c = db.rawQuery("select * from '" + DBHelper.TABLE_ORDERS

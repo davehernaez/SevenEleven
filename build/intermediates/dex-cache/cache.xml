@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.daimajia.androidanimations\library\1.1.3\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8cec50fc9cc847bad0d6ed7d93814f4b34744521">
-        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-105ee8a8ab19c18c361c521f9af31306d3d299c1.jar" />
-    </item>
-    <item
-        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-2c2252598bed954689f26e80209f6a11012ffe59.jar" />
-    </item>
-    <item
         jar="C:\Users\TAS\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -23,18 +9,11 @@
         <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-6ace3fc1db2e706ca43a6be6c26a6a2ba179b241.jar" />
     </item>
     <item
-        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.daimajia.easing\library\1.0.1\jars\classes.jar"
+        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\libs\picasso-2.5.2.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="d7e947f993bf32a00fcb3078cdda8bb11c930afb">
-        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-46964fa6e1edefcdde5534bc7346e4532867bc21.jar" />
-    </item>
-    <item
-        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-95e7b18e79c5443661f5a05a4f6ce647366bccb2.jar" />
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-fabf80065ac193efed6f64aafd05cc73bfc9ab9f.jar" />
     </item>
     <item
         jar="C:\Users\TAS\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
@@ -44,11 +23,32 @@
         <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\library-2.4.0-0accc698f98db68daa58bd1c42303572fd390e7c.jar" />
     </item>
     <item
-        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\libs\picasso-2.5.2.jar"
+        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.daimajia.androidanimations\library\1.1.3\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-fabf80065ac193efed6f64aafd05cc73bfc9ab9f.jar" />
+        sha1="8cec50fc9cc847bad0d6ed7d93814f4b34744521">
+        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-105ee8a8ab19c18c361c521f9af31306d3d299c1.jar" />
+    </item>
+    <item
+        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.daimajia.easing\library\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d7e947f993bf32a00fcb3078cdda8bb11c930afb">
+        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-46964fa6e1edefcdde5534bc7346e4532867bc21.jar" />
+    </item>
+    <item
+        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-2c2252598bed954689f26e80209f6a11012ffe59.jar" />
+    </item>
+    <item
+        jar="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="C:\Users\TAS\Documents\StudioProjects\SevenEleven\app\build\intermediates\pre-dexed\debug\classes-95e7b18e79c5443661f5a05a4f6ce647366bccb2.jar" />
     </item>
 
 </items>

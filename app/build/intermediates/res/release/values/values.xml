@@ -27,20 +27,20 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <!-- From: file:/C:/Users/TAS/Documents/StudioProjects/SevenEleven/app/src/main/res/values/button_styles.xml -->
+    <!-- From: file:/C:/Users/TAS/Documents/StudioProjects/SevenEleven/app/src/main/res/values/my_styles.xml -->
     <eat-comment/>
     <style name="CustomButtonStyle">
         <item name="android:background">@drawable/button_shape</item>
         <item name="android:textColor">#3a3a3a</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">-2</item>
-        <item name="android:shadowDy">2</item>
+        <item name="android:shadowDx">-6</item>
+        <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">5</item>
+
     </style>
-    <style name="EditTextStyle">
-        <item name="android:radius">25dp</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="EditTextStyle_qty">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:background">#BBBBBBFF</item>
 
 
     </style>

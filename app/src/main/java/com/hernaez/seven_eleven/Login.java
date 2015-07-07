@@ -239,7 +239,7 @@ public class Login extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(Login.this, UserPage.class);
+                            Intent intent = new Intent(Login.this, CustomerOrder.class);
                             intent.putExtra("user_id", userid);
                             startActivity(intent);
                         }
