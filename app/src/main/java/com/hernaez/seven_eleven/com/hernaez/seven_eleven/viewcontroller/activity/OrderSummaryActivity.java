@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.viecontroller.actvitiy;
+package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,7 +20,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.RowItem;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer.CustomViewAdapter2;
+import com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 import com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 
 import org.apache.http.HttpEntity;
