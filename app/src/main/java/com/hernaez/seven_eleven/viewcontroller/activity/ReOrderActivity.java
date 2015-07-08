@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.activity;
+package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.RowItem;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
+import com.hernaez.seven_eleven.domain.RowItem;
+import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

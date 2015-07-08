@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer;
+package com.hernaez.seven_eleven.model.dataaccesslayer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

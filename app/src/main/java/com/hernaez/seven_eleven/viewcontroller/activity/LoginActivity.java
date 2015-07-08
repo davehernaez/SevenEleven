@@ -1,14 +1,11 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.activity;
+package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,25 +14,8 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.User;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.businesslayer.Login;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.model.businesslayer.Login;
 
 /**
  * Created by TAS on 7/7/2015.

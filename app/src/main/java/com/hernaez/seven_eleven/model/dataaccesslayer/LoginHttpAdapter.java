@@ -1,6 +1,6 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer;
+package com.hernaez.seven_eleven.model.dataaccesslayer;
 
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.domain.User;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

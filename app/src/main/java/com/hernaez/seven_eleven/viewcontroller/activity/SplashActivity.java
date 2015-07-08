@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.activity;
+package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.content.Intent;

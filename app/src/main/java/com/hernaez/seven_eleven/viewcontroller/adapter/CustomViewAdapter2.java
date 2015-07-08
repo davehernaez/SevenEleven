@@ -1,9 +1,9 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.adapter;
+package com.hernaez.seven_eleven.viewcontroller.adapter;
 
 import java.util.List;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.RowItem;
+import com.hernaez.seven_eleven.domain.RowItem;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;

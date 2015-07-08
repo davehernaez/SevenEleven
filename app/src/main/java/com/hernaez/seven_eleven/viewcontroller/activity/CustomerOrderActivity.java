@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.viewcontroller.activity;
+package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,8 +28,8 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain.User;
-import com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
+import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

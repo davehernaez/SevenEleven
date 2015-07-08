@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.model.dataaccesslayer;
+package com.hernaez.seven_eleven.model.dataaccesslayer;
 
 import android.content.ContentValues;
 import android.content.Context;

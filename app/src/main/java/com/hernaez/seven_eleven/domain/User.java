@@ -1,4 +1,4 @@
-package com.hernaez.seven_eleven.com.hernaez.seven_eleven.domain;
+package com.hernaez.seven_eleven.domain;
 
 /**
  * Created by jaenelleisidro on 7/8/15.
