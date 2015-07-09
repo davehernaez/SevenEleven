@@ -54,9 +54,9 @@ public class AdminPageActivity extends Activity implements View.OnClickListener 
 
             case R.id.button_for_reorder:
                 YoYo.with(Techniques.Pulse).duration(1000).playOn(btn_for_reordering);
-                i = new Intent(AdminPageActivity.this, ReOrderActivity.class);
+                /*i = new Intent(AdminPageActivity.this, ReOrderActivity.class);
                 i.putExtra("user_id", userid);
-                startActivity(i);
+                startActivity(i);*/
                 break;
 
         }

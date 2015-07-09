@@ -49,7 +49,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         setContentView(R.layout.reorder);
 
         lv = (ListView) findViewById(R.id.listView_reorder);
-        getAll();
+        //getAll();
 
         lv.setOnItemClickListener(this);
 
@@ -66,7 +66,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
 
     }
 
-    @SuppressWarnings("deprecation")
+    /*@SuppressWarnings("deprecation")
     public void getAll() {
 
         String phpOutput = "";
@@ -136,7 +136,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
             exception.printStackTrace();
             Log.e("log_tag", "Error converting result" + exception.toString());
         }
-    }
+    }*/
 
     public void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -200,7 +200,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
                 reOrder(tv_prodname.getText().toString(),dialog_qty.getText().toString());
                 ad.dismiss();
                 Toast.makeText(getApplicationContext(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
-                getAll();
+                //getAll();
             }
         });
 
