@@ -13,15 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.domain.RowItem;
 import com.squareup.picasso.Picasso;
 
-public class CustomViewAdapter extends ArrayAdapter<RowItem> {
+public class CustomViewAdapter extends ArrayAdapter<Product> {
  
     Context context;
  
     public CustomViewAdapter(Context context, int resourceId,
-            List<RowItem> items) {
+            List<Product> items) {
         super(context, resourceId, items);
         this.context = context;
     }
@@ -36,7 +37,9 @@ public class CustomViewAdapter extends ArrayAdapter<RowItem> {
      
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        RowItem rowItem = getItem(position);
+        /*RowItem rowItem = getItem(position);*/
+
+        Product product = getItem(position);
          
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -52,16 +55,20 @@ public class CustomViewAdapter extends ArrayAdapter<RowItem> {
         } else
             holder = (ViewHolder) convertView.getTag();
                  
-        holder.prodname.setText(rowItem.getProdName());
-        holder.prodqty.setText(rowItem.getProdQty());
-        if(Integer.parseInt(rowItem.getProdQty())<=0){
+        /*holder.prodname.setText(rowItem.getProdName());*/
+        holder.prodname.setText(product.getProdName());
+
+        /*holder.prodqty.setText(rowItem.getProdQty());*/
+        holder.prodqty.setText(product.getProdQty());
+
+        if(Integer.parseInt(product.getProdQty())<=0){
         	holder.prodqty.setTextColor(Color.RED);
         }
         System.out.println(""+holder.prodqty.getText().toString());
-        holder.prodprice.setText(rowItem.getProdPrice());
+        holder.prodprice.setText(product.getProdPrice());
         
         String url;
-		url = new String(rowItem.getImageURL());
+		url = new String(product.getImageURL());
 		Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);             
               
 		// holder.imageView.setImageURI(rowItem.getImageId());

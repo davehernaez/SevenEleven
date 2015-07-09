@@ -21,6 +21,7 @@ public class HttpAdapter {
     public HttpAdapter(){
         httpclient = new DefaultHttpClient();
     }
+
     public String post(String url,List<NameValuePair> nameValuePairs) throws Exception{
         HttpPost httppostURL = new HttpPost(url);
         httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -37,6 +38,27 @@ public class HttpAdapter {
         }
 
         inputstream.close();
+        return stringBuilder.toString();
+    }
+
+    public  String httpPost(String url) throws Exception{
+        HttpClient httpclient = new DefaultHttpClient();
+
+        HttpPost httppostURL = new HttpPost(url);
+        HttpResponse response = httpclient.execute(httppostURL);
+        HttpEntity entity = response.getEntity();
+        InputStream inputstream = entity.getContent();
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(inputstream, "iso-8859-1"), 8);
+        StringBuilder stringBuilder = new StringBuilder();
+        String singleLine = null;
+
+        while ((singleLine = bufferedReader.readLine()) != null) {
+            stringBuilder.append(singleLine + "\n");
+        }
+
+        inputstream.close();
+
         return stringBuilder.toString();
     }
 }
