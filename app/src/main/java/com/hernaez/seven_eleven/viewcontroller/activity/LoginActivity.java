@@ -21,6 +21,7 @@ import com.hernaez.seven_eleven.model.businesslayer.Login;
  * Created by TAS on 7/7/2015.
  */
 public class LoginActivity extends Activity {
+    EditText etPassword;
 
     private static final String TAG_SUCCESS = "success";
 
@@ -36,7 +37,7 @@ public class LoginActivity extends Activity {
 
 
         final EditText etUsername = (EditText) findViewById(R.id.editText_username);
-        final EditText etPassword = (EditText) findViewById(R.id.editText_password);
+        etPassword = (EditText) findViewById(R.id.editText_password);
 
         final Button btnLogin = (Button) findViewById(R.id.button_login);
 
@@ -128,4 +129,9 @@ public class LoginActivity extends Activity {
                 Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    protected void onResume() {
+        etPassword.setText("");
+        super.onResume();
+    }
 }

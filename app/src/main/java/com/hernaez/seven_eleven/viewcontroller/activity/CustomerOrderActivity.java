@@ -3,12 +3,11 @@ package com.hernaez.seven_eleven.viewcontroller.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -33,24 +32,11 @@ import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
+import com.squareup.picasso.Picasso;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -74,14 +60,14 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     JSONObject jsonObject;
     ProductList productList;
     GetSpecificProduct getSpecificProduct;
-    Product product;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_order);
-
+        adapter = null;
         productList = new ProductList();
         getSpecificProduct = new GetSpecificProduct();
 
@@ -117,8 +103,8 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         btn_buy.setOnClickListener(this);
 
         //method that populates spinner
-        Thread thread = new Thread(){
-            public void run(){
+        Thread thread = new Thread() {
+            public void run() {
                 getAll();
             }
         };
@@ -224,22 +210,22 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
 
     }
 
-    public void getAll(){
-runOnUiThread(new Runnable() {
-    @Override
-    public void run() {
-        ArrayAdapter<String> adapter = null;
-        try {
-            adapter = new ArrayAdapter<String>(
-                    getApplicationContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    productList.getAllProductsName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        sp_prodname.setAdapter(adapter);
-    }
-});
+    public void getAll() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    adapter = new ArrayAdapter<String>(
+                            getApplicationContext(),
+                            android.R.layout.simple_spinner_dropdown_item,
+                            productList.getAllProductsName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                sp_prodname.setAdapter(adapter);
+            }
+        });
 
     }
 
@@ -248,8 +234,12 @@ runOnUiThread(new Runnable() {
                                long id) {
         qty.setText("1");
         try {
-            getSpecificProduct.getSpecificProduct(sp_prodname.getSelectedItem().toString());
-            tv_price.setText("24.44");
+            final Product product = getSpecificProduct.getSpecificProduct(sp_prodname.getSelectedItem().toString());
+            tv_price.setText(product.product_price.toString());
+            available_qty = Integer.parseInt(product.product_qty);
+            Picasso.with(getApplicationContext()).load(product.product_imgpath).resize(250, 250).into(img);
+            Log.e("product", product.product_price);
+            /*tv_price.setText(getSpecificProduct.getSpecificProduct(sp_prodname.getSelectedItem().toString()));*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -263,63 +253,6 @@ runOnUiThread(new Runnable() {
         // TODO Auto-generated method stub
 
     }
-
-    /*@SuppressWarnings("deprecation")
-    public void getPrice(String name) {
-        Bitmap bmp;
-        String phpOutput = "";
-        InputStream inputstream = null;
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/get_price.php");
-        // http://192.168.254.16/
-        try {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("product_name", name));
-            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
-        }
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-
-                phpOutput = stringBuilder.toString();
-
-                JSONArray new_array = new JSONArray(phpOutput);
-
-                JSONObject jsonObject = new_array.getJSONObject(0);
-                String prodprice = jsonObject.getString("product_price");// extract
-                prodid = jsonObject.getString("product_id");
-                prodimg = jsonObject.getString("image_path");// extract
-                // image
-                // path
-                prodnamespecific = jsonObject.getString("product_name");
-                available_qty = jsonObject.getInt("product_qty");
-                URL url = new URL(prodimg);
-                bmp = BitmapFactory.decodeStream(url.openConnection()
-                        .getInputStream());
-                img.setImageBitmap(bmp);
-                tv_price.setText(String.format("%.2f",
-                        Double.parseDouble(prodprice)));
-                Log.e("phpOutput", phpOutput);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            Log.e("log_tag", "Error converting result" + exception.toString());
-        }
-    }*/
 
     public void addOrder() {
         db = dbhelper.getWritableDatabase();
@@ -442,7 +375,7 @@ runOnUiThread(new Runnable() {
         getAll();
     }
 
-    public static void start(Activity me,User user){
+    public static void start(Activity me, User user) {
         Intent intent = new Intent(me, CustomerOrderActivity.class);
         intent.putExtra("user_id", user.userId);
         me.startActivity(intent);
@@ -455,6 +388,12 @@ runOnUiThread(new Runnable() {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        //My error ako sa part na to. D ko pa na checheck kun ano.
+        //
+        //
+        //
+
         /*if (!TextUtils.isEmpty(qty.getText().toString())) {
             getSubTotal();
             // Integer available_qty = available_qty;

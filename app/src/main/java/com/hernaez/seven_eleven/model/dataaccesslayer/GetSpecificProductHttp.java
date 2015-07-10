@@ -38,11 +38,15 @@ public class GetSpecificProductHttp {
         JSONObject jsonObject = jsonArray.getJSONObject(0);
         String productname = jsonObject.getString("product_name");
         Log.e("GetSpecificProduct", "accessed "+productname);
-        product = new Product(jsonObject.getString("product_name"),
-                jsonObject.getString("product_price"),
-                jsonObject.getString("product_qty"),
-                null,
-                jsonObject.getString("image_path"));
+
+        Product product = new Product();
+
+        product.product_name = null;
+        product.product_price = jsonObject.getString("product_price");
+        product.product_qty = jsonObject.getString("product_qty");
+        product.product_imgpath = jsonObject.getString("image_path");
+
+        Log.e("GetSpecificProduct", "was triggered. Accessed: "+ product.product_price + " " +product.product_qty);
 
         return product;
     }

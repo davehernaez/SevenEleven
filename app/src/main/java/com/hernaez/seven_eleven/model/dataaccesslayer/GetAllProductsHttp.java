@@ -12,6 +12,7 @@ import java.util.List;
  * Created by TAS on 7/9/2015.
  */
 public class GetAllProductsHttp {
+
     public static final List<Product> rowItems = new ArrayList<Product>();
     public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
     public static final String HTTP = "/android_connect/get_all_products.php";
@@ -31,12 +32,16 @@ public class GetAllProductsHttp {
         for (int i = 0, count = jasonArray.length(); i < count; i++) {
             JSONObject jsonObject = jasonArray.getJSONObject(i);
 
-            Product product = new Product(jsonObject.getString("product_name"),
+            /*Product product = new Product(jsonObject.getString("product_name"),
                     jsonObject.getString("product_price"),
                     jsonObject.getString("product_qty"),
-                    null,
-                    jsonObject.getString("image_path"));
+                    jsonObject.getString("image_path"));*/
 
+            Product product = new Product();
+            product.product_name = jsonObject.getString("product_name");
+            product.product_price = jsonObject.getString("product_price");
+            product.product_qty= jsonObject.getString("product_qty") ;
+            product.product_imgpath = jsonObject.getString("image_path");
             rowItems.add(product);
         }
         return rowItems;
@@ -52,11 +57,10 @@ public class GetAllProductsHttp {
         for (int i = 0, count = jasonArray.length(); i < count; i++) {
             JSONObject jsonObject = jasonArray.getJSONObject(i);
 
-            Product product = new Product(jsonObject.getString("product_name"),
+            /*Product product = new Product(jsonObject.getString("product_name"),
                     jsonObject.getString("product_price"),
                     jsonObject.getString("product_qty"),
-                    null,
-                    jsonObject.getString("image_path"));
+                    jsonObject.getString("image_path"));*/
 
             myList.add(jsonObject.getString("product_name"));
         }

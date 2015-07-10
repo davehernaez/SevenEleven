@@ -55,15 +55,15 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
         } else
             holder = (ViewHolder) convertView.getTag();
 
-        holder.prodname.setText(product.getProdName());
+        holder.prodname.setText(product.product_name);
 
-        holder.prodqty.setText(product.getProdQty());
+        holder.prodqty.setText(product.product_qty);
 
         System.out.println("" + holder.prodqty.getText().toString());
-        holder.prodprice.setText(product.getProdPrice());
+        holder.prodprice.setText(product.product_price);
 
         String url;
-        url = new String(product.getImageURL());
+        url = new String(product.product_imgpath);
         Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);
 
         return convertView;

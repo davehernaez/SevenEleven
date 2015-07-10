@@ -10,8 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -20,6 +24,7 @@ public class ProductListActivity extends Activity {
     ListView lv;
     String userid;
     ProductList productList;
+    List list;
 
     Thread thread;
 
@@ -28,6 +33,7 @@ public class ProductListActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prdouct_list);
+
 
         productList = new ProductList();
 

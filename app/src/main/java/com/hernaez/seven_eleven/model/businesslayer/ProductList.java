@@ -28,9 +28,9 @@ public class ProductList {
 
     public List<Product> getReorderProducts() throws Exception {
 
-        List<Product> products = getReOrderProductsHttp.getReOrderProducts();
+        List<Product> reOrderproducts = getReOrderProductsHttp.getReOrderProducts();
 
-        return products;
+        return reOrderproducts;
     }
 
     public List<String> getAllProductsName() throws Exception {
