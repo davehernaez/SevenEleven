@@ -1,5 +1,7 @@
 package com.hernaez.seven_eleven.model.businesslayer;
 
+import android.util.Log;
+
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
 
@@ -8,11 +10,16 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
  */
 public class Login {
     LoginHttpAdapter loginHttpAdapter;
+
     public Login(){
         loginHttpAdapter=new LoginHttpAdapter();
     }
+
     public User userLogin(String userName, String password) throws Exception {
+
         User user=loginHttpAdapter.getUser(userName,password);
+
         return user;
+
     }
 }

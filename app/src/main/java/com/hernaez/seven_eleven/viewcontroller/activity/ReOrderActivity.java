@@ -2,6 +2,7 @@ package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,25 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.domain.RowItem;
+import com.hernaez.seven_eleven.model.businesslayer.ProductList;
+import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -41,6 +26,11 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
     ListView lv;
     EditText dialog_qty;
     TextView tv_prodname;
+    ProductList productList;
+    Thread thread;
+    String userid;
+    ReOrder reOrder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +38,21 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reorder);
 
+        productList = new ProductList();
+        reOrder = new ReOrder();
+        Bundle extras = getIntent().getExtras();
+
+        userid = extras.getString("user_id");
+        Log.e("ReOrderActivity", userid);
+
         lv = (ListView) findViewById(R.id.listView_reorder);
-        //getAll();
+        thread = new Thread() {
+            public void run() {
+                populate();
+            }
+        };
+        thread.start();
+
 
         lv.setOnItemClickListener(this);
 
@@ -66,77 +69,30 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
 
     }
 
-    /*@SuppressWarnings("deprecation")
-    public void getAll() {
-
-        String phpOutput = "";
-        InputStream inputstream = null;
-        List<RowItem> rowItems;
-        rowItems = new ArrayList<RowItem>();
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/get_all_products.php");
-
+    public void populate() {
         try {
 
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
-        }
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-
-                phpOutput = stringBuilder.toString();
-
-                JSONArray new_array = new JSONArray(phpOutput);
-
-                for (int i = 0, count = new_array.length(); i < count; i++) { // Loop
-
-                    Log.e("value of i", i + "");
-
-                    JSONObject jsonObject = new_array.getJSONObject(i);
-                    String prodname = jsonObject.getString("product_name");// extract
-                    // product
-                    // name
-                    String prodqty = jsonObject.getString("product_qty");// extract
-                    // product
-                    // qty
-                    String prodprice = jsonObject.getString("product_price");// extract
-                    // price
-                    String prodimg = jsonObject.getString("image_path");// extract
-                    // product
-                    // image
-                    // url
-
-                    RowItem item = new RowItem(prodname, null, prodqty, null,
-                            prodimg);
-                    if (Integer.parseInt(prodqty) <= 10) {
-                        rowItems.add(item);// add all strings to row item
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    CustomViewAdapter myadapter = null;
+                    try {
+                        myadapter = new CustomViewAdapter(getApplicationContext(),
+                                R.layout.list_item, productList.getReorderProducts());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                    CustomViewAdapter myadapter = new CustomViewAdapter(this,
-                            R.layout.list_item, rowItems);
 
                     lv.setAdapter(myadapter);
                 }
+            });
 
-                Log.e("phpOutput", "Success!!!!");
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            Log.e("log_tag", "Error converting result" + exception.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }*/
+
+    }
 
     public void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,7 +111,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         Button btn_cancel = (Button) dialog.findViewById(R.id.buttondialog_cancel);
 
         TextView tv_title = (TextView) dialog.findViewById(R.id.textView_dialog_title);
-        tv_title.setText("How many "+ tv_prodname.getText().toString()+"(s) would you like to order from supplier?");
+        tv_title.setText("How many " + tv_prodname.getText().toString() + "(s) would you like to order from supplier?");
 
         dialog_qty = (EditText) dialog
                 .findViewById(R.id.editText_dialog_qty);
@@ -197,13 +153,13 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                reOrder(tv_prodname.getText().toString(),dialog_qty.getText().toString());
+                reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
+               populate();
                 ad.dismiss();
                 Toast.makeText(getApplicationContext(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
-                //getAll();
+
             }
         });
-
 
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -214,47 +170,26 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         });
 
 
+    }
 
+    public void reorder(String product_name, String product_qty) {
+
+        try {
+            reOrder.reOrder(product_name, product_qty);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-    @SuppressWarnings("deprecation")
-    public void reOrder(String name, String qty) {
-        String phpOutput = "";
-        InputStream inputstream = null;
 
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/reorder.php");
+    public static void start(Activity activity, String userid) {
+        Intent i = new Intent(activity, ReOrderActivity.class);
+        i.putExtra("user_id", userid);
+        activity.startActivity(i);
+    }
 
-        try {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(0);
-            nameValuePairs.add(new BasicNameValuePair("product_name", name));
-            nameValuePairs.add(new BasicNameValuePair("product_qty", qty));
-            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
-        }
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-            }
-
-            inputstream.close();
-            phpOutput = stringBuilder.toString();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error converting result" + exception.toString());
-        }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

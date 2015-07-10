@@ -28,7 +28,10 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
+import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 
 import org.apache.http.HttpEntity;
@@ -53,7 +56,7 @@ import java.util.List;
  * Created by TAS on 7/7/2015.
  */
 public class CustomerOrderActivity extends Activity implements View.OnClickListener,
-        TextWatcher, AdapterView.OnItemSelectedListener {
+       /* TextWatcher,*/ AdapterView.OnItemSelectedListener, TextWatcher {
     DBHelper dbhelper;
     ImageView img;
     TextView tv_price, tv_subTotal;
@@ -69,12 +72,19 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     String userid, prodid;
     ArrayList<String> myList2;
     JSONObject jsonObject;
+    ProductList productList;
+    GetSpecificProduct getSpecificProduct;
+    Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_order);
+
+        productList = new ProductList();
+        getSpecificProduct = new GetSpecificProduct();
+
 
         Bundle extras = getIntent().getExtras();
 
@@ -107,7 +117,12 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         btn_buy.setOnClickListener(this);
 
         //method that populates spinner
-        getAll();
+        Thread thread = new Thread(){
+            public void run(){
+                getAll();
+            }
+        };
+
 
         qty.addTextChangedListener(this);
 
@@ -209,125 +224,35 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
 
     }
 
+    public void getAll(){
+runOnUiThread(new Runnable() {
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,
-                                  int after) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // TODO Auto-generated method stub
-        if (!TextUtils.isEmpty(qty.getText().toString())) {
-            getSubTotal();
-            // Integer available_qty = available_qty;
-            if (Integer.parseInt(qty.getText().toString()) <= available_qty) {
-                btn_plus.setEnabled(true);
-                getSubTotal();
-            } else if (!qty.getText().toString().equals(1)) {
-                btn_minus.setEnabled(true);
-            } else if (Integer.parseInt(qty.getText().toString()) == available_qty) {
-                btn_plus.setEnabled(false);
-                Toast.makeText(
-                        this,
-                        "There are only " + available_qty + " "
-                                + prodnamespecific + "(s) left.",
-                        Toast.LENGTH_LONG).show();
-                qty.setText(available_qty.toString());
-                getSubTotal();
-            } else if (Integer.parseInt(qty.getText().toString()) > available_qty) {
-                btn_plus.setEnabled(false);
-
-				/*
-                 * Toast.makeText( this, "There are only " + available_qty + " "
-				 * + prodnamespecific + "(s) left.", Toast.LENGTH_LONG).show();
-				 */
-                qty.setText(available_qty.toString());
-                getSubTotal();
-            }
-
-        } else if (TextUtils.isEmpty(qty.getText().toString())) {
-
-        }
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @SuppressWarnings("deprecation")
-    public void getAll() {
-        ArrayList<String> myList = new ArrayList<String>();
-
-        String phpOutput = "";
-        InputStream inputstream = null;
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/get_all_products.php");
-
+    public void run() {
+        ArrayAdapter<String> adapter = null;
         try {
-
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
+            adapter = new ArrayAdapter<String>(
+                    getApplicationContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    productList.getAllProductsName());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        sp_prodname.setAdapter(adapter);
+    }
+});
 
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-
-                phpOutput = stringBuilder.toString();
-
-                JSONArray new_array = new JSONArray(phpOutput);
-
-                for (int i = 0, count = new_array.length(); i < count; i++) { // Loop
-
-                    Log.e("value of i", i + "");
-
-                    jsonObject = new_array.getJSONObject(i);
-
-                    String prodname = jsonObject.getString("product_name");// extract
-                    // product
-                    // name
-                    available_qty = jsonObject.getInt("product_qty");
-
-                    if (available_qty > 0) {
-                        myList.add(prodname);
-
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                            this,
-                            android.R.layout.simple_spinner_dropdown_item,
-                            myList);
-                    sp_prodname.setAdapter(adapter);
-
-                }
-
-                Log.e("phpOutput", phpOutput);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            Log.e("log_tag", "Error converting result" + exception.toString());
-        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         qty.setText("1");
-        getPrice(sp_prodname.getSelectedItem().toString());
+        try {
+            getSpecificProduct.getSpecificProduct(sp_prodname.getSelectedItem().toString());
+            tv_price.setText("24.44");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getSubTotal();
         // TODO Auto-generated method stub
 
@@ -339,7 +264,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
 
     }
 
-    @SuppressWarnings("deprecation")
+    /*@SuppressWarnings("deprecation")
     public void getPrice(String name) {
         Bitmap bmp;
         String phpOutput = "";
@@ -394,7 +319,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
             exception.printStackTrace();
             Log.e("log_tag", "Error converting result" + exception.toString());
         }
-    }
+    }*/
 
     public void addOrder() {
         db = dbhelper.getWritableDatabase();
@@ -521,5 +446,50 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         Intent intent = new Intent(me, CustomerOrderActivity.class);
         intent.putExtra("user_id", user.userId);
         me.startActivity(intent);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        /*if (!TextUtils.isEmpty(qty.getText().toString())) {
+            getSubTotal();
+            // Integer available_qty = available_qty;
+            if (Integer.parseInt(qty.getText().toString()) <= available_qty) {
+                btn_plus.setEnabled(true);
+                getSubTotal();
+            } else if (!qty.getText().toString().equals(1)) {
+                btn_minus.setEnabled(true);
+            } else if (Integer.parseInt(qty.getText().toString()) == available_qty) {
+                btn_plus.setEnabled(false);
+                Toast.makeText(
+                        this,
+                        "There are only " + available_qty + " "
+                                + prodnamespecific + "(s) left.",
+                        Toast.LENGTH_LONG).show();
+                qty.setText(available_qty.toString());
+                getSubTotal();
+            } else if (Integer.parseInt(qty.getText().toString()) > available_qty) {
+                btn_plus.setEnabled(false);
+
+
+                 Toast.makeText( this, "There are only " + available_qty + " "
+                         + prodnamespecific + "(s) left.", Toast.LENGTH_LONG).show();
+
+                qty.setText(available_qty.toString());
+                getSubTotal();
+            }
+
+        } else if (TextUtils.isEmpty(qty.getText().toString())) {
+
+        }*/
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

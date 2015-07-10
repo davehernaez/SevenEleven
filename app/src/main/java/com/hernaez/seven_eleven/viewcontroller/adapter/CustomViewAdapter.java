@@ -1,10 +1,9 @@
 package com.hernaez.seven_eleven.viewcontroller.adapter;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,20 @@ import android.widget.TextView;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Product;
-import com.hernaez.seven_eleven.domain.RowItem;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class CustomViewAdapter extends ArrayAdapter<Product> {
- 
+
     Context context;
- 
+
     public CustomViewAdapter(Context context, int resourceId,
-            List<Product> items) {
+                             List<Product> items) {
         super(context, resourceId, items);
         this.context = context;
     }
-     
+
     /*private view holder class*/
     class ViewHolder {
         ImageView imageView;
@@ -34,13 +34,13 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
         TextView prodqty;
         TextView prodprice;
     }
-     
+
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         /*RowItem rowItem = getItem(position);*/
 
         Product product = getItem(position);
-         
+
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -50,29 +50,22 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
             holder.prodqty = (TextView) convertView.findViewById(R.id.textViewProduct_qty);
             holder.prodprice = (TextView) convertView.findViewById(R.id.textViewProduct_price);
             holder.imageView = (ImageView) convertView.findViewById(R.id.imageViewProduct_image);
-            
+
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-                 
-        /*holder.prodname.setText(rowItem.getProdName());*/
+
         holder.prodname.setText(product.getProdName());
 
-        /*holder.prodqty.setText(rowItem.getProdQty());*/
         holder.prodqty.setText(product.getProdQty());
 
-        if(Integer.parseInt(product.getProdQty())<=0){
-        	holder.prodqty.setTextColor(Color.RED);
-        }
-        System.out.println(""+holder.prodqty.getText().toString());
+        System.out.println("" + holder.prodqty.getText().toString());
         holder.prodprice.setText(product.getProdPrice());
-        
+
         String url;
-		url = new String(product.getImageURL());
-		Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);             
-              
-		// holder.imageView.setImageURI(rowItem.getImageId());
-         
+        url = new String(product.getImageURL());
+        Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);
+
         return convertView;
     }
 }
