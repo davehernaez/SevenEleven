@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -211,21 +212,20 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     }
 
     public void getAll() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
+        try {
+            final List<String> productNames = productList.getAllProductsName();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     adapter = new ArrayAdapter<String>(
                             getApplicationContext(),
-                            android.R.layout.simple_spinner_dropdown_item,
-                            productList.getAllProductsName());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                            android.R.layout.simple_spinner_dropdown_item,productNames);
+                    sp_prodname.setAdapter(adapter);
                 }
-                sp_prodname.setAdapter(adapter);
-            }
-        });
+            });
+        }catch(Exception e){
+        }
+
 
     }
 
