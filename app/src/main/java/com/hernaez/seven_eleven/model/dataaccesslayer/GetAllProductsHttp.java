@@ -25,7 +25,7 @@ public class GetAllProductsHttp {
 
     public List<Product> getAllProducts() throws Exception {
 
-        String jsonString = httpAdapter.httpPost(HTTP_DOMAIN + HTTP).replaceAll("\\s+", " ");
+        String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP).replaceAll("\\s+", " ");
 
         JSONArray jasonArray = new JSONArray(jsonString);
 
@@ -50,7 +50,7 @@ public class GetAllProductsHttp {
     public List<String> getAllProductsName() throws Exception {
         List<String> myList= new ArrayList<String>();
 
-        String jsonString = httpAdapter.httpPost(HTTP_DOMAIN + HTTP).replaceAll("\\s+", " ");
+        String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP).replaceAll("\\s+", " ");
 
         JSONArray jasonArray = new JSONArray(jsonString);
 

@@ -22,29 +22,15 @@ public class HttpAdapter {
         httpclient = new DefaultHttpClient();
     }
 
-    public String post(String url,List<NameValuePair> nameValuePairs) throws Exception{
-        HttpPost httppostURL = new HttpPost(url);
-        httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-        HttpResponse response = httpclient.execute(httppostURL);
-        HttpEntity entity = response.getEntity();
-        InputStream inputstream = entity.getContent();
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(inputstream, "iso-8859-1"), 8);
-        StringBuilder stringBuilder = new StringBuilder();
-        String singleLine = null;
-
-        while ((singleLine = bufferedReader.readLine()) != null) {
-            stringBuilder.append(singleLine + "\n");
-        }
-
-        inputstream.close();
-        return stringBuilder.toString();
+    public String post(String url) throws Exception{
+        return post(url,null);
     }
 
-    public  String httpPost(String url) throws Exception{
-        HttpClient httpclient = new DefaultHttpClient();
-
+    public String post(String url,List<NameValuePair> nameValuePairs) throws Exception{
         HttpPost httppostURL = new HttpPost(url);
+        if(nameValuePairs!=null){
+            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        }
         HttpResponse response = httpclient.execute(httppostURL);
         HttpEntity entity = response.getEntity();
         InputStream inputstream = entity.getContent();
@@ -58,7 +44,6 @@ public class HttpAdapter {
         }
 
         inputstream.close();
-
         return stringBuilder.toString();
     }
 }

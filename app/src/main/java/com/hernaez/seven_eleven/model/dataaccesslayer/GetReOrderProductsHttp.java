@@ -25,7 +25,7 @@ public class GetReOrderProductsHttp {
 
     public List<Product> getReOrderProducts() throws Exception {
 
-        String jsonString = httpAdapter.httpPost(BASE_DOMAIN + END_DOMAIN).replaceAll("\\s+", " ");
+        String jsonString = httpAdapter.post(BASE_DOMAIN + END_DOMAIN).replaceAll("\\s+", " ");
 
         JSONArray jasonArray = new JSONArray(jsonString);
 
