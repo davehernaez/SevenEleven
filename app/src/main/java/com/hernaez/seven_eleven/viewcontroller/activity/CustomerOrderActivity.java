@@ -27,11 +27,13 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
+import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -62,6 +64,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     ProductList productList;
     GetSpecificProduct getSpecificProduct;
     ArrayAdapter<String> adapter;
+    OrderDao orderDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         }
 
         dbhelper = new DBHelper(this);
+        orderDao=new OrderDao(dbhelper);
 
         db = dbhelper.getWritableDatabase();
 
@@ -258,7 +262,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         db = dbhelper.getWritableDatabase();
         String where = DBHelper.PRODUCT_NAME + "='"
                 + sp_prodname.getSelectedItem().toString() + "'";
-        Cursor c = db.query(true, DBHelper.TABLE_ORDERS, DBHelper.ALL_FIELDS,
+        Cursor c = db.query(true, OrderDao.TABLE_ORDERS, DBHelper.ALL_FIELDS,
                 where, null, null, null, null, null, null);
         ContentValues cv = new ContentValues();
         if (c != null) {
@@ -342,23 +346,25 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
 
     public void update(ContentValues cv) {
         db = dbhelper.getWritableDatabase();
-        db.update(DBHelper.TABLE_ORDERS, cv, DBHelper.PRODUCT_NAME + "='"
+        db.update(OrderDao.TABLE_ORDERS, cv, DBHelper.PRODUCT_NAME + "='"
                 + sp_prodname.getSelectedItem().toString() + "'", null);
         db.close();
     }
 
     public void add() {
-        db = dbhelper.getWritableDatabase();
-        dbhelper.addOrder(prodid, sp_prodname.getSelectedItem().toString(),
-                tv_price.getText().toString(), qty.getText().toString(),
-                tv_subTotal.getText().toString(), prodimg);
+        Product product=new Product();
+        product.id=prodid;
+        product.product_name=sp_prodname.getSelectedItem().toString();
+        product.product_qty=qty.getText().toString();
+        product.product_price=tv_price.getText().toString();
+        product.product_imgpath=prodimg;
 
-        Log.e("imagepath", prodimg);
-        Toast.makeText(getApplicationContext(), "New orders placed.",
-                Toast.LENGTH_LONG).show();
-        db.close();
-
+        Order order=new Order();
+        order.product=product;
+        order.total=tv_subTotal.getText().toString();
+        orderDao.add(order);
     }
+
 
     @Override
     protected void onPause() {

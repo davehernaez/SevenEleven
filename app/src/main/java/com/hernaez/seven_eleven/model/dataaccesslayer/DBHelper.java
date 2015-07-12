@@ -7,9 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.hernaez.seven_eleven.domain.Order;
+
 public class DBHelper extends SQLiteOpenHelper {
 
-	public static final String TABLE_ORDERS = "table_orders";
 	public static final String PRODUCT_ID = "_id";
 	public static final String PRODUCT_NAME = "product_name";
 	public static final String PRODUCT_PRICE = "product_price";
@@ -26,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table "
-			+ TABLE_ORDERS + "(" + PRODUCT_ID + " text, " + PRODUCT_NAME
+			+ OrderDao.TABLE_ORDERS + "(" + PRODUCT_ID + " text, " + PRODUCT_NAME
 			+ " text not null," + PRODUCT_PRICE + " text," + PRODUCT_QTY
 			+ " text," + PRODUCT_SUBTOTAL + " text," + PRODUCT_IMGPATH
 			+ " text);";
@@ -48,34 +49,16 @@ public class DBHelper extends SQLiteOpenHelper {
 		Log.w(DBHelper.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ ", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
+		db.execSQL("DROP TABLE IF EXISTS " + OrderDao.TABLE_ORDERS);
 		onCreate(db);
 	}
 
-	public void addOrder(String prodid, String prodname, String prodprice,
-			String prodqty, String prodsubtotal, String imgpath) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(PRODUCT_ID, prodid);
-		values.put(PRODUCT_NAME, prodname);
-		values.put(PRODUCT_PRICE, prodprice);
-		values.put(PRODUCT_QTY, prodqty);
-		values.put(PRODUCT_SUBTOTAL, prodsubtotal);
-		values.put(PRODUCT_IMGPATH, imgpath);
-
-		// Inserting Row
-		db.insert(TABLE_ORDERS, null, values);
-		Log.e("inserting", "added: " + prodid + " " + prodname + " "
-				+ prodprice + " " + prodqty);
-		db.close(); // Closing database connection
-	}
 
 	public Cursor getAllRow() {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		String where = null;
-		Cursor c = db.query(true, TABLE_ORDERS, ALL_FIELDS, where, null, null,
+		Cursor c = db.query(true, OrderDao.TABLE_ORDERS, ALL_FIELDS, where, null, null,
 				null, null, null);
 		if (c != null) {
 			c.moveToFirst();

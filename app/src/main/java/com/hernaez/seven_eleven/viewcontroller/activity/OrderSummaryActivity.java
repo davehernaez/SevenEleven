@@ -20,6 +20,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.RowItem;
+import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 
@@ -106,7 +107,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         List<Double> totals = new ArrayList<Double>();
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         String where = null;
-        Cursor c = db.query(true, DBHelper.TABLE_ORDERS, DBHelper.ALL_FIELDS,
+        Cursor c = db.query(true, OrderDao.TABLE_ORDERS, DBHelper.ALL_FIELDS,
                 where, null, null, null, null, null);
         if (c != null) {
             for (int i = 0, count = c.getCount(); i < count; i++) {
@@ -191,7 +192,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
     public void delete(String name) {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.delete(DBHelper.TABLE_ORDERS, DBHelper.PRODUCT_NAME + "='" + name
+        db.delete(OrderDao.TABLE_ORDERS, DBHelper.PRODUCT_NAME + "='" + name
                 + "'", null);
         populate();
         db.close();
@@ -217,7 +218,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                 YoYo.with(Techniques.Pulse).duration(500).playOn(btn_confirm);
                 SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-                Cursor c = db.rawQuery("select * from '" + DBHelper.TABLE_ORDERS
+                Cursor c = db.rawQuery("select * from '" + OrderDao.TABLE_ORDERS
                         + "'", null);
                 if (c.moveToFirst()) {
                     c.close();
@@ -268,7 +269,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
     public void deleteAll() {
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.delete(DBHelper.TABLE_ORDERS, null, null);
+        db.delete(OrderDao.TABLE_ORDERS, null, null);
         Toast.makeText(getApplicationContext(), "Orders placed. Thank you.",
                 Toast.LENGTH_LONG).show();
         populate();
@@ -279,7 +280,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
         SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("select * from '" + DBHelper.TABLE_ORDERS + "'",
+        Cursor c = db.rawQuery("select * from '" + OrderDao.TABLE_ORDERS + "'",
                 null);
 
         if (c.moveToFirst()) {
