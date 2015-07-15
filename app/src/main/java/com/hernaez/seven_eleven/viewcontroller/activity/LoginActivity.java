@@ -67,6 +67,7 @@ public class LoginActivity extends Activity {
                     }
                 };
                 loginThread.start();
+                btnLogin.setEnabled(false);
 
             }
 
@@ -131,7 +132,9 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onResume() {
+        final Button btnLogin = (Button) findViewById(R.id.button_login);
         etPassword.setText("");
+        btnLogin.setEnabled(true);
         super.onResume();
     }
 }

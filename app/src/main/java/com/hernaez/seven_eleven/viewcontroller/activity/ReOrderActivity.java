@@ -79,11 +79,13 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
                     try {
                         myadapter = new CustomViewAdapter(getApplicationContext(),
                                 R.layout.list_item, productList.getReorderProducts());
+                        lv.setAdapter(myadapter);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    lv.setAdapter(myadapter);
+
                 }
             });
 

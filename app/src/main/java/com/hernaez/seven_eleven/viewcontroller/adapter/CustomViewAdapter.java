@@ -37,7 +37,6 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        /*RowItem rowItem = getItem(position);*/
 
         Product product = getItem(position);
 
@@ -58,9 +57,14 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
         holder.prodname.setText(product.product_name);
 
         holder.prodqty.setText(product.product_qty);
+        if(Integer.parseInt(holder.prodqty.getText().toString())<10){
+            holder.prodqty.setTextColor(Color.parseColor("#FF0000"));
+        }
+
 
         System.out.println("" + holder.prodqty.getText().toString());
         holder.prodprice.setText(product.product_price);
+        holder.prodprice.setTextColor(Color.parseColor("#AAAAAA"));
 
         String url;
         url = new String(product.product_imgpath);

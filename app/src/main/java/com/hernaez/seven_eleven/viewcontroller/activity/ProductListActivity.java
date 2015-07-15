@@ -10,11 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,15 +71,19 @@ public class ProductListActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    CustomViewAdapter myadapter = null;
+
                     try {
+
+                        CustomViewAdapter myadapter = null;
+
                         myadapter = new CustomViewAdapter(getApplicationContext(),
                                 R.layout.list_item, productList.getAllProducts());
+                        lv.setAdapter(myadapter);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    lv.setAdapter(myadapter);
                 }
             });
 

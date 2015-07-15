@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView_order_summary_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center|top"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"

@@ -19,10 +19,11 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.domain.RowItem;
+import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
+import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
-import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -54,9 +55,11 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     Bitmap bmp;
     TextView tv_total, tv_grantotal;
     Double total;
-    String prodsubtotal, userid, orderid;
+    String prodsubtotal, userid, orderId;
     Intent i;
     Button btn_confirm;
+    OrderManager orderManager;
+    OrderDao orderDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
         Bundle extras = getIntent().getExtras();
 
-        orderid = "1";
+        orderId = "1";
 
         if (extras != null) {
             userid = extras.getString("user_id");
@@ -79,6 +82,9 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         lv = (ListView) findViewById(R.id.listView_order_summary);
 
         dbhelper = new DBHelper(this);
+        orderDao = new OrderDao(dbhelper);
+        orderManager = new OrderManager(orderDao);
+
 
         thread.start();
 
@@ -97,50 +103,16 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     Thread thread = new Thread() {
         public void run() {
             populate();
-        };
+        }
+
+        ;
     };
 
     public void populate() {
-        total = 0.0;
-        List<RowItem> rowItems;
-        rowItems = new ArrayList<RowItem>();
-        List<Double> totals = new ArrayList<Double>();
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
-        String where = null;
-        Cursor c = db.query(true, OrderDao.TABLE_ORDERS, DBHelper.ALL_FIELDS,
-                where, null, null, null, null, null);
-        if (c != null) {
-            for (int i = 0, count = c.getCount(); i < count; i++) {
-                c.moveToNext();
-                String prodname = c.getString(c
-                        .getColumnIndex(DBHelper.PRODUCT_NAME));
-                String prodprice = c.getString(c
-                        .getColumnIndex(DBHelper.PRODUCT_PRICE));
-                String prodqty = c.getString(c
-                        .getColumnIndex(DBHelper.PRODUCT_QTY));
-                prodsubtotal = c.getString(c
-                        .getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
-                String prodimgpath = c.getString(c
-                        .getColumnIndex(DBHelper.PRODUCT_IMGPATH));
-                Log.e("cursor 1", prodname);
-                RowItem item = new RowItem(prodname, prodprice, prodqty,
-                        prodsubtotal, prodimgpath);
-                totals.add(Double.parseDouble(prodsubtotal));
-                rowItems.add(item);
-                Double subt = Double.parseDouble(prodsubtotal);
-                total += subt; // totals.get(i);
-                Log.e("final grand total", total + "");
+        List<Product> product = orderManager.getAllOrders();
 
-                tv_total.setText(String.format("%.2f", total));
-
-                CustomViewAdapter2 myadapter = new CustomViewAdapter2(this,
-                        R.layout.order_summary_holder, rowItems);
-                lv.setAdapter(myadapter);
-
-            }
-
-            c.close();
-        }
+        CustomViewAdapter2 myadapter = new CustomViewAdapter2(getApplicationContext(), R.layout.order_summary_holder, product);
+        lv.setAdapter(myadapter);
 
     }
 
@@ -191,11 +163,13 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     }
 
     public void delete(String name) {
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        orderManager.deleteSpecific(name);
+        populate();
+        /*SQLiteDatabase db = dbhelper.getWritableDatabase();
         db.delete(OrderDao.TABLE_ORDERS, DBHelper.PRODUCT_NAME + "='" + name
                 + "'", null);
         populate();
-        db.close();
+        db.close();*/
 
     }
 
@@ -227,7 +201,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                             // Alert dialog for confirmation
                             .setIcon(android.R.drawable.ic_input_add)
                             .setTitle("Confirm")
-                            .setMessage("You ordered a total of " + tv_grantotal.getText().toString() +" pesos."+
+                            .setMessage("You ordered a total of " + tv_grantotal.getText().toString() + " pesos." +
                                     "Are you sure you want to place this orders?")
                             .setPositiveButton("Yes",
 
@@ -239,8 +213,13 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                                                 @Override
                                                 public void run() {
                                                     order(userid);
-                                                    getOrder();
-                                                    deleteAll();
+                                                    try {
+                                                        getOrder();
+                                                        deleteAll();
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+
                                                 }
                                             });
 
@@ -249,9 +228,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
                                     }).setNegativeButton("No", null).show();
 
-                }
-
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(),
                             "You have no orders yet.", Toast.LENGTH_LONG).show();
                 }
@@ -268,34 +245,24 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     }
 
     public void deleteAll() {
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.delete(OrderDao.TABLE_ORDERS, null, null);
-        Toast.makeText(getApplicationContext(), "Orders placed. Thank you.",
-                Toast.LENGTH_LONG).show();
+        orderManager.deleteAll();
         populate();
         finish();
     }
 
-    public void getOrder() {
+    public void getOrder() throws Exception {
 
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        List<Product> products = orderManager.getAllOrders();
+        Integer count = products.toArray().length;
 
-        Cursor c = db.rawQuery("select * from '" + OrderDao.TABLE_ORDERS + "'",
-                null);
+        for (int i = 0; i < count; i++) {
+            products.get(i);
+            Product product = new Product();
+            product.id = products.get(i).id;
 
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-                //String prodname = c.getString(c.getColumnIndex("product_name"));
-                String prodid_fromdb = c.getString(c.getColumnIndex("_id"));
-                String prodqty_fromdb = c.getString(c.getColumnIndex("product_qty"));
-                placeOrder(orderid, prodid_fromdb, prodqty_fromdb);
-                Log.e("from db", prodid_fromdb+prodqty_fromdb);
-                c.moveToNext();
-            }
-        }
-        if (c.isAfterLast()) {
-            c.close();
-            db.close();
+            product.product_qty = products.get(i).product_qty;
+
+            placeOrder(orderId, product);
         }
 
     }
@@ -347,8 +314,8 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
             try {
                 // get method status if successful
 
-                orderid = jsonObject.getString("order_id");
-                Log.e("Order id: ", orderid);
+                orderId = jsonObject.getString("order_id");
+                Log.e("Order id: ", orderId);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -360,45 +327,8 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     }
 
     @SuppressWarnings("deprecation")
-    public void placeOrder(String orderid, String prodid, String qty) {
-        Log.e("order id in placeorder", orderid);
-        String phpOutput = "";
-        InputStream inputstream = null;
-
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/place_order.php");
-
-        try {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("order_id", orderid));
-            nameValuePairs.add(new BasicNameValuePair("product_id", prodid));
-            nameValuePairs.add(new BasicNameValuePair("order_qty", qty));
-            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
-        }
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-            }
-
-            inputstream.close();
-            phpOutput = stringBuilder.toString();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error converting result" + exception.toString());
-        }
+    public void placeOrder(String orderid, Product product) throws Exception {
+        orderManager.placeOrder(orderid, product);
 
     }
 }

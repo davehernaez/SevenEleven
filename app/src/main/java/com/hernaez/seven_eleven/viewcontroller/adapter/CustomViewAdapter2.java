@@ -3,11 +3,13 @@ package com.hernaez.seven_eleven.viewcontroller.adapter;
 import java.util.List;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.domain.RowItem;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomViewAdapter2 extends ArrayAdapter<RowItem> {
+public class CustomViewAdapter2 extends ArrayAdapter<Product> {
 
 	Context context;
 
 	public CustomViewAdapter2(Context context, int resourceId,
-			List<RowItem> items) {
+			List<Product> items) {
 		super(context, resourceId, items);
 		this.context = context;
 	}
@@ -36,7 +38,7 @@ public class CustomViewAdapter2 extends ArrayAdapter<RowItem> {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
-		RowItem rowItem = getItem(position);
+		Product rowItem = getItem(position);
 
 		LayoutInflater mInflater = (LayoutInflater) context
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -59,13 +61,17 @@ public class CustomViewAdapter2 extends ArrayAdapter<RowItem> {
 		} else
 			holder = (ViewHolder) convertView.getTag();
 
-		holder.prodname.setText(rowItem.getProdName());
-		holder.prodqty.setText(rowItem.getProdQty());
-		holder.prodprice.setText(rowItem.getProdPrice());
-		holder.prodsubtotal.setText(rowItem.getSubtotal());
+		holder.prodname.setText(rowItem.product_name);
+		holder.prodname.setTextColor(Color.parseColor("#AAAAAA"));
+		holder.prodqty.setText(rowItem.product_qty);
+		holder.prodqty.setTextColor(Color.parseColor("#AAAAAA"));
+		holder.prodprice.setText(rowItem.product_price);
+		holder.prodprice.setTextColor(Color.parseColor("#AAAAAA"));
+		holder.prodsubtotal.setText(rowItem.subtotal);
+		holder.prodsubtotal.setTextColor(Color.parseColor("#FF0000"));
 
 		String url;
-		url = new String(rowItem.getImageURL());
+		url = new String(rowItem.product_imgpath);
 		Picasso.with(context).load(url).resize(150, 150).centerCrop()
 				.into(holder.imageView);
 

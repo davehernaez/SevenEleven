@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String PRODUCT_IMGPATH = "product_imgpath";
 
 	private static final String DATABASE_NAME = "db_orders";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 7;
 
 	public static final String[] ALL_FIELDS = new String[] { PRODUCT_ID,
 			PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QTY, PRODUCT_SUBTOTAL,
@@ -54,7 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 
-	public Cursor getAllRow() {
+/*	public Cursor getAllRow() {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		String where = null;
@@ -64,5 +64,5 @@ public class DBHelper extends SQLiteOpenHelper {
 			c.moveToFirst();
 		}
 		return c;
-	}
+	}*/
 }

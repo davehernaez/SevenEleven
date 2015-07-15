@@ -33,7 +33,7 @@ public class LoginHttpAdapter{
 
         String jsonString=httpAdapter.post(HTTP_DOMAIN+HTTP_LOGIN,nameValuePairs);
 
-        jsonString = jsonString.replaceAll("\\s+", "");
+        jsonString = jsonString.replaceAll("\\s+", " ");
         JSONArray jasonArray = new JSONArray(jsonString);
         JSONObject jsonObject = jasonArray.getJSONObject(0);
 
