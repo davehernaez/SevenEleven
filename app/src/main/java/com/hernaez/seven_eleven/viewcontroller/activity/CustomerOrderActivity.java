@@ -292,7 +292,6 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
             toastMessage("Added " + product.product_qty + " piece(s) to previously ordered " + product.product_name + "(s)");
         }
 
-
     }
 
     public void toastMessage(String message) {

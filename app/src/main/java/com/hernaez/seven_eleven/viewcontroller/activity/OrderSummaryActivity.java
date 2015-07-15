@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,10 +94,23 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     };
 
     public void populate() {
-        List<Product> product = orderManager.getAllOrders();
+        final List<Product> products = orderManager.getAllOrders();
 
-        CustomViewAdapter2 myadapter = new CustomViewAdapter2(getApplicationContext(), R.layout.order_summary_holder, product);
+        CustomViewAdapter2 myadapter = new CustomViewAdapter2(getApplicationContext(), R.layout.order_summary_holder, products);
         lv.setAdapter(myadapter);
+        Integer count = products.toArray().length;
+        Double grandTotal = 0.00;
+        for (int i = 0; i < count; i++) {
+            products.get(i);
+            Product product = new Product();
+            product.id = products.get(i).id;
+            grandTotal += Double.parseDouble(products.get(i).subtotal);
+
+            product.product_qty = products.get(i).product_qty;
+
+        }
+        tv_grantotal.setText(grandTotal.toString());
+
 
     }
 
@@ -151,11 +163,6 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     public void delete(String name) {
         orderManager.deleteSpecific(name);
         populate();
-        /*SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.delete(OrderDao.TABLE_ORDERS, DBHelper.PRODUCT_NAME + "='" + name
-                + "'", null);
-        populate();
-        db.close();*/
 
     }
 
@@ -176,48 +183,47 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
             case R.id.button_clear_summary:
                 YoYo.with(Techniques.Pulse).duration(500).playOn(btn_confirm);
-                SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-                Cursor c = db.rawQuery("select * from '" + OrderDao.TABLE_ORDERS
-                        + "'", null);
-                if (c.moveToFirst()) {
-                    c.close();
-                    db.close();
-                    new AlertDialog.Builder(this)
-                            // Alert dialog for confirmation
-                            .setIcon(android.R.drawable.ic_input_add)
-                            .setTitle("Confirm")
-                            .setMessage("You ordered a total of " + tv_grantotal.getText().toString() + " pesos." +
-                                    "Are you sure you want to place this orders?")
-                            .setPositiveButton("Yes",
+                try {
+                    if (getOrder() == true) {
+                        new AlertDialog.Builder(this)
+                                // Alert dialog for confirmation
+                                .setIcon(android.R.drawable.ic_input_add)
+                                .setTitle("Confirm")
+                                .setMessage("You ordered a total of " + tv_grantotal.getText().toString() + " pesos." +
+                                        "Are you sure you want to place this orders?")
+                                .setPositiveButton("Yes",
 
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
 
-                                                    try {
-                                                        newOrder(userid);
-                                                        getOrder();
-                                                        deleteAll();
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
+                                                        try {
+                                                            newOrder(userid);
+                                                            getOrder();
+                                                            deleteAll();
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+
                                                     }
-
-                                                }
-                                            });
+                                                });
 
 
-                                        }
+                                            }
 
-                                    }).setNegativeButton("No", null).show();
+                                        }).setNegativeButton("No", null).show();
 
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "You have no orders yet.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "You have no orders yet.", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -237,7 +243,7 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         finish();
     }
 
-    public void getOrder() throws Exception {
+    public boolean getOrder() throws Exception {
 
         List<Product> products = orderManager.getAllOrders();
         Integer count = products.toArray().length;
@@ -250,7 +256,9 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
             product.product_qty = products.get(i).product_qty;
 
             placeOrder(orderId, product);
+            return true;
         }
+        return false;
 
     }
 
