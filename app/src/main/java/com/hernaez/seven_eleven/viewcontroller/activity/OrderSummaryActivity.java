@@ -19,27 +19,13 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -212,8 +198,9 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    order(userid);
+
                                                     try {
+                                                        newOrder(userid);
                                                         getOrder();
                                                         deleteAll();
                                                     } catch (Exception e) {
@@ -268,61 +255,9 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     }
 
     @SuppressWarnings("deprecation")
-    public void order(String userid) {
-        String phpOutput = "";
-        InputStream inputstream = null;
-
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppostURL = new HttpPost(
-                "http://seveneleven.esy.es/android_connect/order.php");
-
-        try {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("user_id", userid));
-            httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpclient.execute(httppostURL);
-            HttpEntity entity = response.getEntity();
-            inputstream = entity.getContent();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error in http connection " + exception.toString());
-        }
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputstream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String singleLine = null;
-
-            while ((singleLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(singleLine + "\n");
-            }
-
-            inputstream.close();
-            phpOutput = stringBuilder.toString();
-
-        } catch (Exception exception) {
-            Log.e("log_tag", "Error converting result" + exception.toString());
-        }
-        try {
-            phpOutput = phpOutput.replaceAll("\\s+", "");
-            Log.e("phpOutput: ", phpOutput + "");
-
-            JSONArray jasonArray = new JSONArray(phpOutput);
-            JSONObject jsonObject = jasonArray.getJSONObject(0);
-
-            try {
-                // get method status if successful
-
-                orderId = jsonObject.getString("order_id");
-                Log.e("Order id: ", orderId);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void newOrder(String userid) throws Exception {
+        Order order = orderManager.newOrder(userid);
+        orderId = order.id;
 
     }
 
