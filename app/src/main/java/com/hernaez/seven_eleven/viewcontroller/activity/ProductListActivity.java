@@ -23,10 +23,8 @@ import javax.inject.Inject;
  */
 public class ProductListActivity extends Activity {
     ListView lv;
-    String userid;
     @Inject
     ProductList productList;
-    List list;
 
     Thread thread;
 
@@ -36,9 +34,6 @@ public class ProductListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prdouct_list);
         Injector.inject(this);
-
-
-        /*productList = new ProductList();*/
 
         lv = (ListView) findViewById(R.id.listView_productList);
         thread = new Thread() {

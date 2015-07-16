@@ -19,7 +19,7 @@ import com.hernaez.seven_eleven.model.businesslayer.Login;
 public class AdminPageActivity extends Activity implements View.OnClickListener {
     Button btn_all_products, btn_for_reordering;
     Intent i;
-    String userid;
+    Integer userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class AdminPageActivity extends Activity implements View.OnClickListener 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            userid = extras.getString("user_id");
-            Log.e("userid", userid);
+            userid = extras.getInt("user_id");
+            Log.e("userid", userid+"");
         }
 
         btn_all_products = (Button) findViewById(R.id.button_productList);

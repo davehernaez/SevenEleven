@@ -63,11 +63,11 @@ public class CustomViewAdapter2 extends ArrayAdapter<Product> {
 
 		holder.prodname.setText(rowItem.product_name);
 		holder.prodname.setTextColor(Color.parseColor("#AAAAAA"));
-		holder.prodqty.setText(rowItem.product_qty);
+		holder.prodqty.setText(rowItem.product_qty.toString());
 		holder.prodqty.setTextColor(Color.parseColor("#AAAAAA"));
-		holder.prodprice.setText(rowItem.product_price);
+		holder.prodprice.setText(rowItem.product_price.toString());
 		holder.prodprice.setTextColor(Color.parseColor("#AAAAAA"));
-		holder.prodsubtotal.setText(rowItem.subtotal);
+		holder.prodsubtotal.setText(rowItem.subtotal.toString());
 		holder.prodsubtotal.setTextColor(Color.parseColor("#FF0000"));
 
 		String url;

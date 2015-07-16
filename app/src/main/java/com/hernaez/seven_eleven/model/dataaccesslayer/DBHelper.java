@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String PRODUCT_IMGPATH = "product_imgpath";
 
 	private static final String DATABASE_NAME = "db_orders";
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 8;
 
 	public static final String[] ALL_FIELDS = new String[] { PRODUCT_ID,
 			PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QTY, PRODUCT_SUBTOTAL,
@@ -27,9 +27,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table "
-			+ OrderDao.TABLE_ORDERS + "(" + PRODUCT_ID + " text, " + PRODUCT_NAME
-			+ " text not null," + PRODUCT_PRICE + " text," + PRODUCT_QTY
-			+ " text," + PRODUCT_SUBTOTAL + " text," + PRODUCT_IMGPATH
+			+ OrderDao.TABLE_ORDERS + "(" + PRODUCT_ID + " int, " + PRODUCT_NAME
+			+ " text not null," + PRODUCT_PRICE + " real," + PRODUCT_QTY
+			+ " int," + PRODUCT_SUBTOTAL + " real," + PRODUCT_IMGPATH
 			+ " text);";
 
 	public DBHelper(Context context) {

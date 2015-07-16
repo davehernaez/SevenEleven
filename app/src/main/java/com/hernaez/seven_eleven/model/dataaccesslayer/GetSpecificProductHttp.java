@@ -40,10 +40,10 @@ public class GetSpecificProductHttp {
 
         Product product = new Product();
 
-        product.id = jsonObject.getString("product_id");
+        product.id = jsonObject.getInt("product_id");
         product.product_name = null;
-        product.product_price = jsonObject.getString("product_price");
-        product.product_qty = jsonObject.getString("product_qty");
+        product.product_price = jsonObject.getDouble("product_price");
+        product.product_qty = jsonObject.getInt("product_qty");
         product.product_imgpath = jsonObject.getString("image_path");
 
         return product;

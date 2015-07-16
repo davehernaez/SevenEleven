@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class GetAllProductsHttp {
 
-    public static final List<Product> products = new ArrayList<Product>();
     public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
     public static final String HTTP = "/android_connect/get_all_products.php";
 
@@ -27,7 +26,7 @@ public class GetAllProductsHttp {
     }
 
     public List<Product> getAllProducts() throws Exception {
-
+        List<Product> products = new ArrayList<Product>();
         String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP);
         jsonString.replaceAll("\\s+", " ");
 
@@ -38,10 +37,10 @@ public class GetAllProductsHttp {
 
             Product product = new Product();
 
-            product.id = jsonObject.getString("product_id");
+            product.id = jsonObject.getInt("product_id");
             product.product_name = jsonObject.getString("product_name");
-            product.product_price = jsonObject.getString("product_price");
-            product.product_qty= jsonObject.getString("product_qty") ;
+            product.product_price = jsonObject.getDouble("product_price");
+            product.product_qty= jsonObject.getInt("product_qty") ;
             product.product_imgpath = jsonObject.getString("image_path");
             products.add(product);
         }

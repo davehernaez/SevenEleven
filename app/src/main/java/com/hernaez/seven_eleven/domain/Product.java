@@ -7,10 +7,10 @@ import java.util.List;
  * Created by TAS on 7/9/2015.
  */
 public class Product {
-    public String id;
+    public Integer id;
     public String product_name;
-    public String product_price;
-    public String product_qty;
+    public Double product_price;
+    public Integer product_qty;
     public String product_imgpath;
-    public String subtotal;
+    public Double subtotal;
 }

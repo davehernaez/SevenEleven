@@ -32,9 +32,9 @@ public class OrderDao {
         if (c != null) {
             if (c.moveToFirst()) {
                 String productName = c.getString(c.getColumnIndex(DBHelper.PRODUCT_NAME));
-                String productPrice = c.getString(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
-                String productQty = c.getString(c.getColumnIndex(DBHelper.PRODUCT_QTY));
-                String productSubtotal = c.getString(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
+                Double productPrice = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
+                Integer productQty = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_QTY));
+                Double productSubtotal = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
 
                 order.product = order.product;
                 Product newProdct = new Product();
@@ -92,12 +92,12 @@ public class OrderDao {
             for (int i = 0, count = c.getCount(); i < count; i++) {
                 c.moveToNext();
                 Product product = new Product();
-                product.id = c.getString(c.getColumnIndex(DBHelper.PRODUCT_ID));
+                product.id = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_ID));
                 product.product_name = c.getString(c.getColumnIndex(DBHelper.PRODUCT_NAME));
-                product.product_price = c.getString(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
-                product.product_qty = c.getString(c.getColumnIndex(DBHelper.PRODUCT_QTY));
+                product.product_price = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
+                product.product_qty = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_QTY));
                 product.product_imgpath = c.getString(c.getColumnIndex(DBHelper.PRODUCT_IMGPATH));
-                product.subtotal = c.getString(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
+                product.subtotal = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
                 products.add(product);
 
                 Log.e("Orders:", product.product_name);
@@ -116,29 +116,6 @@ public class OrderDao {
                 + "'", null);
 
         db.close();
-    }
-
-    public void getOrders() {
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
-
-        Cursor c = db.rawQuery("select * from '" + OrderDao.TABLE_ORDERS + "'",
-                null);
-
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-                //String prodname = c.getString(c.getColumnIndex("product_name"));
-                String prodid_fromdb = c.getString(c.getColumnIndex("_id"));
-                String prodqty_fromdb = c.getString(c.getColumnIndex("product_qty"));
-
-
-                Log.e("from db", prodid_fromdb + prodqty_fromdb);
-                c.moveToNext();
-            }
-        }
-        if (c.isAfterLast()) {
-            c.close();
-            db.close();
-        }
     }
 
     public void deleteAll() {

@@ -40,10 +40,10 @@ public class GetReOrderProductsHttp {
             Product product = new Product();
             product.product_name = jsonObject.getString("product_name");
             product.product_price = null;
-            product.product_qty = jsonObject.getString("product_qty");
+            product.product_qty = jsonObject.getInt("product_qty");
             product.product_imgpath = jsonObject.getString("image_path");
 
-            if(Integer.parseInt(product.product_qty)<10){
+            if (product.product_qty < 10) {
                 products.add(product);
             }
 

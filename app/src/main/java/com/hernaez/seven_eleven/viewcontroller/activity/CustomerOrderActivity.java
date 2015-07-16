@@ -58,9 +58,10 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     String prodnamespecific;
     Intent i;
     String prodimg;
-    SQLiteDatabase db;
+    /*SQLiteDatabase db;*/
     Integer overallqty;
-    String userid, prodid;
+    Integer userid;
+    Integer prodid;
     ArrayList<String> myList2;
     JSONObject jsonObject;
     /*ProductList productList;*/
@@ -87,15 +88,15 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            userid = extras.getString("user_id");
-            Log.e("userid", userid);
+            userid = extras.getInt("user_id");
+            Log.e("userid", userid+"");
         }
 
         dbhelper = new DBHelper(this);
         orderDao = new OrderDao(dbhelper);
         orderManager = new OrderManager(orderDao);
 
-        db = dbhelper.getWritableDatabase();
+        /*db = dbhelper.getWritableDatabase();*/
 
         img = (ImageView) findViewById(R.id.imageView_Product_chosen);
 
@@ -257,7 +258,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
                     tv_price.setText(product.product_price.toString());
                     prodimg = product.product_imgpath;
                     prodid = product.id;
-                    available_qty = Integer.parseInt(product.product_qty);
+                    available_qty = product.product_qty;
                     getSubTotal();
 
                     Picasso.with(getApplicationContext()).load(product.product_imgpath).resize(150, 150).into(img);
@@ -283,14 +284,14 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         Product product = new Product();
         product.id = prodid;
         product.product_name = sp_prodname.getSelectedItem().toString();
-        product.product_qty = qty.getText().toString();
-        product.product_price = tv_price.getText().toString();
-        product.subtotal = tv_subTotal.getText().toString();
+        product.product_qty = Integer.parseInt(qty.getText().toString());
+        product.product_price = Double.parseDouble(tv_price.getText().toString());
+        product.subtotal = Double.parseDouble(tv_subTotal.getText().toString());
         product.product_imgpath = prodimg;
 
         Order order = new Order();
         order.product = product;
-        order.total = tv_subTotal.getText().toString();
+        order.total = Double.parseDouble(tv_subTotal.getText().toString());
         if (
                 orderManager.checkOrders(order) == true) {
             toastMessage("New orders placed. Thank you!");
@@ -309,7 +310,6 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         // TODO Auto-generated method stub
         super.onPause();
         qty.setText("1");
-        db.close();
     }
 
     @Override

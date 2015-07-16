@@ -40,7 +40,7 @@ public class LoginHttpAdapter{
 
         user.userType=jsonObject.getString("user_type");
         user.userName=userName;
-        user.userId=jsonObject.getString("user_id");
+        user.userId=jsonObject.getInt("user_id");
         return user;
     }
 }

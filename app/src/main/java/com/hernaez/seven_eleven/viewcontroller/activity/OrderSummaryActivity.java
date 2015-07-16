@@ -40,7 +40,8 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     Bitmap bmp;
     TextView tv_total, tv_grantotal;
     Double total;
-    String prodsubtotal, userid, orderId;
+    String prodsubtotal;
+    Integer orderId, userid;
     Intent i;
     Button btn_confirm;
     OrderManager orderManager;
@@ -54,11 +55,9 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
         Bundle extras = getIntent().getExtras();
 
-        orderId = "1";
-
         if (extras != null) {
-            userid = extras.getString("user_id");
-            Log.e("userid", userid);
+            userid = extras.getInt("user_id");
+            Log.e("userid", userid + "");
         }
 
         tv_total = (TextView) findViewById(R.id.textView_summary_grandtotal);
@@ -100,11 +99,12 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         lv.setAdapter(myadapter);
         Integer count = products.toArray().length;
         Double grandTotal = 0.00;
+        Product product = new Product();
         for (int i = 0; i < count; i++) {
             products.get(i);
-            Product product = new Product();
+
             product.id = products.get(i).id;
-            grandTotal += Double.parseDouble(products.get(i).subtotal);
+            grandTotal += products.get(i).subtotal;
 
             product.product_qty = products.get(i).product_qty;
 
@@ -183,9 +183,8 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
             case R.id.button_clear_summary:
                 YoYo.with(Techniques.Pulse).duration(500).playOn(btn_confirm);
-
                 try {
-                    if (getOrder() == true) {
+                    if (orderManager.getAllOrders().toArray().length > 0) {
                         new AlertDialog.Builder(this)
                                 // Alert dialog for confirmation
                                 .setIcon(android.R.drawable.ic_input_add)
@@ -204,7 +203,8 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
                                                         try {
                                                             newOrder(userid);
-                                                            getOrder();
+                                                            //getOrder();
+                                                            finishOrder();
                                                             deleteAll();
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
@@ -243,34 +243,35 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         finish();
     }
 
-    public boolean getOrder() throws Exception {
+    public void finishOrder() throws Exception {
 
         List<Product> products = orderManager.getAllOrders();
         Integer count = products.toArray().length;
 
         for (int i = 0; i < count; i++) {
+
             products.get(i);
             Product product = new Product();
             product.id = products.get(i).id;
-
             product.product_qty = products.get(i).product_qty;
 
             placeOrder(orderId, product);
-            return true;
+            Log.e("Placing Orders", "" + product.id);
+
         }
-        return false;
+
 
     }
 
     @SuppressWarnings("deprecation")
-    public void newOrder(String userid) throws Exception {
+    public void newOrder(Integer userid) throws Exception {
         Order order = orderManager.newOrder(userid);
         orderId = order.id;
 
     }
 
     @SuppressWarnings("deprecation")
-    public void placeOrder(String orderid, Product product) throws Exception {
+    public void placeOrder(Integer orderid, Product product) throws Exception {
         orderManager.placeOrder(orderid, product);
 
     }

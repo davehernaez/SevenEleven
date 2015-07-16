@@ -32,7 +32,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
     @Inject
     ProductList productList;
     Thread thread;
-    String userid;
+    Integer userid;
     ReOrder reOrder;
 
 
@@ -47,8 +47,8 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         reOrder = new ReOrder();
         Bundle extras = getIntent().getExtras();
 
-        userid = extras.getString("user_id");
-        Log.e("ReOrderActivity", userid);
+        userid = extras.getInt("user_id");
+        Log.e("ReOrderActivity", userid+"");
 
         lv = (ListView) findViewById(R.id.listView_reorder);
         thread = new Thread() {
@@ -189,7 +189,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
 
     }
 
-    public static void start(Activity activity, String userid) {
+    public static void start(Activity activity, Integer userid) {
         Intent i = new Intent(activity, ReOrderActivity.class);
         i.putExtra("user_id", userid);
         activity.startActivity(i);

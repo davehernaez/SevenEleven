@@ -22,9 +22,9 @@ public class ProductList {
 
     public List<Product> getAllProducts() throws Exception {
 
-        List<Product> product = getAllProductsHttp.getAllProducts();
+        List<Product> products = getAllProductsHttp.getAllProducts();
 
-        return product;
+        return products;
     }
 
     public List<Product> getReorderProducts() throws Exception {

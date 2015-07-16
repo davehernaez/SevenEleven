@@ -56,14 +56,19 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
 
         holder.prodname.setText(product.product_name);
 
-        holder.prodqty.setText(product.product_qty);
+        holder.prodqty.setText(product.product_qty.toString());
         if(Integer.parseInt(holder.prodqty.getText().toString())<10){
             holder.prodqty.setTextColor(Color.parseColor("#FF0000"));
         }
 
 
         System.out.println("" + holder.prodqty.getText().toString());
-        holder.prodprice.setText(product.product_price);
+        if(product.product_price!=null) {
+            holder.prodprice.setText(product.product_price.toString());
+        } else {
+            holder.prodprice.setText("");
+        }
+
         holder.prodprice.setTextColor(Color.parseColor("#AAAAAA"));
 
         String url;
