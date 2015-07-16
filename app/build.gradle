@@ -21,6 +21,15 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:22.2.0'
 
+    //dependency injection for models
+    compile 'com.squareup.dagger:dagger:1.0.1'
+    compile 'com.squareup.dagger:dagger-compiler:1.0.1'
+
+    //dependency injection for views
+//    compile 'com.jakewharton:butterknife:1.3.2' // does not support onclick
+    //compile 'com.jakewharton:butterknife:6.1.0'
+
+
     compile 'com.squareup.picasso:picasso:2.3.2'
 
     compile 'com.nineoldandroids:library:2.4.0'

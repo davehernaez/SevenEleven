@@ -22,8 +22,9 @@ public class LoginHttpAdapter{
 
     HttpAdapter httpAdapter;
 
-    public LoginHttpAdapter(){
-        httpAdapter=new HttpAdapter();
+    public LoginHttpAdapter(HttpAdapter httpAdapter){
+        //httpAdapter = new HttpAdapter();
+        this.httpAdapter=httpAdapter;
     }
 
     public User getUser(String userName,String password) throws Exception{

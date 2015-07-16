@@ -14,8 +14,9 @@ public class ProductList {
     GetAllProductsHttp getAllProductsHttp;
     GetReOrderProductsHttp getReOrderProductsHttp;
 
-    public ProductList() {
-        getAllProductsHttp = new GetAllProductsHttp();
+    public ProductList(GetAllProductsHttp getAllProductsHttp) {
+        this.getAllProductsHttp = getAllProductsHttp;
+        /*getAllProductsHttp = new GetAllProductsHttp();*/
         getReOrderProductsHttp = new GetReOrderProductsHttp();
     }
 

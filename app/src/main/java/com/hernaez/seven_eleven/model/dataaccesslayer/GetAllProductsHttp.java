@@ -21,8 +21,9 @@ public class GetAllProductsHttp {
 
     HttpAdapter httpAdapter;
 
-    public GetAllProductsHttp() {
-        httpAdapter = new HttpAdapter();
+    public GetAllProductsHttp(HttpAdapter httpAdapter) {
+        this.httpAdapter = httpAdapter;
+        /*httpAdapter = new HttpAdapter();*/
     }
 
     public List<Product> getAllProducts() throws Exception {

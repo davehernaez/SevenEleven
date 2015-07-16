@@ -34,11 +34,14 @@ import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
+import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -60,11 +63,13 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     String userid, prodid;
     ArrayList<String> myList2;
     JSONObject jsonObject;
-    ProductList productList;
+    /*ProductList productList;*/
     GetSpecificProduct getSpecificProduct;
     ArrayAdapter<String> adapter;
     OrderDao orderDao;
     OrderManager orderManager;
+    @Inject
+    ProductList productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +79,8 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.customer_order);
         adapter = null;
-        productList = new ProductList();
+        Injector.inject(this);
+        /*productList = new ProductList();*/
         getSpecificProduct = new GetSpecificProduct();
 
 

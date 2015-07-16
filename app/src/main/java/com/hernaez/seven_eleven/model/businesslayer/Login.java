@@ -11,8 +11,9 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
 public class Login {
     LoginHttpAdapter loginHttpAdapter;
 
-    public Login(){
-        loginHttpAdapter=new LoginHttpAdapter();
+    public Login(LoginHttpAdapter loginHttpAdapter){
+        //loginHttpAdapter = new LoginHttpAdapter();
+        this.loginHttpAdapter=loginHttpAdapter;
     }
 
     public User userLogin(String userName, String password) throws Exception {

@@ -11,9 +11,12 @@ import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
+import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by TAS on 7/7/2015.
@@ -21,6 +24,7 @@ import java.util.List;
 public class ProductListActivity extends Activity {
     ListView lv;
     String userid;
+    @Inject
     ProductList productList;
     List list;
 
@@ -31,9 +35,10 @@ public class ProductListActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prdouct_list);
+        Injector.inject(this);
 
 
-        productList = new ProductList();
+        /*productList = new ProductList();*/
 
         lv = (ListView) findViewById(R.id.listView_productList);
         thread = new Thread() {

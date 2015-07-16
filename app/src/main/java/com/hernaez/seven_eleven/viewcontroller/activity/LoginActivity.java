@@ -16,24 +16,34 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
+import com.hernaez.seven_eleven.other.dagger.Injector;
+
+import javax.inject.Inject;
 
 /**
  * Created by TAS on 7/7/2015.
  */
 public class LoginActivity extends Activity {
+    @Inject
+    Login login;
+
     EditText etPassword;
 
     private static final String TAG_SUCCESS = "success";
 
-    Login login=new Login();
     Thread loginThread;
+/*    public LoginActivity(){
 
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        Injector.inject(LoginActivity.this);
         StrictMode.enableDefaults();
+
+        //login = new Login();
 
 
         final EditText etUsername = (EditText) findViewById(R.id.editText_username);
@@ -60,7 +70,7 @@ public class LoginActivity extends Activity {
                 }
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     return;
-                }
+            }
                 loginThread = new Thread() {
                     public void run() {
                         login(username,password);
