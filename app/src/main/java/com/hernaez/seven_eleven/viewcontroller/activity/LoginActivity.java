@@ -20,12 +20,19 @@ import com.hernaez.seven_eleven.other.dagger.Injector;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+
 /**
  * Created by TAS on 7/7/2015.
  */
 public class LoginActivity extends Activity {
     @Inject
     Login login;
+    @InjectView(R.id.button_login)
+            Button btnLogin;
+
 
     EditText etPassword;
 
@@ -35,6 +42,13 @@ public class LoginActivity extends Activity {
 /*    public LoginActivity(){
 
     }*/
+@Override
+public void setContentView(final int layoutResId) {
+    super.setContentView(layoutResId);
+
+    // Used to inject views with the Butterknife library
+    ButterKnife.inject(this);
+}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -49,7 +63,6 @@ public class LoginActivity extends Activity {
         final EditText etUsername = (EditText) findViewById(R.id.editText_username);
         etPassword = (EditText) findViewById(R.id.editText_password);
 
-        final Button btnLogin = (Button) findViewById(R.id.button_login);
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +128,6 @@ public class LoginActivity extends Activity {
         }
 
     }
-
-
 
     @Override
     public void onBackPressed() {
