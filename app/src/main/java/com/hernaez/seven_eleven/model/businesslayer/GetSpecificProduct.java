@@ -9,8 +9,8 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.GetSpecificProductHttp;
 public class GetSpecificProduct {
     GetSpecificProductHttp getSpecificProductHttp;
 
-    public GetSpecificProduct(){
-        getSpecificProductHttp = new GetSpecificProductHttp();
+    public GetSpecificProduct(GetSpecificProductHttp getSpecificProductHttp){
+        this.getSpecificProductHttp = getSpecificProductHttp;
     }
 
     public Product getSpecificProduct(String product_name) throws Exception {

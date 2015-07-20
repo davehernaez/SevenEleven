@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.model.businesslayer.GetReOrderProducts;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.other.dagger.Injector;
@@ -29,12 +30,17 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
     ListView lv;
     EditText dialog_qty;
     TextView tv_prodname;
-    @Inject
-    ProductList productList;
+
     Thread thread;
     Integer userid;
-    ReOrder reOrder;
 
+
+    @Inject
+    ReOrder reOrder;
+    @Inject
+    ProductList productList;
+    @Inject
+    GetReOrderProducts getReOrderProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         Injector.inject(this);
 
         /*productList = new ProductList();*/
-        reOrder = new ReOrder();
+        /*reOrder = new ReOrder();*/
         Bundle extras = getIntent().getExtras();
 
         userid = extras.getInt("user_id");
@@ -83,7 +89,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
                     CustomViewAdapter myadapter = null;
                     try {
                         myadapter = new CustomViewAdapter(getApplicationContext(),
-                                R.layout.list_item, productList.getReorderProducts());
+                                R.layout.list_item, getReOrderProducts.getReorderProducts());
                         lv.setAdapter(myadapter);
 
                     } catch (Exception e) {

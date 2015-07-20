@@ -23,8 +23,8 @@ public class GetSpecificProductHttp {
     public static final String HTTP_DOMAIN="http://seveneleven.esy.es";
     public static final String HTTP="/android_connect/get_price.php";
 
-    public GetSpecificProductHttp(){
-        httpAdapter = new HttpAdapter();
+    public GetSpecificProductHttp(HttpAdapter httpAdapter){
+        this.httpAdapter = httpAdapter;
 
     }
 

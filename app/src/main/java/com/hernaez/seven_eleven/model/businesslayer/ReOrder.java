@@ -9,8 +9,8 @@ public class ReOrder {
     ReOrderHttp reOrderHttp;
 
 
-    public ReOrder(){
-        reOrderHttp = new ReOrderHttp();
+    public ReOrder(ReOrderHttp reOrderHttp){
+       this.reOrderHttp = reOrderHttp;
 
     }
 

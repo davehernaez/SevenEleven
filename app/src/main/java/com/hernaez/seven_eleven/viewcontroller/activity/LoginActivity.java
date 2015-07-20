@@ -17,6 +17,7 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.other.dagger.Injector;
+import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 
 import javax.inject.Inject;
 
@@ -27,43 +28,30 @@ import butterknife.InjectView;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
     @Inject
     Login login;
+    @Inject
+    AndroidUtils androidUtils;
+
     @InjectView(R.id.button_login)
-            Button btnLogin;
-
-
+    Button btnLogin;
+    @InjectView(R.id.editText_password)
     EditText etPassword;
+    @InjectView(R.id.editText_username)
+    EditText etUsername;
 
     private static final String TAG_SUCCESS = "success";
 
     Thread loginThread;
-/*    public LoginActivity(){
 
-    }*/
-@Override
-public void setContentView(final int layoutResId) {
-    super.setContentView(layoutResId);
-
-    // Used to inject views with the Butterknife library
-    ButterKnife.inject(this);
-}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Injector.inject(LoginActivity.this);
+        Injector.inject(this);
         StrictMode.enableDefaults();
-
-        //login = new Login();
-
-
-        final EditText etUsername = (EditText) findViewById(R.id.editText_username);
-        etPassword = (EditText) findViewById(R.id.editText_password);
-
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -73,20 +61,20 @@ public void setContentView(final int layoutResId) {
                 final String password = etPassword.getText().toString();
 
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btnLogin);
-                if(TextUtils.isEmpty(username)){
+                if (TextUtils.isEmpty(username)) {
                     YoYo.with(Techniques.Wave).duration(500).playOn(etUsername);
                     etUsername.setError("Username cannot be empty!");
                 }
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     YoYo.with(Techniques.Wave).duration(500).playOn(etPassword);
                     etPassword.setError("Password cannot be empty!");
                 }
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     return;
-            }
+                }
                 loginThread = new Thread() {
                     public void run() {
-                        login(username,password);
+                        login(username, password);
                     }
                 };
                 loginThread.start();
@@ -97,32 +85,33 @@ public void setContentView(final int layoutResId) {
         });
     }
 
-    public void login(final String username,final String password) {
+    public void login(final String username, final String password) {
         try {
             final User user = login.userLogin(username, password);
-            if(user.userType.equals(User.USERTYPE_ADMIN)){
+            if (user.userType.equals(User.USERTYPE_ADMIN)) {
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        alert("Logging in as admin...");
-                        AdminPageActivity.start(LoginActivity.this,user);
+                        androidUtils.alert("Logging in as admin...");
+                        AdminPageActivity.start(LoginActivity.this, user);
+                        /*androidUtils.loadFragment();*/
                     }
                 });
-            }else if(user.userType.equals(User.USERTYPE_USER)){
+            } else if (user.userType.equals(User.USERTYPE_USER)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        alert("Logging in...");
-                        CustomerOrderActivity.start(LoginActivity.this,user);
+                        androidUtils.alert("Logging in...");
+                        CustomerOrderActivity.start(LoginActivity.this, user);
                     }
                 });
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    alert("Username and password did not match.");
+                    androidUtils.alert("Username and password did not match.");
                 }
             });
         }
@@ -144,18 +133,5 @@ public void setContentView(final int layoutResId) {
                             }
 
                         }).setNegativeButton("No", null).show();
-    }
-
-    private void alert(String message){
-        Toast.makeText(this, message,
-                Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onResume() {
-        final Button btnLogin = (Button) findViewById(R.id.button_login);
-        etPassword.setText("");
-        btnLogin.setEnabled(true);
-        super.onResume();
     }
 }

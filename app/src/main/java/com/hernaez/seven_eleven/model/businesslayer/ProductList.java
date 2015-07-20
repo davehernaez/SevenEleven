@@ -12,31 +12,15 @@ import java.util.List;
 public class ProductList {
 
     GetAllProductsHttp getAllProductsHttp;
-    GetReOrderProductsHttp getReOrderProductsHttp;
+
 
     public ProductList(GetAllProductsHttp getAllProductsHttp) {
         this.getAllProductsHttp = getAllProductsHttp;
-        /*getAllProductsHttp = new GetAllProductsHttp();*/
-        getReOrderProductsHttp = new GetReOrderProductsHttp();
     }
 
     public List<Product> getAllProducts() throws Exception {
 
         List<Product> products = getAllProductsHttp.getAllProducts();
-
-        return products;
-    }
-
-    public List<Product> getReorderProducts() throws Exception {
-
-        List<Product> reOrderproducts = getReOrderProductsHttp.getReOrderProducts();
-
-        return reOrderproducts;
-    }
-
-    public List<String> getAllProductsName() throws Exception {
-
-        List<String> products = getAllProductsHttp.getAllProductsName();
 
         return products;
     }

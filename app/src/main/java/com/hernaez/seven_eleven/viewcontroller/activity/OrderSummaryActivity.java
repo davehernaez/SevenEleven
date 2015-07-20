@@ -20,19 +20,24 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
+import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
+import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by TAS on 7/7/2015.
  */
 public class OrderSummaryActivity extends Activity implements AdapterView.OnItemLongClickListener,
         AdapterView.OnItemClickListener, View.OnClickListener {
-    DBHelper dbhelper;
+
     ListView lv;
     String[] fromDB;
     Cursor c;
@@ -44,8 +49,15 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
     Integer orderId, userid;
     Intent i;
     Button btn_confirm;
-    OrderManager orderManager;
+    DBHelper dbhelper;
     OrderDao orderDao;
+    OrderManager orderManager;
+
+    @Inject
+    NewOrder newOrder;
+    @Inject
+    PlaceOrder placeOrder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +65,22 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_summary);
 
+        Injector.inject(this);
+
+        dbhelper = new DBHelper(this);
+        orderDao = new OrderDao(dbhelper);
+        orderManager = new OrderManager(orderDao);
+
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             userid = extras.getInt("user_id");
-            Log.e("userid", userid + "");
         }
 
         tv_total = (TextView) findViewById(R.id.textView_summary_grandtotal);
         tv_grantotal = (TextView) findViewById(R.id.textView_summary_grandtotal);
 
         lv = (ListView) findViewById(R.id.listView_order_summary);
-
-        dbhelper = new DBHelper(this);
-        orderDao = new OrderDao(dbhelper);
-        orderManager = new OrderManager(orderDao);
-
 
         thread.start();
 
@@ -197,21 +209,15 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                                             @Override
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
 
-                                                        try {
-                                                            newOrder(userid);
-                                                            //getOrder();
-                                                            finishOrder();
-                                                            deleteAll();
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
 
-                                                    }
-                                                });
+                                                try {
+                                                    newOrder(userid);
+                                                    finishOrder();
+                                                    deleteAll();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
 
 
                                             }
@@ -265,14 +271,13 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
 
     @SuppressWarnings("deprecation")
     public void newOrder(Integer userid) throws Exception {
-        Order order = orderManager.newOrder(userid);
+        Order order = newOrder.newOrder(userid);
         orderId = order.id;
-
     }
 
     @SuppressWarnings("deprecation")
     public void placeOrder(Integer orderid, Product product) throws Exception {
-        orderManager.placeOrder(orderid, product);
+        placeOrder.placeOrder(orderid, product);
 
     }
 }

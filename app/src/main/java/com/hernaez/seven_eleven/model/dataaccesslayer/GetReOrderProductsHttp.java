@@ -19,8 +19,8 @@ public class GetReOrderProductsHttp {
     public static final String BASE_DOMAIN = "http://seveneleven.esy.es";
     public static final String END_DOMAIN = "/android_connect/get_all_products.php";
 
-    public GetReOrderProductsHttp() {
-        httpAdapter = new HttpAdapter();
+    public GetReOrderProductsHttp(HttpAdapter httpAdapter) {
+        this.httpAdapter = httpAdapter;
     }
 
     public List<Product> getReOrderProducts() throws Exception {

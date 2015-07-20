@@ -18,8 +18,8 @@ public class ReOrderHttp {
     public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
     public static final String HTTP = "/android_connect/reorder.php";
 
-    public ReOrderHttp() {
-        httpAdapter = new HttpAdapter();
+    public ReOrderHttp(HttpAdapter httpAdapter) {
+        this.httpAdapter = httpAdapter;
     }
 
     public void reOrder(String product_name, String product_qty) throws Exception {

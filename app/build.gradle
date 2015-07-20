@@ -20,6 +20,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:22.2.0'
+    compile "com.android.support:appcompat-v7:21.0.3"
 
     //dependency injection for models
     compile 'com.squareup.dagger:dagger:1.0.1'

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -29,9 +28,9 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.model.businesslayer.GetAllProductName;
 import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
-import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.other.dagger.Injector;
@@ -48,7 +47,6 @@ import javax.inject.Inject;
  */
 public class CustomerOrderActivity extends Activity implements View.OnClickListener,
        /* TextWatcher,*/ AdapterView.OnItemSelectedListener, TextWatcher {
-    DBHelper dbhelper;
     ImageView img;
     TextView tv_price, tv_subTotal;
     Spinner sp_prodname;
@@ -58,19 +56,22 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
     String prodnamespecific;
     Intent i;
     String prodimg;
-    /*SQLiteDatabase db;*/
     Integer overallqty;
     Integer userid;
     Integer prodid;
     ArrayList<String> myList2;
     JSONObject jsonObject;
-    /*ProductList productList;*/
-    GetSpecificProduct getSpecificProduct;
-    ArrayAdapter<String> adapter;
-    OrderDao orderDao;
+
     OrderManager orderManager;
+    DBHelper dbhelper;
+    OrderDao orderDao;
+
+    ArrayAdapter<String> adapter;
+
     @Inject
-    ProductList productList;
+    GetAllProductName getAllProductName;
+    @Inject
+    GetSpecificProduct getSpecificProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,22 +82,16 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.customer_order);
         adapter = null;
         Injector.inject(this);
-        /*productList = new ProductList();*/
-        getSpecificProduct = new GetSpecificProduct();
-
+        dbhelper = new DBHelper(this);
+        orderDao = new OrderDao(dbhelper);
+        orderManager = new OrderManager(orderDao);
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             userid = extras.getInt("user_id");
-            Log.e("userid", userid+"");
+            Log.e("userid", userid + "");
         }
-
-        dbhelper = new DBHelper(this);
-        orderDao = new OrderDao(dbhelper);
-        orderManager = new OrderManager(orderDao);
-
-        /*db = dbhelper.getWritableDatabase();*/
 
         img = (ImageView) findViewById(R.id.imageView_Product_chosen);
 
@@ -230,7 +225,7 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
             try {
                 adapter = new ArrayAdapter<String>(
                         getApplicationContext(),
-                        android.R.layout.simple_spinner_dropdown_item, productList.getAllProductsName());
+                        android.R.layout.simple_spinner_dropdown_item, getAllProductName.getAllProductsName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
