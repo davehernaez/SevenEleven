@@ -2,10 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
-    android:background="@drawable/bg_login"
     android:orientation="vertical">
 
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/mySlider"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/editText_username"
@@ -31,7 +39,6 @@
 
         <Button
             android:id="@+id/button_login"
-
             android:layout_width="200dp"
             android:layout_height="75dp"
             android:layout_marginEnd="40dp"
@@ -39,5 +46,8 @@
             android:layout_marginTop="25dp"
             android:background="@drawable/btn_login"
             android:layout_marginBottom="25dp" />
+        </LinearLayout>
+    </com.daimajia.slider.library.SliderLayout>
+
 
 </LinearLayout>

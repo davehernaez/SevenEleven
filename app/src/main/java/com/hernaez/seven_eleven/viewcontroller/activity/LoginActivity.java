@@ -11,10 +11,17 @@ import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -24,7 +31,7 @@ import butterknife.InjectView;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageChangeListener {
     @Inject
     Login login;
     @Inject
@@ -38,6 +45,7 @@ public class LoginActivity extends BaseActivity {
     EditText etUsername;
 
     private static final String TAG_SUCCESS = "success";
+    private SliderLayout mySlider;
 
     Thread loginThread;
 
@@ -47,6 +55,27 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         StrictMode.enableDefaults();
+        mySlider = (SliderLayout) findViewById(R.id.mySlider);
+
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("slider_bg_1", R.drawable.bg_slider_a);
+        file_maps.put("slider_bg2", R.drawable.bg_slider_b);
+        file_maps.put("slider_bg3", R.drawable.bg_slider_c);
+
+        for (String name : file_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+
+            mySlider.addSlider(textSliderView);
+        }
+        mySlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        mySlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mySlider.setDuration(3555);
+        mySlider.addOnPageChangeListener(this);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -136,5 +165,27 @@ public class LoginActivity extends BaseActivity {
         etUsername.requestFocus();
         etPassword.setText("");
         super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mySlider.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
     }
 }
