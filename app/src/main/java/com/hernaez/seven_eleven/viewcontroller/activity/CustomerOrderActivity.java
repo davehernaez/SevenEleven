@@ -45,7 +45,7 @@ import javax.inject.Inject;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class CustomerOrderActivity extends Activity implements View.OnClickListener,
+public class CustomerOrderActivity extends BaseActivity implements View.OnClickListener,
        /* TextWatcher,*/ AdapterView.OnItemSelectedListener, TextWatcher {
     ImageView img;
     TextView tv_price, tv_subTotal;
@@ -81,7 +81,6 @@ public class CustomerOrderActivity extends Activity implements View.OnClickListe
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.customer_order);
         adapter = null;
-        Injector.inject(this);
         dbhelper = new DBHelper(this);
         orderDao = new OrderDao(dbhelper);
         orderManager = new OrderManager(orderDao);

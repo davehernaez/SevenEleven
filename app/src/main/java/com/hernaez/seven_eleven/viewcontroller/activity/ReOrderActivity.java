@@ -18,7 +18,6 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.GetReOrderProducts;
 import com.hernaez.seven_eleven.model.businesslayer.ProductList;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
-import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
 import javax.inject.Inject;
@@ -26,7 +25,7 @@ import javax.inject.Inject;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class ReOrderActivity extends Activity implements AdapterView.OnItemClickListener {
+public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     ListView lv;
     EditText dialog_qty;
     TextView tv_prodname;
@@ -47,14 +46,11 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reorder);
-        Injector.inject(this);
 
-        /*productList = new ProductList();*/
-        /*reOrder = new ReOrder();*/
         Bundle extras = getIntent().getExtras();
 
         userid = extras.getInt("user_id");
-        Log.e("ReOrderActivity", userid+"");
+        Log.e("ReOrderActivity", userid + "");
 
         lv = (ListView) findViewById(R.id.listView_reorder);
         thread = new Thread() {
@@ -167,7 +163,7 @@ public class ReOrderActivity extends Activity implements AdapterView.OnItemClick
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
-               populate();
+                populate();
                 ad.dismiss();
                 Toast.makeText(getApplicationContext(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
 

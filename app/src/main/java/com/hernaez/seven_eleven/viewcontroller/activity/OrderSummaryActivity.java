@@ -1,6 +1,5 @@
 package com.hernaez.seven_eleven.viewcontroller.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
-import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 
 import java.util.List;
@@ -35,7 +33,7 @@ import javax.inject.Inject;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class OrderSummaryActivity extends Activity implements AdapterView.OnItemLongClickListener,
+public class OrderSummaryActivity extends BaseActivity implements AdapterView.OnItemLongClickListener,
         AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView lv;
@@ -64,8 +62,6 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_summary);
-
-        Injector.inject(this);
 
         dbhelper = new DBHelper(this);
         orderDao = new OrderDao(dbhelper);
@@ -148,11 +144,17 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                delete(name);
-                                populate();
-                                Toast.makeText(getApplicationContext(),
-                                        name + " is deleted from your orders.",
-                                        Toast.LENGTH_LONG).show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        delete(name);
+                                        populate();
+                                        Toast.makeText(getApplicationContext(),
+                                                name + " is deleted from your orders.",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
                             }
 
                         }).setNegativeButton("No", null).show();
@@ -210,14 +212,18 @@ public class OrderSummaryActivity extends Activity implements AdapterView.OnItem
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
 
-
-                                                try {
-                                                    newOrder(userid);
-                                                    finishOrder();
-                                                    deleteAll();
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            newOrder(userid);
+                                                            finishOrder();
+                                                            deleteAll();
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
 
 
                                             }

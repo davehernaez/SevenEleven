@@ -1,7 +1,5 @@
 package com.hernaez.seven_eleven.model.dataaccesslayer;
 
-import android.util.Log;
-
 import com.hernaez.seven_eleven.domain.Product;
 
 import org.json.JSONArray;
@@ -40,7 +38,7 @@ public class GetAllProductsHttp {
             product.id = jsonObject.getInt("product_id");
             product.product_name = jsonObject.getString("product_name");
             product.product_price = jsonObject.getDouble("product_price");
-            product.product_qty= jsonObject.getInt("product_qty") ;
+            product.product_qty = jsonObject.getInt("product_qty");
             product.product_imgpath = jsonObject.getString("image_path");
             products.add(product);
         }
@@ -48,7 +46,7 @@ public class GetAllProductsHttp {
     }
 
     public List<String> getAllProductsName() throws Exception {
-        List<String> myList= new ArrayList<String>();
+        List<String> myList = new ArrayList<String>();
 
         String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP).replaceAll("\\s+", " ");
 
@@ -57,7 +55,9 @@ public class GetAllProductsHttp {
         for (int i = 0, count = jasonArray.length(); i < count; i++) {
             JSONObject jsonObject = jasonArray.getJSONObject(i);
 
-            myList.add(jsonObject.getString("product_name"));
+            if (Integer.parseInt(jsonObject.getString("product_qty")) > 0) {
+                myList.add(jsonObject.getString("product_name"));
+            }
         }
         return myList;
     }

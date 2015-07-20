@@ -21,7 +21,7 @@ import javax.inject.Inject;
 /**
  * Created by TAS on 7/7/2015.
  */
-public class ProductListActivity extends Activity {
+public class ProductListActivity extends BaseActivity {
     ListView lv;
     @Inject
     ProductList productList;
@@ -33,7 +33,6 @@ public class ProductListActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prdouct_list);
-        Injector.inject(this);
 
         lv = (ListView) findViewById(R.id.listView_productList);
         thread = new Thread() {

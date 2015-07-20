@@ -1,6 +1,5 @@
 package com.hernaez.seven_eleven.viewcontroller.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,19 +8,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
-import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
@@ -50,7 +46,6 @@ public class LoginActivity extends BaseActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Injector.inject(this);
         StrictMode.enableDefaults();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -133,5 +128,13 @@ public class LoginActivity extends BaseActivity {
                             }
 
                         }).setNegativeButton("No", null).show();
+    }
+
+    @Override
+    protected void onResume() {
+        btnLogin.setEnabled(true);
+        etUsername.requestFocus();
+        etPassword.setText("");
+        super.onResume();
     }
 }
