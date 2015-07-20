@@ -22,11 +22,13 @@ import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 /**
  * Created by TAS on 7/7/2015.
  */
 public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    ListView lv;
+
     EditText dialog_qty;
     TextView tv_prodname;
 
@@ -40,6 +42,10 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
     ProductList productList;
     @Inject
     GetReOrderProducts getReOrderProducts;
+
+    @InjectView(R.id.listView_reorder)
+    ListView lv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

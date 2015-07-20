@@ -18,13 +18,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 /**
  * Created by TAS on 7/7/2015.
  */
 public class ProductListActivity extends BaseActivity {
-    ListView lv;
+
     @Inject
     ProductList productList;
+
+    @InjectView(R.id.listView_productList) ListView lv;
 
     Thread thread;
 
@@ -34,7 +38,6 @@ public class ProductListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prdouct_list);
 
-        lv = (ListView) findViewById(R.id.listView_productList);
         thread = new Thread() {
             public void run() {
 

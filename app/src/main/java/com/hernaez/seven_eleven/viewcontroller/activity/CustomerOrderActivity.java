@@ -33,39 +33,27 @@ import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
-import com.hernaez.seven_eleven.other.dagger.Injector;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import javax.inject.Inject;
+
+import butterknife.InjectView;
 
 /**
  * Created by TAS on 7/7/2015.
  */
 public class CustomerOrderActivity extends BaseActivity implements View.OnClickListener,
        /* TextWatcher,*/ AdapterView.OnItemSelectedListener, TextWatcher {
-    ImageView img;
-    TextView tv_price, tv_subTotal;
-    Spinner sp_prodname;
-    EditText qty;
-    Button btn_plus, btn_minus, btn_finish, btn_buy;
+
+
     Integer available_qty;
-    String prodnamespecific;
     Intent i;
     String prodimg;
-    Integer overallqty;
     Integer userid;
     Integer prodid;
-    ArrayList<String> myList2;
-    JSONObject jsonObject;
-
     OrderManager orderManager;
     DBHelper dbhelper;
     OrderDao orderDao;
-
     ArrayAdapter<String> adapter;
 
     @Inject
@@ -73,12 +61,33 @@ public class CustomerOrderActivity extends BaseActivity implements View.OnClickL
     @Inject
     GetSpecificProduct getSpecificProduct;
 
+    @InjectView(R.id.button_plus)
+    Button btn_plus;
+    @InjectView(R.id.button_minus)
+    Button btn_minus;
+    @InjectView(R.id.button_finish_ordering)
+    Button btn_finish;
+    @InjectView(R.id.button_buy)
+    Button btn_buy;
+
+    @InjectView(R.id.imageView_Product_chosen)
+    ImageView img;
+
+    @InjectView(R.id.textView_product_display_price)
+    TextView tv_price;
+    @InjectView(R.id.textView_subTotal)
+    TextView tv_subTotal;
+
+    @InjectView(R.id.spinner_product_name)
+    Spinner sp_prodname;
+
+    @InjectView(R.id.editText_qtydisplay)
+    EditText qty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.customer_order);
         adapter = null;
         dbhelper = new DBHelper(this);
@@ -89,22 +98,7 @@ public class CustomerOrderActivity extends BaseActivity implements View.OnClickL
 
         if (extras != null) {
             userid = extras.getInt("user_id");
-            Log.e("userid", userid + "");
         }
-
-        img = (ImageView) findViewById(R.id.imageView_Product_chosen);
-
-        tv_price = (TextView) findViewById(R.id.textView_product_display_price);
-        tv_subTotal = (TextView) findViewById(R.id.textView_subTotal);
-
-        sp_prodname = (Spinner) findViewById(R.id.spinner_product_name);
-
-        qty = (EditText) findViewById(R.id.editText_qtydisplay);
-
-        btn_plus = (Button) findViewById(R.id.button_plus);
-        btn_minus = (Button) findViewById(R.id.button_minus);
-        btn_finish = (Button) findViewById(R.id.button_finish_ordering);
-        btn_buy = (Button) findViewById(R.id.button_buy);
 
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);

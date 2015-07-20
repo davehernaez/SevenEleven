@@ -11,15 +11,21 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
-import com.hernaez.seven_eleven.model.businesslayer.Login;
+
+import butterknife.InjectView;
+
 
 /**
  * Created by TAS on 7/7/2015.
  */
-public class AdminPageActivity extends Activity implements View.OnClickListener {
-    Button btn_all_products, btn_for_reordering;
-    Intent i;
+public class AdminPageActivity extends BaseActivity implements View.OnClickListener {
     Integer userid;
+
+    @InjectView(R.id.button_for_reorder)
+    Button btn_for_reordering;
+
+    @InjectView(R.id.button_productList)
+    Button btn_all_products;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +38,8 @@ public class AdminPageActivity extends Activity implements View.OnClickListener 
 
         if (extras != null) {
             userid = extras.getInt("user_id");
-            Log.e("userid", userid+"");
+            Log.e("userid", userid + "");
         }
-
-        btn_all_products = (Button) findViewById(R.id.button_productList);
-        btn_for_reordering = (Button) findViewById(R.id.button_for_reorder);
 
         btn_all_products.setOnClickListener(this);
         btn_for_reordering.setOnClickListener(this);

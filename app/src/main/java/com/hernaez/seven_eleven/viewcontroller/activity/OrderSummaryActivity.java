@@ -2,9 +2,6 @@ package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,23 +27,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 /**
  * Created by TAS on 7/7/2015.
  */
 public class OrderSummaryActivity extends BaseActivity implements AdapterView.OnItemLongClickListener,
         AdapterView.OnItemClickListener, View.OnClickListener {
 
-    ListView lv;
-    String[] fromDB;
-    Cursor c;
-    int[] toView;
-    Bitmap bmp;
-    TextView tv_total, tv_grantotal;
     Double total;
-    String prodsubtotal;
     Integer orderId, userid;
-    Intent i;
-    Button btn_confirm;
     DBHelper dbhelper;
     OrderDao orderDao;
     OrderManager orderManager;
@@ -56,6 +46,12 @@ public class OrderSummaryActivity extends BaseActivity implements AdapterView.On
     @Inject
     PlaceOrder placeOrder;
 
+    @InjectView(R.id.button_clear_summary)
+    Button btn_confirm;
+    @InjectView(R.id.textView_summary_grandtotal)
+    TextView tv_grantotal;
+    @InjectView(R.id.listView_order_summary)
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +69,6 @@ public class OrderSummaryActivity extends BaseActivity implements AdapterView.On
             userid = extras.getInt("user_id");
         }
 
-        tv_total = (TextView) findViewById(R.id.textView_summary_grandtotal);
-        tv_grantotal = (TextView) findViewById(R.id.textView_summary_grandtotal);
-
-        lv = (ListView) findViewById(R.id.listView_order_summary);
-
         thread.start();
 
         total = 0.0;
@@ -86,7 +77,6 @@ public class OrderSummaryActivity extends BaseActivity implements AdapterView.On
 
         lv.setOnItemClickListener(this);
 
-        btn_confirm = (Button) findViewById(R.id.button_clear_summary);
 
         btn_confirm.setOnClickListener(this);
 
@@ -268,7 +258,6 @@ public class OrderSummaryActivity extends BaseActivity implements AdapterView.On
             product.product_qty = products.get(i).product_qty;
 
             placeOrder(orderId, product);
-            Log.e("Placing Orders", "" + product.id);
 
         }
 
