@@ -23,9 +23,11 @@ import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.AdminPageActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.CustomerOrderActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
+import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.OrderSummaryActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ProductListActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ReOrderActivity;
+import com.hernaez.seven_eleven.viewcontroller.fragment.MyFragmentActivity;
 
 import javax.inject.Singleton;
 
@@ -48,7 +50,9 @@ import dagger.Provides;
                 CustomerOrderActivity.class,
                 ProductListActivity.class,
                 ReOrderActivity.class,
-                OrderSummaryActivity.class
+                OrderSummaryActivity.class,
+                MainActivity.class,
+                MyFragmentActivity.class
 
         }
 )

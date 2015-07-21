@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -67,13 +68,13 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView.image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop);
 
             mySlider.addSlider(textSliderView);
         }
         mySlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
         mySlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mySlider.setDuration(3555);
+        mySlider.setDuration(2300);
         mySlider.addOnPageChangeListener(this);
 
 
@@ -118,6 +119,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                     @Override
                     public void run() {
                         androidUtils.alert("Logging in as admin...");
+                        //MainActivity.start(LoginActivity.this, user);
                         AdminPageActivity.start(LoginActivity.this, user);
                         /*androidUtils.loadFragment();*/
                     }
@@ -127,7 +129,8 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                     @Override
                     public void run() {
                         androidUtils.alert("Logging in...");
-                        CustomerOrderActivity.start(LoginActivity.this, user);
+                        MainActivity.start(LoginActivity.this, user);
+                        //CustomerOrderActivity.start(LoginActivity.this, user);
                     }
                 });
             }
@@ -136,6 +139,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                 @Override
                 public void run() {
                     androidUtils.alert("Username and password did not match.");
+                    btnLogin.setEnabled(true);
                 }
             });
         }
