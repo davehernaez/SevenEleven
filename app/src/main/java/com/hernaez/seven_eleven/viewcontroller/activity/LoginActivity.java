@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
     EditText etUsername;
 
     @InjectView(R.id.mySlider)
-    private SliderLayout mySlider;
+    SliderLayout mySlider;
 
     private static final String TAG_SUCCESS = "success";
 
