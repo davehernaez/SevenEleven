@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -44,8 +43,11 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
     @InjectView(R.id.editText_username)
     EditText etUsername;
 
-    private static final String TAG_SUCCESS = "success";
+    @InjectView(R.id.mySlider)
     private SliderLayout mySlider;
+
+    private static final String TAG_SUCCESS = "success";
+
 
     Thread loginThread;
 
@@ -55,7 +57,6 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         StrictMode.enableDefaults();
-        mySlider = (SliderLayout) findViewById(R.id.mySlider);
 
         HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
         file_maps.put("slider_bg_1", R.drawable.bg_slider_a);
@@ -65,8 +66,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         for (String name : file_maps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
-            textSliderView
-                    .image(file_maps.get(name))
+            textSliderView.image(file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit);
 
             mySlider.addSlider(textSliderView);
