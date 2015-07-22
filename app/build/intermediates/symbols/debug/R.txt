@@ -764,7 +764,7 @@ int drawable btn_minus 0x7f020048
 int drawable btn_plus 0x7f020049
 int drawable button_shape 0x7f02004a
 int drawable coke 0x7f02004b
-int drawable edittext_qty_shape 0x7f02004c
+int drawable edittext_shape 0x7f02004c
 int drawable ic_launcher 0x7f02004d
 int drawable img_banner 0x7f02004e
 int drawable indicator_corner_bg 0x7f02004f

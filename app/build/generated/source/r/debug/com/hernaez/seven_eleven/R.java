@@ -3948,7 +3948,7 @@ containing a value of this type.
         public static final int btn_plus=0x7f020049;
         public static final int button_shape=0x7f02004a;
         public static final int coke=0x7f02004b;
-        public static final int edittext_qty_shape=0x7f02004c;
+        public static final int edittext_shape=0x7f02004c;
         public static final int ic_launcher=0x7f02004d;
         public static final int img_banner=0x7f02004e;
         public static final int indicator_corner_bg=0x7f02004f;

@@ -1,6 +1,5 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -8,31 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.viewcontroller.adapter.CarouselPagerAdapter;
 
 import butterknife.InjectView;
 
 /**
- * Created by TAS on 7/21/2015.
+ * Created by TAS on 7/22/2015.
  */
-public class MyFragmentActivity extends BaseFragment{
-    /*@InjectView(R.id.tpi_header)
+public class CarouselFragment extends BaseFragment{
+    @InjectView(R.id.tpi_header)
     protected com.rey.material.widget.TabPageIndicator indicator;
 
     @InjectView(R.id.vp_pages)
-    protected ViewPager pager;*/
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.customer_order, container, false);
-    }
+    protected ViewPager pager;
 
     @Override
     public View onCreateView2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        return inflater.inflate(R.layout.my_fragment_activity_carousel, container, false);
     }
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
+        pager.setAdapter(new CarouselPagerAdapter(getResources(), getChildFragmentManager()));
+        indicator.setViewPager(pager);
+        pager.setCurrentItem(currentItem);
 
     }
 
@@ -43,11 +41,12 @@ public class MyFragmentActivity extends BaseFragment{
     }
     @Override
     public void onSaveInstanceState2(Bundle outState) {
-        /*currentItem=pager.getCurrentItem();
-        outState.putInt("currentItem", pager.getCurrentItem());*/
+        currentItem=pager.getCurrentItem();
+        outState.putInt("currentItem", pager.getCurrentItem());
     }
 
-    public static MyFragmentActivity newInstance(){
-        return new MyFragmentActivity();
+    public static CarouselFragment newInstance(){
+        return new CarouselFragment();
     }
+
 }

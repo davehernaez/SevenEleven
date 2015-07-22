@@ -36,7 +36,6 @@ public class OrderDao {
                 Integer productQty = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_QTY));
                 Double productSubtotal = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
 
-                order.product = order.product;
                 Product newProdct = new Product();
                 order.orderedProduct = newProdct;
                 newProdct.product_name = productName;
@@ -47,7 +46,13 @@ public class OrderDao {
                 c.close();
                 db.close();
                 return order;
+            } else {
+                c.close();
+                db.close();
             }
+        } else {
+            c.close();
+            db.close();
         }
         return order;
 

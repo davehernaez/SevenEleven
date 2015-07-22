@@ -27,7 +27,9 @@ import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.OrderSummaryActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ProductListActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ReOrderActivity;
-import com.hernaez.seven_eleven.viewcontroller.fragment.MyFragmentActivity;
+import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
 
 import javax.inject.Singleton;
 
@@ -51,8 +53,11 @@ import dagger.Provides;
                 ProductListActivity.class,
                 ReOrderActivity.class,
                 OrderSummaryActivity.class,
+
                 MainActivity.class,
-                MyFragmentActivity.class
+                CarouselFragment.class,
+                CustomerOrderFragment.class,
+                OrderSummaryFragment.class
 
         }
 )

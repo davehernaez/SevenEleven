@@ -9,11 +9,11 @@
     <ImageView
         android:id="@+id/imageView_Product_chosen"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:layout_gravity="center"
-        android:layout_margin="25dp"
+        android:layout_margin="5dp"
         android:background="#EEEEEE"
-        android:padding="8dp" />
+        android:padding="3dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                         android:layout_height="45dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:background="@drawable/edittext_qty_shape"
+                        android:background="@drawable/edittext_shape"
                         android:focusable="false"
                         android:gravity="center"
                         android:inputType="number"
@@ -202,34 +202,34 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:padding="5dp">
 
 
         <Button
             android:id="@+id/button_buy"
             android:layout_width="100dp"
-            android:layout_height="55dp"
+            android:layout_height="45dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/btn_buy"
             android:minWidth="80dp"
-            android:padding="15dp" />
+             />
 
         <Button
             android:id="@+id/button_cancel"
             android:layout_width="100dp"
-            android:layout_height="55dp"
+            android:layout_height="45dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/btn_cancel"
             android:maxHeight="75dp"
             android:maxWidth="100dp"
             android:minWidth="80dp"
-            android:padding="15dp" />
+             />
 
     </RelativeLayout>
 

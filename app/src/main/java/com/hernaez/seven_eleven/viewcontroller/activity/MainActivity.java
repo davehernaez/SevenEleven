@@ -7,7 +7,8 @@ import android.os.Bundle;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.fragment.MyFragmentActivity;
+import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,7 @@ public class MainActivity extends BaseActivity {
             userid = extras.getInt("user_id");
         }
 
-        androidUtils.loadFragment(this, R.id.container, MyFragmentActivity.newInstance());
+        androidUtils.loadFragment(this, R.id.container, CarouselFragment.newInstance());
 
     }
 
