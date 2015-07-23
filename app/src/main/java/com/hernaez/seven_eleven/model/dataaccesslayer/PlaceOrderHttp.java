@@ -12,7 +12,7 @@ import java.util.List;
  * Created by TAS on 7/15/2015.
  */
 public class PlaceOrderHttp {
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
     public static final String HTTP_END_DOMAIN = "/android_connect/place_order.php";
     HttpAdapter httpAdapter;
 

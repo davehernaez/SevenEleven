@@ -1,5 +1,7 @@
 package com.hernaez.seven_eleven.model.dataaccesslayer;
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -17,6 +19,7 @@ import java.util.List;
  * Created by jaenelleisidro on 7/8/15.
  */
 public class HttpAdapter {
+
     HttpClient httpclient;
     public HttpAdapter(){
         httpclient = new DefaultHttpClient();
@@ -27,6 +30,7 @@ public class HttpAdapter {
     }
 
     public String post(String url,List<NameValuePair> nameValuePairs) throws Exception{
+        Log.e("HttAdapter","Connecting to server...");
         HttpPost httppostURL = new HttpPost(url);
         if(nameValuePairs!=null){
             httppostURL.setEntity(new UrlEncodedFormEntity(nameValuePairs));

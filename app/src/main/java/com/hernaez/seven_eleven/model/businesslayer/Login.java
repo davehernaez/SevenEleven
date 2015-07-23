@@ -17,7 +17,7 @@ public class Login {
     }
 
     public User userLogin(String userName, String password) throws Exception {
-
+        Log.e("UserLogin","UserLogin...");
         User user=loginHttpAdapter.getUser(userName,password);
 
         return user;

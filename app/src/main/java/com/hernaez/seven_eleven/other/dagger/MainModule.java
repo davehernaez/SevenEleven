@@ -2,6 +2,7 @@ package com.hernaez.seven_eleven.other.dagger;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.hernaez.seven_eleven.model.businesslayer.GetAllProductName;
 import com.hernaez.seven_eleven.model.businesslayer.GetReOrderProducts;
 import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
@@ -18,8 +19,11 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
 import com.hernaez.seven_eleven.model.dataaccesslayer.NewOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
+import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.UserHttpService;
 import com.hernaez.seven_eleven.other.MainApplication;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.other.retrofit.RestAdapterRequestInterceptor;
+import com.hernaez.seven_eleven.other.retrofit.RestErrorHandler;
 import com.hernaez.seven_eleven.viewcontroller.activity.AdminPageActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.CustomerOrderActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
@@ -30,11 +34,15 @@ import com.hernaez.seven_eleven.viewcontroller.activity.ReOrderActivity;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
+import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit.RestAdapter;
+import retrofit.client.OkClient;
+import retrofit.converter.GsonConverter;
 
 
 /**
@@ -167,40 +175,22 @@ public class MainModule {
 
     //
 
-
-
-   /* @Provides
-    @Singleton
-    AndroidUtils provideAndroidUtils(Context context){
-        return new AndroidUtils(context);
-    }
-
-
-    @Singleton
     @Provides
-    MovieHttpService provideProductHttpService(RestAdapter restAdapter){
-        return restAdapter.create(MovieHttpService.class);
+    RestAdapter provideRestAdapter(Context context,RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson,OkHttpClient okHttpClient) {
+        return new RestAdapter.Builder()
+                .setClient(new OkClient(okHttpClient))
+                .setEndpoint(UserHttpService.HTTP_DOMAIN)
+                .setErrorHandler(restErrorHandler)
+                .setRequestInterceptor(restRequestInterceptor)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setConverter(new GsonConverter(gson))
+                .build();
     }
 
     @Singleton
     @Provides
-    MovieService provideMovieService(MovieHttpService movieHttpService,AndroidUtils androidUtils){
-        return new MovieService(movieHttpService,androidUtils);
+    UserHttpService provideProductHttpService(RestAdapter restAdapter){
+        return restAdapter.create(UserHttpService.class);
     }
-
-    @Singleton
-    @Provides
-    DaoSession provideDaoSession(Context context){
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "example-db", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        return daoMaster.newSession();
-    }
-    @Singleton
-    @Provides
-    BoxRepository provideBoxRepository(DaoSession daoSession){
-        return new BoxRepository(daoSession);
-    }*/
-
 
 }

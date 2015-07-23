@@ -1,5 +1,7 @@
 package com.hernaez.seven_eleven.model.dataaccesslayer;
 
+import android.util.Log;
+
 import com.hernaez.seven_eleven.domain.Product;
 
 import org.json.JSONArray;
@@ -12,8 +14,8 @@ import java.util.List;
  * Created by TAS on 7/9/2015.
  */
 public class GetAllProductsHttp {
-
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    //http://seveneleven.net46.net/android_connect/get_all_products.php
+    public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
     public static final String HTTP = "/android_connect/get_all_products.php";
 
     HttpAdapter httpAdapter;
@@ -27,6 +29,7 @@ public class GetAllProductsHttp {
         List<Product> products = new ArrayList<Product>();
         String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP);
         jsonString.replaceAll("\\s+", " ");
+        Log.e("allProducts",jsonString);
 
         JSONArray jasonArray = new JSONArray(jsonString);
 

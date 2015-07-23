@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ReOrderHttp {
     HttpAdapter httpAdapter;
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
     public static final String HTTP = "/android_connect/reorder.php";
 
     public ReOrderHttp(HttpAdapter httpAdapter) {

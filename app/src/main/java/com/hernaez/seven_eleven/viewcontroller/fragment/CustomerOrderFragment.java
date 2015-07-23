@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -52,6 +51,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     DBHelper dbhelper;
     OrderDao orderDao;
     ArrayAdapter<String> adapter;
+    OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
 
     @Inject
     GetAllProductName getAllProductName;
@@ -112,7 +112,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         try {
 
-
             try {
                 adapter = new ArrayAdapter<String>(
                         getActivity(),
@@ -125,6 +124,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         } catch (Exception e) {
         }
+
 
     }
 
@@ -224,6 +224,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         checkOrder();
+                                        orderSummaryFragment.refresh();
                                     }
 
                                 }).setNegativeButton("No", null).show();

@@ -20,7 +20,7 @@ import java.util.List;
 public class GetSpecificProductHttp {
     HttpAdapter httpAdapter;
     Product product;
-    public static final String HTTP_DOMAIN="http://seveneleven.esy.es";
+    public static final String HTTP_DOMAIN="http://seveneleven.net46.net";
     public static final String HTTP="/android_connect/get_price.php";
 
     public GetSpecificProductHttp(HttpAdapter httpAdapter){
