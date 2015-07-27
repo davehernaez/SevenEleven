@@ -15,8 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.model.businesslayer.GetReOrderProducts;
-import com.hernaez.seven_eleven.model.businesslayer.ProductList;
+import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
@@ -39,9 +38,7 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
     @Inject
     ReOrder reOrder;
     @Inject
-    ProductList productList;
-    @Inject
-    GetReOrderProducts getReOrderProducts;
+    ProductManager productManager;
 
     @InjectView(R.id.listView_reorder)
     ListView lv;
@@ -91,7 +88,7 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
                     CustomViewAdapter myadapter = null;
                     try {
                         myadapter = new CustomViewAdapter(getApplicationContext(),
-                                R.layout.list_item, getReOrderProducts.getReorderProducts());
+                                R.layout.list_item, productManager.getReorderProducts());
                         lv.setAdapter(myadapter);
 
                     } catch (Exception e) {
@@ -194,7 +191,6 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void start(Activity activity, Integer userid) {

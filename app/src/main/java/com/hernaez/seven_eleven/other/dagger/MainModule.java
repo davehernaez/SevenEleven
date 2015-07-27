@@ -3,21 +3,19 @@ package com.hernaez.seven_eleven.other.dagger;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.hernaez.seven_eleven.model.businesslayer.GetAllProductName;
-import com.hernaez.seven_eleven.model.businesslayer.GetReOrderProducts;
-import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
+import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
-import com.hernaez.seven_eleven.model.businesslayer.ProductList;
+import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
-import com.hernaez.seven_eleven.model.dataaccesslayer.GetAllProductsHttp;
-import com.hernaez.seven_eleven.model.dataaccesslayer.GetReOrderProductsHttp;
-import com.hernaez.seven_eleven.model.dataaccesslayer.GetSpecificProductHttp;
+import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.HttpAdapter;
 import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
 import com.hernaez.seven_eleven.model.dataaccesslayer.NewOrderHttp;
+import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
+import com.hernaez.seven_eleven.model.dataaccesslayer.ProductsHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.UserHttpService;
 import com.hernaez.seven_eleven.other.MainApplication;
@@ -25,10 +23,8 @@ import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.other.retrofit.RestAdapterRequestInterceptor;
 import com.hernaez.seven_eleven.other.retrofit.RestErrorHandler;
 import com.hernaez.seven_eleven.viewcontroller.activity.AdminPageActivity;
-import com.hernaez.seven_eleven.viewcontroller.activity.CustomerOrderActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
-import com.hernaez.seven_eleven.viewcontroller.activity.OrderSummaryActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ProductListActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.ReOrderActivity;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
@@ -57,10 +53,9 @@ import retrofit.converter.GsonConverter;
                 MainApplication.class,
                 LoginActivity.class,
                 AdminPageActivity.class,
-                CustomerOrderActivity.class,
                 ProductListActivity.class,
                 ReOrderActivity.class,
-                OrderSummaryActivity.class,
+
 
                 MainActivity.class,
                 CarouselFragment.class,
@@ -92,36 +87,6 @@ public class MainModule {
     @Provides
     Login provideLogin(LoginHttpAdapter loginHttpAdapter) {
         return new Login(loginHttpAdapter);
-    }
-
-    @Singleton
-    @Provides
-    GetAllProductsHttp provideGetAllProductsHttp(HttpAdapter httpAdapter) {
-        return new GetAllProductsHttp(httpAdapter);
-    }
-
-    @Singleton
-    @Provides
-    ProductList provideProductList(GetAllProductsHttp getAllProductsHttp) {
-        return new ProductList(getAllProductsHttp);
-    }
-
-    @Singleton
-    @Provides
-    GetAllProductName provideGetAllProductName(GetAllProductsHttp getReOrderProductsHttp) {
-        return new GetAllProductName(getReOrderProductsHttp);
-    }
-
-    @Singleton
-    @Provides
-    GetReOrderProductsHttp provideRetReOrderProductsHttp(HttpAdapter httpAdapter) {
-        return new GetReOrderProductsHttp(httpAdapter);
-    }
-
-    @Singleton
-    @Provides
-    GetReOrderProducts provideRetReOrderProducts(GetReOrderProductsHttp getReOrderProductsHttp) {
-        return new GetReOrderProducts(getReOrderProductsHttp);
     }
 
     @Singleton
@@ -160,23 +125,22 @@ public class MainModule {
         return new PlaceOrder(placeOrderHttp);
     }
 
-
     @Singleton
     @Provides
-    GetSpecificProductHttp provideGetSpecificProductHttp(HttpAdapter httpAdapter) {
-        return new GetSpecificProductHttp(httpAdapter);
+    ProductsHttp providesProductHttp(HttpAdapter httpAdapter) {
+        return new ProductsHttp(httpAdapter);
     }
 
     @Singleton
     @Provides
-    GetSpecificProduct provideGetSpecificProduct(GetSpecificProductHttp getSpecificProductHttp) {
-        return new GetSpecificProduct(getSpecificProductHttp);
+    ProductManager providesProductManager(ProductsHttp productsHttp) {
+        return new ProductManager(productsHttp);
     }
 
     //
 
     @Provides
-    RestAdapter provideRestAdapter(Context context,RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson,OkHttpClient okHttpClient) {
+    RestAdapter provideRestAdapter(Context context, RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson, OkHttpClient okHttpClient) {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(okHttpClient))
                 .setEndpoint(UserHttpService.HTTP_DOMAIN)
@@ -189,8 +153,26 @@ public class MainModule {
 
     @Singleton
     @Provides
-    UserHttpService provideProductHttpService(RestAdapter restAdapter){
+    UserHttpService provideProductHttpService(RestAdapter restAdapter) {
         return restAdapter.create(UserHttpService.class);
+    }
+
+    @Singleton
+    @Provides
+    DBHelper providesDbHelper(Context context) {
+        return new DBHelper(context);
+    }
+
+    @Singleton
+    @Provides
+    OrderDao providesorderDao(DBHelper dbHelper) {
+        return new OrderDao(dbHelper);
+    }
+
+    @Singleton
+    @Provides
+    OrderManager providesorderManager(OrderDao orderDao) {
+        return new OrderManager(orderDao);
     }
 
 }

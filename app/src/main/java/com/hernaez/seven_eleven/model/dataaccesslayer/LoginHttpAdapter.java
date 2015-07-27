@@ -3,6 +3,7 @@ package com.hernaez.seven_eleven.model.dataaccesslayer;
 import android.util.Log;
 
 import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.other.HttpConstant;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -18,8 +19,10 @@ import java.util.List;
 public class LoginHttpAdapter{
     User user=new User();
     //http://seveneleven.net46.net/android_connect/test.php
-    public static final String HTTP_DOMAIN="http://seveneleven.net46.net";
-    public static final String HTTP_LOGIN="/android_connect/login.php";
+    //public static final String HTTP_DOMAIN="http://seveneleven.net46.net";
+    /*public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    public static final String HTTP_LOGIN="/android_connect/login.php";*/
+
 
 
 
@@ -35,7 +38,7 @@ public class LoginHttpAdapter{
         nameValuePairs.add(new BasicNameValuePair("username", userName));
         nameValuePairs.add(new BasicNameValuePair("password", password));
 
-        String jsonString=httpAdapter.post(HTTP_DOMAIN+HTTP_LOGIN,nameValuePairs);
+        String jsonString=httpAdapter.post(HttpConstant.HTTP_LOGIN,nameValuePairs);
         Log.e("jsonString",jsonString);
 
         jsonString = jsonString.replaceAll("\\s+", " ");

@@ -27,7 +27,8 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    List<FragmentGenerate> list=new ArrayList<FragmentGenerate>();
+    List<FragmentGenerate> list = new ArrayList<FragmentGenerate>();
+
     public CarouselPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
@@ -36,6 +37,7 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
             public Fragment newInstance() {
                 return CustomerOrderFragment.newInstance();
             }
+
             @Override
             public String instanceName() {
                 return "Customer Order";
@@ -46,6 +48,7 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
             public Fragment newInstance() {
                 return OrderSummaryFragment.newInstance();
             }
+
             @Override
             public String instanceName() {
                 return "Order Summary";
@@ -54,8 +57,9 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-    private interface FragmentGenerate{
+    private interface FragmentGenerate {
         abstract public Fragment newInstance();
+
         abstract public String instanceName();
     }
 

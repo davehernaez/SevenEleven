@@ -10,11 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.model.businesslayer.ProductList;
-import com.hernaez.seven_eleven.other.dagger.Injector;
+import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,9 +23,10 @@ import butterknife.InjectView;
 public class ProductListActivity extends BaseActivity {
 
     @Inject
-    ProductList productList;
+    ProductManager productManager;
 
-    @InjectView(R.id.listView_productList) ListView lv;
+    @InjectView(R.id.listView_productList)
+    ListView lv;
 
     Thread thread;
 
@@ -79,7 +77,7 @@ public class ProductListActivity extends BaseActivity {
                         CustomViewAdapter myadapter = null;
 
                         myadapter = new CustomViewAdapter(getApplicationContext(),
-                                R.layout.list_item, productList.getAllProducts());
+                                R.layout.list_item, productManager.getAllProducts());
                         lv.setAdapter(myadapter);
 
                     } catch (Exception e) {

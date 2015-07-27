@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -25,12 +26,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
-import com.hernaez.seven_eleven.model.businesslayer.GetAllProductName;
-import com.hernaez.seven_eleven.model.businesslayer.GetSpecificProduct;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
-import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
-import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
-import com.hernaez.seven_eleven.viewcontroller.activity.OrderSummaryActivity;
+import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -45,18 +42,14 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     Integer available_qty;
     Intent i;
     String prodimg;
-    Integer userid;
     Integer prodid;
-    OrderManager orderManager;
-    DBHelper dbhelper;
-    OrderDao orderDao;
+
     ArrayAdapter<String> adapter;
-    OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
 
     @Inject
-    GetAllProductName getAllProductName;
+    ProductManager productManager;
     @Inject
-    GetSpecificProduct getSpecificProduct;
+    OrderManager orderManager;
 
     @InjectView(R.id.button_plus)
     Button btn_plus;
@@ -92,12 +85,16 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
 
+
         adapter = null;
-        dbhelper = new DBHelper(getActivity());
-        orderDao = new OrderDao(dbhelper);
-        orderManager = new OrderManager(orderDao);
 
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
@@ -111,21 +108,14 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         sp_prodname.setOnItemSelectedListener(this);
 
         try {
-
-            try {
-                adapter = new ArrayAdapter<String>(
-                        getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item, getAllProductName.getAllProductsName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            sp_prodname.setAdapter(adapter);
-
+            adapter = new ArrayAdapter<String>(
+                    getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, productManager.getAllProductsName());
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
-
+        sp_prodname.setAdapter(adapter);
     }
 
 
@@ -144,19 +134,27 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         }
     }
 
+    public int layoutId;
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-
+        layoutId = savedInstanceState.getInt("layoutId");
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
-
+        outState.putInt("layoutId", layoutId);
     }
 
-    public static CustomerOrderFragment newInstance() {
-        return new CustomerOrderFragment();
+    public static Fragment newInstance() {
+        return newInstance(R.layout.customer_order);
+    }
+
+    public static Fragment newInstance(int layoutId) {
+        CustomerOrderFragment customerOrderFragment = new CustomerOrderFragment();
+        customerOrderFragment.layoutId = layoutId;
+        customerOrderFragment.setRetainInstance(true);
+        return customerOrderFragment;
     }
 
     @Override
@@ -198,9 +196,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_finish_ordering:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_finish);
-                i = new Intent(getActivity(), OrderSummaryActivity.class);
-                i.putExtra("user_id", userid);
-                startActivity(i);
+
 
                 break;
             case R.id.button_buy:
@@ -224,7 +220,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         checkOrder();
-                                        orderSummaryFragment.refresh();
                                     }
 
                                 }).setNegativeButton("No", null).show();
@@ -263,7 +258,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         qty.setText("1");
         Product product = null;
         try {
-            product = getSpecificProduct.getSpecificProduct(sp_prodname.getSelectedItem().toString());
+            product = productManager.getSpecificProduct(sp_prodname.getSelectedItem().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

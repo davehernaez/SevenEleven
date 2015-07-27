@@ -1,6 +1,7 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
+import android.app.RemoteInput;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,8 +22,6 @@ import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
-import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
-import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
 
 import java.util.List;
@@ -40,10 +39,10 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     Double total;
     Integer orderId, userid;
-    DBHelper dbhelper;
-    OrderDao orderDao;
-    OrderManager orderManager;
 
+
+    @Inject
+    OrderManager orderManager;
     @Inject
     NewOrder newOrder;
     @Inject
@@ -66,9 +65,6 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
-        dbhelper = new DBHelper(getActivity());
-        orderDao = new OrderDao(dbhelper);
-        orderManager = new OrderManager(orderDao);
 
         populate();
 
@@ -259,7 +255,5 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     }
 
-    public void refresh() {
 
-    }
 }
