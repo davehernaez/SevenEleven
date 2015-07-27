@@ -1,7 +1,6 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
-import android.app.RemoteInput;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,19 +84,21 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+
         layoutId = savedInstanceState.getInt("layoutId");
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
+
         outState.putInt("layoutId", layoutId);
     }
 
-    public static Fragment newInstance() {
+    public static OrderSummaryFragment newInstance() {
         return newInstance(R.layout.order_summary);
     }
 
-    public static Fragment newInstance(int layoutId) {
+    public static OrderSummaryFragment newInstance(int layoutId) {
         OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
         orderSummaryFragment.layoutId = layoutId;
         orderSummaryFragment.setRetainInstance(true);

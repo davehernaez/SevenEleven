@@ -224,8 +224,8 @@ public class AndroidUtils {
      * @param fragment the fragment that we will place inside the viewgroup
      */
 
-    public static void loadFragment(ActionBarActivity actionBarActivity,int viewGroupFragmentContainerId,Fragment fragment){
-        final FragmentManager fragmentManager = actionBarActivity.getSupportFragmentManager();
+    public static void loadFragment(ActionBarActivity activity,int viewGroupFragmentContainerId,Fragment fragment){
+        final FragmentManager fragmentManager = activity.getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(viewGroupFragmentContainerId, fragment)
                 .commit();

@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -28,6 +28,7 @@ import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
+import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -50,6 +51,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     ProductManager productManager;
     @Inject
     OrderManager orderManager;
+    @Inject
+    AndroidUtils androidUtils;
 
     @InjectView(R.id.button_plus)
     Button btn_plus;
@@ -99,6 +102,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
+        btn_finish.setVisibility(View.GONE);
         btn_buy.setOnClickListener(this);
 
         qty.addTextChangedListener(this);
@@ -146,11 +150,11 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         outState.putInt("layoutId", layoutId);
     }
 
-    public static Fragment newInstance() {
+    public static CustomerOrderFragment newInstance() {
         return newInstance(R.layout.customer_order);
     }
 
-    public static Fragment newInstance(int layoutId) {
+    public static CustomerOrderFragment newInstance(int layoutId) {
         CustomerOrderFragment customerOrderFragment = new CustomerOrderFragment();
         customerOrderFragment.layoutId = layoutId;
         customerOrderFragment.setRetainInstance(true);
@@ -196,8 +200,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_finish_ordering:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_finish);
-
-
+                //androidUtils.loadFragment(getActivity(), R.id.container, CarouselFragment.newInstance());
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);
@@ -220,6 +223,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         checkOrder();
+                                        androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
                                     }
 
                                 }).setNegativeButton("No", null).show();
