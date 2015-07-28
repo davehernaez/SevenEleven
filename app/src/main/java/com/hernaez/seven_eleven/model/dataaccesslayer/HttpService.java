@@ -1,12 +1,8 @@
 package com.hernaez.seven_eleven.model.dataaccesslayer;
 
-
-import com.hernaez.seven_eleven.domain.ListProducts;
 import com.hernaez.seven_eleven.domain.Product;
 
 import java.util.List;
-
-import javax.security.auth.callback.Callback;
 
 import retrofit.http.GET;
 import retrofit.http.Path;

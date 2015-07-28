@@ -3,6 +3,7 @@ package com.hernaez.seven_eleven.model.dataaccesslayer;
 import android.util.Log;
 
 import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.other.HttpConstant;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -16,8 +17,8 @@ import java.util.List;
 public class ReOrderHttp {
     HttpAdapter httpAdapter;
     //public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
-    public static final String HTTP = "/android_connect/reorder.php";
+    //public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    //public static final String HTTP = "/android_connect/reorder.php";
 
     public ReOrderHttp(HttpAdapter httpAdapter) {
         this.httpAdapter = httpAdapter;
@@ -28,10 +29,10 @@ public class ReOrderHttp {
         nameValuePairs.add(new BasicNameValuePair("product_name", product_name));
         nameValuePairs.add(new BasicNameValuePair("product_qty", product_qty));
 
-        String jsonString = httpAdapter.post(HTTP_DOMAIN + HTTP, nameValuePairs).replaceAll("\\s+"," ");
+        String jsonString = httpAdapter.post(HttpConstant.HTTP_REORDER, nameValuePairs).replaceAll("\\s+"," ");
 
 
-        Log.e("httAdapter", " has been executed. " + HTTP_DOMAIN + HTTP + " " + nameValuePairs);
+        Log.e("httAdapter", " has been executed. " + HttpConstant.HTTP_REORDER + " " + nameValuePairs);
         Log.e("Status", jsonString);
 
     }

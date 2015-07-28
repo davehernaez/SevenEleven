@@ -27,8 +27,6 @@ public class ProductListFragment extends BaseFragment {
     @InjectView(R.id.listView_productList)
     ListView lv;
 
-    Thread thread;
-
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
 

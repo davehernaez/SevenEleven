@@ -62,8 +62,6 @@ import retrofit.converter.GsonConverter;
                 AdminPageFragment.class,
                 ReOrderFragment.class,
                 ProductListFragment.class
-
-
         }
 )
 public class MainModule {

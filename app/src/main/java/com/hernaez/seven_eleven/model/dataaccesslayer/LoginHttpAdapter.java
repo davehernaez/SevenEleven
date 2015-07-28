@@ -18,13 +18,6 @@ import java.util.List;
  */
 public class LoginHttpAdapter{
     User user=new User();
-    //http://seveneleven.net46.net/android_connect/test.php
-    //public static final String HTTP_DOMAIN="http://seveneleven.net46.net";
-    /*public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
-    public static final String HTTP_LOGIN="/android_connect/login.php";*/
-
-
-
 
     HttpAdapter httpAdapter;
 

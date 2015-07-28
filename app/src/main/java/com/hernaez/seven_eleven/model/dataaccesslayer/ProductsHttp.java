@@ -41,6 +41,7 @@ public class ProductsHttp {
             product.product_name = jsonObject.getString("product_name");
             product.product_price = jsonObject.getDouble("product_price");
             product.product_qty = jsonObject.getInt("product_qty");
+            Log.e("quantity",jsonObject.getString("product_name")+" "+jsonObject.getInt("product_qty")+"");
             product.product_imgpath = jsonObject.getString("image_path");
             products.add(product);
         }

@@ -38,7 +38,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     ProductManager productManager;
 
     @InjectView(R.id.listView_reorder)
-    ListView lv;
+    protected ListView lv;
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {

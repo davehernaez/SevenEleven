@@ -1,6 +1,7 @@
 package com.hernaez.seven_eleven.model.dataaccesslayer;
 
 import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.other.HttpConstant;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -13,8 +14,8 @@ import java.util.List;
  */
 public class PlaceOrderHttp {
     //public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
-    public static final String HTTP_END_DOMAIN = "/android_connect/place_order.php";
+    //public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    //public static final String HTTP_END_DOMAIN = "/android_connect/place_order.php";
     HttpAdapter httpAdapter;
 
     public PlaceOrderHttp(HttpAdapter httpAdapter) { this.httpAdapter = httpAdapter; }
@@ -25,7 +26,7 @@ public class PlaceOrderHttp {
         nameValuePairs.add(new BasicNameValuePair("product_id", product.id.toString()));
         nameValuePairs.add(new BasicNameValuePair("order_qty", product.product_qty.toString()));
 
-        httpAdapter.post(HTTP_DOMAIN+ HTTP_END_DOMAIN, nameValuePairs);
+        httpAdapter.post(HttpConstant.HTTP_PLACE_ORDER, nameValuePairs);
 
     }
 }
