@@ -104,6 +104,8 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                 };
                 loginThread.start();
                 btnLogin.setEnabled(false);
+                etUsername.setEnabled(false);
+                etPassword.setEnabled(false);
 
             }
 
@@ -140,6 +142,8 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                 public void run() {
                     androidUtils.alert("Username and password did not match.");
                     btnLogin.setEnabled(true);
+                    etUsername.setEnabled(true);
+                    etPassword.setEnabled(true);
                 }
             });
         }
@@ -166,6 +170,8 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
     @Override
     protected void onResume() {
         btnLogin.setEnabled(true);
+        etUsername.setEnabled(true);
+        etPassword.setEnabled(true);
         etUsername.requestFocus();
         etPassword.setText("");
         super.onResume();
