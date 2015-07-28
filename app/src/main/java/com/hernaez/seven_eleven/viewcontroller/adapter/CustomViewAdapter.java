@@ -3,7 +3,6 @@ package com.hernaez.seven_eleven.viewcontroller.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,15 +52,9 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-
         holder.prodname.setText(product.product_name);
-
         holder.prodqty.setText(product.product_qty.toString());
-        if(product.product_qty<=10){
-            holder.prodqty.setTextColor(Color.parseColor("#FF0000"));
-        }
-        System.out.println("" + holder.prodqty.getText().toString()+" "+product.product_price);
-        if(product.product_price!=0.0) {
+        if (product.product_price != 0.0) {
             holder.prodprice.setText(product.product_price.toString());
         } else {
             holder.prodprice.setText("");

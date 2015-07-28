@@ -51,7 +51,7 @@ public class AdminPagerAdapter extends FragmentPagerAdapter {
 
             @Override
             public String instanceName() {
-                return "ReOrder";
+                return "Products for Re-Ordering";
             }
         });
         list.add(new FragmentGenerate() {

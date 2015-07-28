@@ -2,6 +2,7 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
+import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
 
 import javax.inject.Inject;
@@ -31,7 +32,8 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     Thread thread;
     Integer userid;
 
-
+    @Inject
+    AndroidUtils androidUtils;
     @Inject
     ReOrder reOrder;
     @Inject
@@ -41,16 +43,16 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     protected ListView lv;
 
     @Override
+    public View onCreateView2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.reorder, container, false);
+    }
+
+    @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
 
         populate();
 
         lv.setOnItemClickListener(this);
-    }
-
-    @Override
-    public View onCreateView2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.reorder, container, false);
     }
 
     @Override
@@ -75,7 +77,6 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     public void populate() {
-
 
         CustomViewAdapter myadapter = null;
         try {
@@ -149,11 +150,14 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
-                populate();
-                ad.dismiss();
-                Toast.makeText(getActivity(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
-
+                if (Integer.parseInt(dialog_qty.getText().toString()) >= 10) {
+                    reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
+                    androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, AdminPageFragmentHolder.newInstance());
+                    ad.dismiss();
+                    androidUtils.alert("Order completed. Your product's quantity has been updated.");
+                } else {
+                    androidUtils.alert("At least 10 must be ordered.");
+                }
             }
         });
 

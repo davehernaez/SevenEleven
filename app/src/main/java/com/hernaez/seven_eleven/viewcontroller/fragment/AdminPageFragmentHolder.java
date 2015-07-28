@@ -47,7 +47,7 @@ public class AdminPageFragmentHolder extends BaseFragment {
     @Override
     public void onSaveInstanceState2(Bundle outState) {
         currentItem = pager.getCurrentItem();
-        outState.putInt("currentItem", pager.getCurrentItem());
+        outState.putInt("currentItem", currentItem);
     }
 
     public static AdminPageFragmentHolder newInstance() {

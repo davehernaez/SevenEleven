@@ -2,9 +2,6 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,12 +38,6 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.admin_page, container, false);
-    }
-
-
-    @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
 
         btn_all_products.setOnClickListener(this);
@@ -54,18 +45,9 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    int currentItem = 0;
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
-    }
-
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        currentItem = savedInstanceState.getInt("currentItem");
     }
 
     @Override
@@ -73,16 +55,16 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
     }
 
     public static AdminPageFragment newInstance() {
-        //return new AdminPageFragment();
-        return newInstance(R.layout.admin_page);
+        return new AdminPageFragment();
+        //return newInstance(R.layout.admin_page);
     }
 
-    public static AdminPageFragment newInstance(int layoutId) {
+    /*public static AdminPageFragment newInstance(int layoutId) {
         AdminPageFragment adminPageFragment = new AdminPageFragment();
         adminPageFragment.currentItem = layoutId;
         adminPageFragment.setRetainInstance(true);
         return adminPageFragment;
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -90,7 +72,6 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
             case R.id.button_productList:
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_all_products);
                 androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, ProductListFragment.newInstance());
-
                 break;
 
             case R.id.button_for_reorder:

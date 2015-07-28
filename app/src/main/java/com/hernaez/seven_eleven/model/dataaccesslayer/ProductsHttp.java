@@ -86,22 +86,16 @@ public class ProductsHttp {
         return product;
     }
 
-    List<Product> products = new ArrayList<Product>();
+
 
     public List<Product> getReOrderProducts() throws Exception {
-
+        List<Product> products = new ArrayList<Product>();
         String jsonString = httpAdapter.post(HttpConstant.HTTP_GET_ALL_PRODUCTS).replaceAll("\\s+", " ");
 
         JSONArray jasonArray = new JSONArray(jsonString);
 
         for (int i = 0, count = jasonArray.length(); i < count; i++) {
             JSONObject jsonObject = jasonArray.getJSONObject(i);
-
-            /*Product product = new Product(jsonObject.getString("product_name"),
-                    jsonObject.getString("product_price"),
-                    jsonObject.getString("product_qty"),
-                    jsonObject.getString("image_path"));*/
-
             Product product = new Product();
             product.product_name = jsonObject.getString("product_name");
             product.product_price = 0.0;
