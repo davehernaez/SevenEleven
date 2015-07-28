@@ -8,6 +8,7 @@ import android.util.Log;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragmentHolder;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
 
 import javax.inject.Inject;
@@ -32,7 +33,12 @@ public class MainActivity extends BaseActivity {
             userid = extras.getInt(EXTRA_USERID);
             Log.e("userid", userid + "");
         }
-        androidUtils.loadFragment(this, R.id.container, CarouselFragment.newInstance());
+        if (userid == 2) {
+            androidUtils.loadFragment(this, R.id.container, CarouselFragment.newInstance());
+        } else if (userid == 1) {
+            androidUtils.loadFragment(this, R.id.container, AdminPageFragmentHolder.newInstance());
+
+        }
     }
 
     public static void start(Activity me, User user) {

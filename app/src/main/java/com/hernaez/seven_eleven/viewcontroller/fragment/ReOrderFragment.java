@@ -1,12 +1,10 @@
-package com.hernaez.seven_eleven.viewcontroller.activity;
+package com.hernaez.seven_eleven.viewcontroller.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +22,9 @@ import javax.inject.Inject;
 import butterknife.InjectView;
 
 /**
- * Created by TAS on 7/7/2015.
+ * Created by TAS on 7/28/2015.
  */
-public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-
+public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     EditText dialog_qty;
     TextView tv_prodname;
 
@@ -43,72 +40,59 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
     @InjectView(R.id.listView_reorder)
     ListView lv;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.reorder);
+    public void onActivityCreated2(Bundle savedInstanceState) {
 
-        Bundle extras = getIntent().getExtras();
-
-        userid = extras.getInt("user_id");
-        Log.e("ReOrderActivity", userid + "");
-
-        lv = (ListView) findViewById(R.id.listView_reorder);
-        thread = new Thread() {
-            public void run() {
-                populate();
-            }
-        };
-        thread.start();
-
+        populate();
 
         lv.setOnItemClickListener(this);
+    }
+
+    @Override
+    public View onCreateView2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.reorder, container, false);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
 
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int id,
-                            long position) {
-        // TODO Auto-generated method stub
+    public void onSaveInstanceState2(Bundle outState) {
 
+    }
+
+    public static ReOrderFragment newInstance() {
+        return new ReOrderFragment();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         tv_prodname = (TextView) view.findViewById(R.id.textViewProduct_name);
 
         dialog();
-
     }
 
     public void populate() {
+
+
+        CustomViewAdapter myadapter = null;
         try {
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    CustomViewAdapter myadapter = null;
-                    try {
-                        myadapter = new CustomViewAdapter(getApplicationContext(),
-                                R.layout.list_item, productManager.getReorderProducts());
-                        lv.setAdapter(myadapter);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            });
-
+            myadapter = new CustomViewAdapter(getActivity(),
+                    R.layout.list_item, productManager.getReorderProducts());
+            lv.setAdapter(myadapter);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
     }
 
     public void dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialog = inflater.inflate(R.layout.dialog_reorder, null);
         builder.setView(dialog);
 
@@ -168,7 +152,7 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
                 reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
                 populate();
                 ad.dismiss();
-                Toast.makeText(getApplicationContext(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Order completed. Your product's quantity has been updated.", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -193,14 +177,4 @@ public class ReOrderActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    public static void start(Activity activity, Integer userid) {
-        Intent i = new Intent(activity, ReOrderActivity.class);
-        i.putExtra("user_id", userid);
-        activity.startActivity(i);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 }

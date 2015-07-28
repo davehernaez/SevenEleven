@@ -103,7 +103,7 @@ public class ProductsHttp {
 
             Product product = new Product();
             product.product_name = jsonObject.getString("product_name");
-            product.product_price = null;
+            product.product_price = 0.0;
             product.product_qty = jsonObject.getInt("product_qty");
             product.product_imgpath = jsonObject.getString("image_path");
 

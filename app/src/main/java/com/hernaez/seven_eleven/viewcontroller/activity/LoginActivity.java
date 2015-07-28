@@ -120,8 +120,8 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                     @Override
                     public void run() {
                         androidUtils.alert("Logging in as admin...");
-                        //MainActivity.start(LoginActivity.this, user);
-                        AdminPageActivity.start(LoginActivity.this, user);
+                        MainActivity.start(LoginActivity.this, user);
+                        //AdminPageActivity.start(LoginActivity.this, user);
                     }
                 });
             } else if (user.userType.equals(User.USERTYPE_USER)) {

@@ -22,14 +22,15 @@ import com.hernaez.seven_eleven.other.MainApplication;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.other.retrofit.RestAdapterRequestInterceptor;
 import com.hernaez.seven_eleven.other.retrofit.RestErrorHandler;
-import com.hernaez.seven_eleven.viewcontroller.activity.AdminPageActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
-import com.hernaez.seven_eleven.viewcontroller.activity.ProductListActivity;
-import com.hernaez.seven_eleven.viewcontroller.activity.ReOrderActivity;
+import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragmentHolder;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.ProductListFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.ReOrderFragment;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
@@ -52,19 +53,21 @@ import retrofit.converter.GsonConverter;
 
                 MainApplication.class,
                 LoginActivity.class,
-                AdminPageActivity.class,
-                ProductListActivity.class,
-                ReOrderActivity.class,
-
 
                 MainActivity.class,
                 CarouselFragment.class,
                 CustomerOrderFragment.class,
-                OrderSummaryFragment.class
+                OrderSummaryFragment.class,
+                AdminPageFragmentHolder.class,
+                AdminPageFragment.class,
+                ReOrderFragment.class,
+                ProductListFragment.class
+
 
         }
 )
 public class MainModule {
+
     @Provides
     @Singleton
     AndroidUtils provideAndroidUtils(Context context) {

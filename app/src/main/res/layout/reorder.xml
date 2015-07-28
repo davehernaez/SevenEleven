@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Products for Re-ordering"
-        android:textAppearance="?android:attr/textAppearanceLarge" 
-        android:layout_gravity="center"/>
-
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3" >
+        android:weightSum="3">
 
         <TextView
             android:id="@+id/textView2"
@@ -33,15 +32,21 @@
             android:gravity="center"
             android:text="Quantity" />
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/reorder_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listView_reorder"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:backgroundTint="#D3D3D3"
-        android:backgroundTintMode="add" >
-    </ListView>
 
+
+
+        <ListView
+            android:id="@+id/listView_reorder"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#D3D3D3"
+            android:backgroundTintMode="add"></ListView>
+    </FrameLayout>
 </LinearLayout>
