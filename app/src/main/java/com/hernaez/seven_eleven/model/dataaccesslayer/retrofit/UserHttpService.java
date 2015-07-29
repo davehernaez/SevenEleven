@@ -21,5 +21,5 @@ public interface UserHttpService {
     @POST(HTTP_LOGIN)
     User searchUser(
             @Query(PARAM_LOGINUSERS_USERNAME) String username, @Query(PARAM_LOGINUSERS_PASSWORD) String password);
-
+           //@Field(PARAM_LOGINUSERS_USERNAME) String username, @Field(PARAM_LOGINUSERS_PASSWORD) String password);
 }
