@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         Log.e("Login", "Logging in...");
         try {
             final User user = login.userLogin(username, password);
+
             if (user.userType.equals(User.USERTYPE_ADMIN)) {
 
                 runOnUiThread(new Runnable() {

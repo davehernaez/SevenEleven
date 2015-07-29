@@ -20,7 +20,7 @@ public class RestAdapterRequestInterceptor implements RequestInterceptor {
      */
     boolean useCacheForNow=false;
     long useCacheStart=0;
-    long useCacheElapsedBeforeExpire=1000*60*3;//retry fetching data after 3 minutes
+    long useCacheElapsedBeforeExpire=1000*20*3;//retry fetching data after 3 minutes
     public void useCacheForNow(){
         useCacheForNow=true;
         useCacheStart= System.currentTimeMillis();
@@ -37,7 +37,7 @@ public class RestAdapterRequestInterceptor implements RequestInterceptor {
 
         request.addHeader("Accept", "application/json;versions=1");
         if (useCacheForNow==false && androidUtils.isNetworkAvailable()) {
-            int maxAge = 60; // read from cache for 1 minute
+            int maxAge = 90; // read from cache for 1 minute
             request.addHeader("Cache-Control", "public, max-age=" + maxAge);
         } else {
             if(useCacheForNow) {

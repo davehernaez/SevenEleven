@@ -3,6 +3,8 @@ package com.hernaez.seven_eleven.other.dagger;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
@@ -20,8 +22,10 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.UserHttpService;
 import com.hernaez.seven_eleven.other.MainApplication;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.other.helper.PostFromAnyThreadBus;
 import com.hernaez.seven_eleven.other.retrofit.RestAdapterRequestInterceptor;
 import com.hernaez.seven_eleven.other.retrofit.RestErrorHandler;
+import com.hernaez.seven_eleven.other.retrofit.UserAgentProvider;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragment;
@@ -31,7 +35,12 @@ import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ProductListFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ReOrderFragment;
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.otto.Bus;
+
+import java.io.File;
+import java.io.IOException;
 
 import javax.inject.Singleton;
 
@@ -40,6 +49,7 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
+import retrofit.http.Query;
 
 
 /**
@@ -66,6 +76,12 @@ import retrofit.converter.GsonConverter;
 )
 public class MainModule {
 
+    @Singleton
+    @Provides
+    Bus provideOttoBus() {
+        return new PostFromAnyThreadBus();
+    }
+
     @Provides
     @Singleton
     AndroidUtils provideAndroidUtils(Context context) {
@@ -86,8 +102,8 @@ public class MainModule {
 
     @Singleton
     @Provides
-    Login provideLogin(LoginHttpAdapter loginHttpAdapter) {
-        return new Login(loginHttpAdapter);
+    Login provideLogin(/*LoginHttpAdapter loginHttpAdapter*/ UserHttpService userHttpService, AndroidUtils androidUtils) {
+        return new Login(/*loginHttpAdapter*/ userHttpService, androidUtils);
     }
 
     @Singleton
@@ -107,7 +123,42 @@ public class MainModule {
     NewOrderHttp provideNewOrderHttp(HttpAdapter httpAdapter) {
         return new NewOrderHttp(httpAdapter);
     }
+    @Provides
+    Gson provideGson() {
+        /**
+         * GSON instance to use for all request  with date format set up for proper parsing.
+         * <p/>
+         * You can also configure GSON with different naming policies for your API.
+         * Maybe your API is Rails API and all json values are lower case with an underscore,
+         * like this "first_name" instead of "firstName".
+         * You can configure GSON as such below.
+         * <p/>
+         *
+         * public static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd")
+         *         .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+         */
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+    }
 
+
+    @Provides
+    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider,AndroidUtils androidUtils) {
+        return new RestAdapterRequestInterceptor(userAgentProvider,androidUtils);
+    }
+    @Provides
+    RestErrorHandler provideRestErrorHandler(Bus bus,RestAdapterRequestInterceptor restAdapterRequestInterceptor) {
+        return new RestErrorHandler(bus,restAdapterRequestInterceptor);
+    }
+
+    @Provides
+    OkHttpClient provideRestAdapterRequestInterceptor(Context context) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        int cacheSize = 50 * 1024 * 1024; // 10 MiB
+        File cacheDirectory = new File(context.getCacheDir().getAbsolutePath(), "HttpCache");
+        Cache cache = new Cache(cacheDirectory, cacheSize);
+        okHttpClient.setCache(cache);
+        return okHttpClient;
+    }
     @Singleton
     @Provides
     NewOrder provideNewOrder(NewOrderHttp newOrderHttp) {
@@ -154,7 +205,7 @@ public class MainModule {
 
     @Singleton
     @Provides
-    UserHttpService provideProductHttpService(RestAdapter restAdapter) {
+    UserHttpService provideUsertHttpService(RestAdapter restAdapter) {
         return restAdapter.create(UserHttpService.class);
     }
 

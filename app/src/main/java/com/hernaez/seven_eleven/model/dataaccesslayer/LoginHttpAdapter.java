@@ -35,8 +35,8 @@ public class LoginHttpAdapter{
         Log.e("jsonString",jsonString);
 
         jsonString = jsonString.replaceAll("\\s+", " ");
-        JSONArray jasonArray = new JSONArray(jsonString);
-        JSONObject jsonObject = jasonArray.getJSONObject(0);
+
+        JSONObject jsonObject = new JSONObject(jsonString);
 
         user.userType=jsonObject.getString("userType");
         user.userName=userName;

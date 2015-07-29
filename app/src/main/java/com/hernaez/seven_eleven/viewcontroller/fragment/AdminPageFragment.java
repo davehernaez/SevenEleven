@@ -78,7 +78,6 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_for_reordering);
                 androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, ReOrderFragment.newInstance());
                 break;
-
         }
     }
 }
