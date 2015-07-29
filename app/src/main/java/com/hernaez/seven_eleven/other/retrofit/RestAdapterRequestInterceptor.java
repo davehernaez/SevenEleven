@@ -30,12 +30,12 @@ public class RestAdapterRequestInterceptor implements RequestInterceptor {
     public void intercept(RequestFacade request) {
 
         // Add header to set content type of JSON
-        request.addHeader("Content-Type", "application/json");
+//        request.addHeader("Content-Type", "application/json");
 
         // Add the user agent to the request.
         request.addHeader("User-Agent", userAgentProvider.get());
 
-        request.addHeader("Accept", "application/json;versions=1");
+//        request.addHeader("Accept", "application/json;versions=1");
         if (useCacheForNow==false && androidUtils.isNetworkAvailable()) {
             int maxAge = 90; // read from cache for 1 minute
             request.addHeader("Cache-Control", "public, max-age=" + maxAge);

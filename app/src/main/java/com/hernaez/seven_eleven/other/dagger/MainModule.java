@@ -198,7 +198,7 @@ public class MainModule {
                 .setClient(new OkClient(okHttpClient))
                 .setEndpoint(HttpConstant.HTTP_DOMAIN)
                 .setErrorHandler(restErrorHandler)
-//                .setRequestInterceptor(restRequestInterceptor)
+                .setRequestInterceptor(restRequestInterceptor)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(gson))
                 .build();
