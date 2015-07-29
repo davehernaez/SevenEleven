@@ -20,6 +20,7 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ProductsHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.UserHttpService;
+import com.hernaez.seven_eleven.other.HttpConstant;
 import com.hernaez.seven_eleven.other.MainApplication;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.other.helper.PostFromAnyThreadBus;
@@ -195,9 +196,9 @@ public class MainModule {
     RestAdapter provideRestAdapter(Context context, RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson, OkHttpClient okHttpClient) {
         return new RestAdapter.Builder()
                 .setClient(new OkClient(okHttpClient))
-                .setEndpoint(UserHttpService.HTTP_DOMAIN)
+                .setEndpoint(HttpConstant.HTTP_DOMAIN)
                 .setErrorHandler(restErrorHandler)
-                .setRequestInterceptor(restRequestInterceptor)
+//                .setRequestInterceptor(restRequestInterceptor)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(gson))
                 .build();
