@@ -1,8 +1,10 @@
 package com.hernaez.seven_eleven.model.businesslayer;
 
+import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.HttpService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
 public class ProductsRetrotfitManager {
     HttpService httpService;
 
-    public ProductsRetrotfitManager(HttpService httpService){
+    public ProductsRetrotfitManager(HttpService httpService) {
         this.httpService = httpService;
     }
 
@@ -27,5 +29,29 @@ public class ProductsRetrotfitManager {
         List<Product> products = httpService.getAllReorders();
 
         return products;
+    }
+
+    public List<String> getAllNames() throws Exception {
+        List<Product> products = httpService.getAllProducts();
+
+        Integer count = products.toArray().length;
+        Product product = new Product();
+        List<String> productNames = new ArrayList<String>();
+        for (int i = 0; i < count; i++) {
+            products.get(i);
+            product.productName = products.get(i).productName;
+            productNames.add(product.productName);
+        }
+        return productNames;
+    }
+
+    public Product getSpecificProduct(String name) throws  Exception{
+        Product specificProduct = httpService.getSpecificProduct(name);
+        return  specificProduct;
+    }
+
+    public Order newOrder(Integer userid) throws Exception {
+        Order order = httpService.newOrder(userid);
+        return order;
     }
 }

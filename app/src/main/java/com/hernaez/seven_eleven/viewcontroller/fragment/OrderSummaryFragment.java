@@ -3,6 +3,7 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
+import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryAdapter;
 
 import java.util.List;
@@ -45,6 +47,8 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     NewOrder newOrder;
     @Inject
     PlaceOrder placeOrder;
+    @Inject
+    ProductsRetrotfitManager productsRetrotfitManager;
 
     @InjectView(R.id.button_clear_summary)
     Button btn_confirm;
@@ -63,6 +67,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
+        userid= 2;
 
         populate();
 
@@ -220,8 +225,9 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @SuppressWarnings("deprecation")
     public void newOrder(Integer userid) throws Exception {
-        Order order = newOrder.newOrder(userid);
+        Order order = productsRetrotfitManager.newOrder(userid);
         orderId = order.id;
+        Log.e("orderId",orderId+"");
     }
 
     @SuppressWarnings("deprecation")

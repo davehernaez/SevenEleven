@@ -29,6 +29,7 @@ import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
+import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
@@ -48,8 +49,12 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     ArrayAdapter<String> adapter;
 
-    @Inject
-    ProductManager productManager;
+
+
+@Inject
+    ProductsRetrotfitManager productsRetrotfitManager;
+    //@Inject
+    //ProductManager productManager;
     @Inject
     OrderManager orderManager;
     @Inject
@@ -115,7 +120,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         try {
             adapter = new ArrayAdapter<String>(
                     getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, productManager.getAllProductsName());
+                    android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -263,7 +268,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         qty.setText("1");
         Product product = null;
         try {
-            product = productManager.getSpecificProduct(sp_prodname.getSelectedItem().toString());
+            product = productsRetrotfitManager.getSpecificProduct(sp_prodname.getSelectedItem().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
