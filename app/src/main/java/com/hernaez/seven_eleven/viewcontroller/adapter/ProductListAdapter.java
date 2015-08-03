@@ -56,20 +56,15 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         holder.prodname.setText(product.productName);
         holder.prodname.setTextColor(Color.parseColor("#121212"));
         holder.prodqty.setText(product.productQty.toString());
-        Log.e("class name",context.getClass().getName());
-        /*if (Integer.parseInt(holder.prodqty.getText().toString()) < 10) {
-            holder.prodprice.setText("");
-        } else {
-            holder.prodprice.setText(product.productPrice.toString());
-        }*/
+        Log.e("class name", context.getClass().getName());
 
-            holder.prodprice.setText(product.productPrice.toString());
+        holder.prodprice.setText(product.productPrice.toString());
 
         holder.prodprice.setTextColor(Color.parseColor("#121212"));
 
         String url;
         url = new String(product.productImgpath);
-        Picasso.with(context.getApplicationContext()).load(url).resize(150, 150).into(holder.imageView);
+        Picasso.with(context).load(url).resize(200, 200).into(holder.imageView);
 
         return convertView;
     }

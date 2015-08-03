@@ -64,7 +64,7 @@ public class ReOrderAdapter extends ArrayAdapter<Product> {
 
         String url;
         url = new String(product.productImgpath);
-        Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);
+        Picasso.with(context).load(url).resize(155  , 155).into(holder.imageView);
 
         return convertView;
     }
