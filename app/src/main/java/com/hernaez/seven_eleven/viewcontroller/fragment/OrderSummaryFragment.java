@@ -3,7 +3,6 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
-import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter2;
+import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryAdapter;
 
 import java.util.List;
 
@@ -194,7 +193,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     public void populate() {
         final List<Product> products = orderManager.getAllOrders();
 
-        CustomViewAdapter2 myadapter = new CustomViewAdapter2(getActivity(), R.layout.order_summary_holder, products);
+        OrderSummaryAdapter myadapter = new OrderSummaryAdapter(getActivity(), R.layout.order_summary_holder, products);
         lv.setAdapter(myadapter);
         Integer count = products.toArray().length;
         Double grandTotal = 0.00;
@@ -202,10 +201,10 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
         for (int i = 0; i < count; i++) {
             products.get(i);
 
-            product.id = products.get(i).id;
+            product.productId = products.get(i).productId;
             grandTotal += products.get(i).subtotal;
 
-            product.product_qty = products.get(i).product_qty;
+            product.productQty = products.get(i).productQty;
 
         }
         tv_grantotal.setText(grandTotal.toString());
@@ -246,8 +245,8 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
             products.get(i);
             Product product = new Product();
-            product.id = products.get(i).id;
-            product.product_qty = products.get(i).product_qty;
+            product.productId = products.get(i).productId;
+            product.productQty = products.get(i).productQty;
 
             placeOrder(orderId, product);
 

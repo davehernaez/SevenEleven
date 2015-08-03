@@ -235,12 +235,12 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     public void checkOrder() {
         Product product = new Product();
-        product.id = prodid;
-        product.product_name = sp_prodname.getSelectedItem().toString();
-        product.product_qty = Integer.parseInt(qty.getText().toString());
-        product.product_price = Double.parseDouble(tv_price.getText().toString());
+        product.productId = prodid;
+        product.productName = sp_prodname.getSelectedItem().toString();
+        product.productQty = Integer.parseInt(qty.getText().toString());
+        product.productPrice = Double.parseDouble(tv_price.getText().toString());
         product.subtotal = Double.parseDouble(tv_subTotal.getText().toString());
-        product.product_imgpath = prodimg;
+        product.productImgpath = prodimg;
 
         Order order = new Order();
         order.product = product;
@@ -249,7 +249,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 orderManager.checkOrders(order) == true) {
             toastMessage("New orders placed. Thank you!");
         } else if (orderManager.checkOrders(order) == false) {
-            toastMessage("Added " + product.product_qty + " piece(s) to previously ordered " + product.product_name + "(s)");
+            toastMessage("Added " + product.productQty + " piece(s) to previously ordered " + product.productName + "(s)");
         }
 
     }
@@ -267,13 +267,13 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         } catch (Exception e) {
             e.printStackTrace();
         }
-        tv_price.setText(product.product_price.toString());
-        prodimg = product.product_imgpath;
-        prodid = product.id;
-        available_qty = product.product_qty;
+        tv_price.setText(product.productPrice.toString());
+        prodimg = product.productImgpath;
+        prodid = product.productId;
+        available_qty = product.productQty;
         getSubTotal();
 
-        Picasso.with(getActivity()).load(product.product_imgpath).resize(150, 120).into(img);
+        Picasso.with(getActivity()).load(product.productImgpath).resize(150, 120).into(img);
     }
 
     @Override

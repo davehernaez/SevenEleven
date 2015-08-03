@@ -37,12 +37,12 @@ public class ProductsHttp {
 
             Product product = new Product();
 
-            product.id = jsonObject.getInt("product_id");
-            product.product_name = jsonObject.getString("product_name");
-            product.product_price = jsonObject.getDouble("product_price");
-            product.product_qty = jsonObject.getInt("product_qty");
+            product.productId = jsonObject.getInt("product_id");
+            product.productName = jsonObject.getString("product_name");
+            product.productPrice = jsonObject.getDouble("product_price");
+            product.productQty = jsonObject.getInt("product_qty");
             Log.e("quantity",jsonObject.getString("product_name")+" "+jsonObject.getInt("product_qty")+"");
-            product.product_imgpath = jsonObject.getString("image_path");
+            product.productImgpath = jsonObject.getString("image_path");
             products.add(product);
         }
         return products;
@@ -77,11 +77,11 @@ public class ProductsHttp {
 
         Product product = new Product();
 
-        product.id = jsonObject.getInt("product_id");
-        product.product_name = null;
-        product.product_price = jsonObject.getDouble("product_price");
-        product.product_qty = jsonObject.getInt("product_qty");
-        product.product_imgpath = jsonObject.getString("image_path");
+        product.productId = jsonObject.getInt("product_id");
+        product.productName = null;
+        product.productPrice = jsonObject.getDouble("product_price");
+        product.productQty = jsonObject.getInt("product_qty");
+        product.productImgpath = jsonObject.getString("image_path");
 
         return product;
     }
@@ -97,12 +97,12 @@ public class ProductsHttp {
         for (int i = 0, count = jasonArray.length(); i < count; i++) {
             JSONObject jsonObject = jasonArray.getJSONObject(i);
             Product product = new Product();
-            product.product_name = jsonObject.getString("product_name");
-            product.product_price = 0.0;
-            product.product_qty = jsonObject.getInt("product_qty");
-            product.product_imgpath = jsonObject.getString("image_path");
+            product.productName = jsonObject.getString("product_name");
+            product.productPrice = 0.0;
+            product.productQty = jsonObject.getInt("product_qty");
+            product.productImgpath = jsonObject.getString("image_path");
 
-            if (product.product_qty < 10) {
+            if (product.productQty < 10) {
                 products.add(product);
             }
 

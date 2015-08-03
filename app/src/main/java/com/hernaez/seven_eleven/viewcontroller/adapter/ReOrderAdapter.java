@@ -3,6 +3,7 @@ package com.hernaez.seven_eleven.viewcontroller.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CustomViewAdapter extends ArrayAdapter<Product> {
+public class ReOrderAdapter extends ArrayAdapter<Product> {
 
-    Context context;
+    private Context context;
 
-    public CustomViewAdapter(Context context, int resourceId,
-                             List<Product> items) {
-        super(context, resourceId, items);
+    public ReOrderAdapter(Context context, int resourceId,
+                          List<Product> items) {
+        super(context, R.layout.list_item, items);
         this.context = context;
     }
 
@@ -52,18 +53,17 @@ public class CustomViewAdapter extends ArrayAdapter<Product> {
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-        holder.prodname.setText(product.product_name);
-        holder.prodqty.setText(product.product_qty.toString());
-        if (product.product_price != 0.0) {
-            holder.prodprice.setText(product.product_price.toString());
-        } else {
-            holder.prodprice.setText("");
-        }
+        holder.prodname.setText(product.productName);
+        holder.prodname.setTextColor(Color.parseColor("#121212"));
+        holder.prodqty.setText(product.productQty.toString());
+        Log.e("class name", context.getClass().getName());
+
+        holder.prodprice.setText("");
 
         holder.prodprice.setTextColor(Color.parseColor("#121212"));
 
         String url;
-        url = new String(product.product_imgpath);
+        url = new String(product.productImgpath);
         Picasso.with(context).load(url).resize(150, 150).into(holder.imageView);
 
         return convertView;

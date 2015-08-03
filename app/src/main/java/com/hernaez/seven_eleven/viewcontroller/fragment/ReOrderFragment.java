@@ -1,6 +1,7 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -13,10 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
+import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
+import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
+import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
 
 import javax.inject.Inject;
 
@@ -37,7 +39,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     @Inject
     ReOrder reOrder;
     @Inject
-    ProductManager productManager;
+    ProductsRetrotfitManager productsRetrotfitManager;
 
     @InjectView(R.id.listView_reorder)
     protected ListView lv;
@@ -78,10 +80,10 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     public void populate() {
 
-        CustomViewAdapter myadapter = null;
+        ReOrderAdapter myadapter = null;
         try {
-            myadapter = new CustomViewAdapter(getActivity(),
-                    R.layout.list_item, productManager.getReorderProducts());
+            myadapter = new ReOrderAdapter(getActivity(),
+                    R.layout.list_item, productsRetrotfitManager.getAllReorders());
             lv.setAdapter(myadapter);
 
         } catch (Exception e) {

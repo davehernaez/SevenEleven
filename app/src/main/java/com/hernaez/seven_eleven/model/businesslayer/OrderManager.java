@@ -43,7 +43,7 @@ public class OrderManager {
         Product newProduct = newOrder.orderedProduct;
         if (newProduct != null) {
             //correct new values for updating product in database
-            Integer newQty = product.product_qty + newProduct.product_qty;
+            Integer newQty = product.productQty + newProduct.productQty;
             Double newTotal = product.subtotal + newProduct.subtotal;
             contentValues.put(DBHelper.PRODUCT_QTY, newQty);
             contentValues.put(DBHelper.PRODUCT_SUBTOTAL, newTotal);

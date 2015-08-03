@@ -17,12 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomViewAdapter2 extends ArrayAdapter<Product> {
+public class OrderSummaryAdapter extends ArrayAdapter<Product> {
 
 	Context context;
 
-	public CustomViewAdapter2(Context context, int resourceId,
-			List<Product> items) {
+	public OrderSummaryAdapter(Context context, int resourceId,
+							   List<Product> items) {
 		super(context, resourceId, items);
 		this.context = context;
 	}
@@ -61,17 +61,17 @@ public class CustomViewAdapter2 extends ArrayAdapter<Product> {
 		} else
 			holder = (ViewHolder) convertView.getTag();
 
-		holder.prodname.setText(rowItem.product_name);
+		holder.prodname.setText(rowItem.productName);
 		holder.prodname.setTextColor(Color.parseColor("#AAAAAA"));
-		holder.prodqty.setText(rowItem.product_qty.toString());
+		holder.prodqty.setText(rowItem.productQty.toString());
 		holder.prodqty.setTextColor(Color.parseColor("#AAAAAA"));
-		holder.prodprice.setText(rowItem.product_price.toString());
+		holder.prodprice.setText(rowItem.productPrice.toString());
 		holder.prodprice.setTextColor(Color.parseColor("#AAAAAA"));
 		holder.prodsubtotal.setText(rowItem.subtotal.toString());
 		holder.prodsubtotal.setTextColor(Color.parseColor("#FF0000"));
 
 		String url;
-		url = new String(rowItem.product_imgpath);
+		url = new String(rowItem.productImgpath);
 		Picasso.with(context).load(url).resize(150, 150).centerCrop()
 				.into(holder.imageView);
 

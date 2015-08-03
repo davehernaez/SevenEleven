@@ -26,7 +26,7 @@ public class OrderDao {
         Product product = order.product;
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         String where = DBHelper.PRODUCT_NAME + "='"
-                + product.product_name + "'";
+                + product.productName + "'";
         Cursor c = db.query(true, OrderDao.TABLE_ORDERS, DBHelper.ALL_FIELDS,
                 where, null, null, null, null, null, null);
         if (c != null) {
@@ -38,9 +38,9 @@ public class OrderDao {
 
                 Product newProdct = new Product();
                 order.orderedProduct = newProdct;
-                newProdct.product_name = productName;
-                newProdct.product_price = productPrice;
-                newProdct.product_qty = productQty;
+                newProdct.productName = productName;
+                newProdct.productPrice = productPrice;
+                newProdct.productQty = productQty;
                 newProdct.subtotal = productSubtotal;
 
                 c.close();
@@ -63,7 +63,7 @@ public class OrderDao {
         Product product = order.product;
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         db.update(OrderDao.TABLE_ORDERS, cv, DBHelper.PRODUCT_NAME + "='"
-                + product.product_name + "'", null);
+                + product.productName + "'", null);
         db.close();
 
     }
@@ -72,12 +72,12 @@ public class OrderDao {
         Product product = order.product;
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBHelper.PRODUCT_ID, product.id);
-        values.put(DBHelper.PRODUCT_NAME, product.product_name);
-        values.put(DBHelper.PRODUCT_PRICE, product.product_price);
-        values.put(DBHelper.PRODUCT_QTY, product.product_qty);
+        values.put(DBHelper.PRODUCT_ID, product.productId);
+        values.put(DBHelper.PRODUCT_NAME, product.productName);
+        values.put(DBHelper.PRODUCT_PRICE, product.productPrice);
+        values.put(DBHelper.PRODUCT_QTY, product.productQty);
         values.put(DBHelper.PRODUCT_SUBTOTAL, order.total);
-        values.put(DBHelper.PRODUCT_IMGPATH, product.product_imgpath);
+        values.put(DBHelper.PRODUCT_IMGPATH, product.productImgpath);
         Log.e("inserting:", values + "");
         db.insert(TABLE_ORDERS, null, values);
         db.close();
@@ -97,15 +97,15 @@ public class OrderDao {
             for (int i = 0, count = c.getCount(); i < count; i++) {
                 c.moveToNext();
                 Product product = new Product();
-                product.id = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_ID));
-                product.product_name = c.getString(c.getColumnIndex(DBHelper.PRODUCT_NAME));
-                product.product_price = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
-                product.product_qty = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_QTY));
-                product.product_imgpath = c.getString(c.getColumnIndex(DBHelper.PRODUCT_IMGPATH));
+                product.productId = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_ID));
+                product.productName = c.getString(c.getColumnIndex(DBHelper.PRODUCT_NAME));
+                product.productPrice = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_PRICE));
+                product.productQty = c.getInt(c.getColumnIndex(DBHelper.PRODUCT_QTY));
+                product.productImgpath = c.getString(c.getColumnIndex(DBHelper.PRODUCT_IMGPATH));
                 product.subtotal = c.getDouble(c.getColumnIndex(DBHelper.PRODUCT_SUBTOTAL));
                 products.add(product);
 
-                Log.e("Orders:", product.product_name);
+                Log.e("Orders:", product.productName);
 
             }
 

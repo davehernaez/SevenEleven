@@ -5,11 +5,13 @@ package com.hernaez.seven_eleven.other;
  */
 public class HttpConstant {
     //public static final String HTTP_DOMAIN = "http://seveneleven.net46.net";
-    public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
+    //public static final String HTTP_DOMAIN = "http://seveneleven.esy.es";
 //    public static final String HTTP_DOMAIN = "http://192.168.0.10/seveneleven";
+    public static final String HTTP_DOMAIN = "http://seventen.tastradesoft.com";
 
 
     public static final String HTTP_GET_ALL_PRODUCTS = "/android_connect/get_all_products.php";
+    public static final String HTTP_GET_ALL_REORDER = "/android_connect/get_all_reorder.php";
     public static final String HTTP_GET_SPECIFIC_PRODUCT = "/android_connect/get_price.php";
     public static final String HTTP_LOGIN = "/android_connect/login.php";
     public static final String HTTP_REORDER = "/android_connect/reorder.php";

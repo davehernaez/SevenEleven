@@ -23,8 +23,8 @@ public class PlaceOrderHttp {
     public void placeOrder(Integer orderId, Product product) throws  Exception{
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("order_id", orderId.toString()));
-        nameValuePairs.add(new BasicNameValuePair("product_id", product.id.toString()));
-        nameValuePairs.add(new BasicNameValuePair("order_qty", product.product_qty.toString()));
+        nameValuePairs.add(new BasicNameValuePair("product_id", product.productId.toString()));
+        nameValuePairs.add(new BasicNameValuePair("order_qty", product.productQty.toString()));
 
         httpAdapter.post(HttpConstant.HTTP_PLACE_ORDER, nameValuePairs);
 

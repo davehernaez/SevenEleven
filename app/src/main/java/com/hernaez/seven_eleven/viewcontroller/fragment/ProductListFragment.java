@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
-import com.hernaez.seven_eleven.viewcontroller.adapter.CustomViewAdapter;
+import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
+import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,8 @@ import butterknife.InjectView;
 public class ProductListFragment extends BaseFragment {
     @Inject
     ProductManager productManager;
+    @Inject
+    ProductsRetrotfitManager productsRetrotfitManager;
 
     @InjectView(R.id.listView_productList)
     ListView lv;
@@ -75,10 +78,10 @@ public class ProductListFragment extends BaseFragment {
 
         try {
 
-            CustomViewAdapter myadapter = null;
+            ProductListAdapter myadapter = null;
 
-            myadapter = new CustomViewAdapter(getActivity(),
-                    R.layout.list_item, productManager.getAllProducts());
+            myadapter = new ProductListAdapter(getActivity(),
+                    R.layout.list_item, productsRetrotfitManager.getAllProducts());
             lv.setAdapter(myadapter);
 
         } catch (Exception e) {

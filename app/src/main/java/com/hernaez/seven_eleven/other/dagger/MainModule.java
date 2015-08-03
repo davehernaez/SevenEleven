@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
 import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
+import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.HttpAdapter;
@@ -19,7 +19,7 @@ import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ProductsHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
-import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.UserHttpService;
+import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.HttpService;
 import com.hernaez.seven_eleven.other.HttpConstant;
 import com.hernaez.seven_eleven.other.MainApplication;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
@@ -41,7 +41,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.otto.Bus;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.inject.Singleton;
 
@@ -103,10 +102,15 @@ public class MainModule {
 
     @Singleton
     @Provides
-    Login provideLogin(/*LoginHttpAdapter loginHttpAdapter*/ UserHttpService userHttpService, AndroidUtils androidUtils) {
-        return new Login(/*loginHttpAdapter*/ userHttpService, androidUtils);
+    Login provideLogin(HttpService httpService, AndroidUtils androidUtils) {
+        return new Login(httpService, androidUtils);
     }
 
+    @Singleton
+    @Provides
+    ProductsRetrotfitManager providesProductsRetrofitManager(HttpService httpService){
+        return new ProductsRetrotfitManager(httpService);
+    }
     @Singleton
     @Provides
     ReOrderHttp provideReOrderHttp(HttpAdapter httpAdapter) {
@@ -206,8 +210,8 @@ public class MainModule {
 
     @Singleton
     @Provides
-    UserHttpService provideUsertHttpService(RestAdapter restAdapter) {
-        return restAdapter.create(UserHttpService.class);
+    HttpService provideUsertHttpService(RestAdapter restAdapter) {
+        return restAdapter.create(HttpService.class);
     }
 
     @Singleton
