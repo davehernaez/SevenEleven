@@ -226,13 +226,13 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     @SuppressWarnings("deprecation")
     public void newOrder(Integer userid) throws Exception {
         Order order = productsRetrotfitManager.newOrder(userid);
-        orderId = order.id;
+        orderId = order.orderId;
         Log.e("orderId",orderId+"");
     }
 
     @SuppressWarnings("deprecation")
     public void placeOrder(Integer orderid, Product product) throws Exception {
-        placeOrder.placeOrder(orderid, product);
+        productsRetrotfitManager.placeOrder(orderid, product);
 
     }
 

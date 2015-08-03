@@ -54,4 +54,10 @@ public class ProductsRetrotfitManager {
         Order order = httpService.newOrder(userid);
         return order;
     }
+
+    public void placeOrder(Integer orderId, Product product) throws Exception {
+        httpService.placeOrder(orderId, product.productId, product.productQty);
+
+
+    }
 }

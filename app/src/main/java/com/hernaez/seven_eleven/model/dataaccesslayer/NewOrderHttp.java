@@ -33,7 +33,7 @@ public class NewOrderHttp {
         JSONArray jsonArray = new JSONArray(jsonString);
         JSONObject jsonObject = jsonArray.getJSONObject(0);
         Order order = new Order();
-        order.id = jsonObject.getInt("order_id");
+        order.orderId = jsonObject.getInt("order_id");
         return order;
     }
 }

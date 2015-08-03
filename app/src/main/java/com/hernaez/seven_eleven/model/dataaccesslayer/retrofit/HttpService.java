@@ -12,7 +12,6 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Query;
 
 public interface HttpService {
 
@@ -20,6 +19,10 @@ public interface HttpService {
     public static final String PARAM_LOGINUSERS_PASSWORD = "password";
     public static final String PARAM_PRODUCT_SPECIFIC = "productName";
     public static final String PARAM_USER_ID = "userId";
+    public static final String PARAM_ORDER_ID = "orderId";
+    public static final String PARAM_PRODUCT_ID = "productId";
+    public static final String PARAM_ORDER_QTY = "orderQty";
+
 
     @FormUrlEncoded
     @POST(HttpConstant.HTTP_LOGIN)
@@ -44,5 +47,10 @@ public interface HttpService {
     Order newOrder(
             @Field(PARAM_USER_ID) Integer userId);
 
-
+    @FormUrlEncoded
+    @POST(HttpConstant.HTTP_PLACE_ORDER)
+    Order placeOrder(
+            @Field(PARAM_ORDER_ID) Integer orderId,
+            @Field(PARAM_PRODUCT_ID) Integer productId,
+            @Field(PARAM_ORDER_QTY) Integer orderQty);
 }
