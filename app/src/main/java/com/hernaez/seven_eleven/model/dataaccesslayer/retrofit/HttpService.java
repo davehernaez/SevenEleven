@@ -22,6 +22,8 @@ public interface HttpService {
     public static final String PARAM_ORDER_ID = "orderId";
     public static final String PARAM_PRODUCT_ID = "productId";
     public static final String PARAM_ORDER_QTY = "orderQty";
+    public static final String PARAM_PRODUCT_NAME = "productName";
+    public static final String PARAM_REORDER_QTY = "productQty";
 
 
     @FormUrlEncoded
@@ -53,4 +55,10 @@ public interface HttpService {
             @Field(PARAM_ORDER_ID) Integer orderId,
             @Field(PARAM_PRODUCT_ID) Integer productId,
             @Field(PARAM_ORDER_QTY) Integer orderQty);
+
+    @FormUrlEncoded
+    @POST(HttpConstant.HTTP_REORDER)
+    Order reOrder(
+            @Field(PARAM_PRODUCT_NAME) String productName,
+            @Field(PARAM_REORDER_QTY) Integer productQty);
 }

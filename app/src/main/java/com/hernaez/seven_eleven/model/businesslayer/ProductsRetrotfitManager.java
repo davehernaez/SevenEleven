@@ -60,4 +60,9 @@ public class ProductsRetrotfitManager {
 
 
     }
+
+    public void reOrder(String product_name, Integer product_qty) throws Exception{
+
+        httpService.reOrder(product_name, product_qty);
+    }
 }

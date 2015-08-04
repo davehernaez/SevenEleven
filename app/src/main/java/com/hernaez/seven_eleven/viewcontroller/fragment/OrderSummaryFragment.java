@@ -18,9 +18,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
-import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
-import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryAdapter;
 
@@ -43,10 +41,6 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Inject
     OrderManager orderManager;
-    @Inject
-    NewOrder newOrder;
-    @Inject
-    PlaceOrder placeOrder;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
 

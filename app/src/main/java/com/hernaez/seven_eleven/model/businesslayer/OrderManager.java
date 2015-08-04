@@ -5,9 +5,7 @@ import android.content.ContentValues;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
-import com.hernaez.seven_eleven.model.dataaccesslayer.NewOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
-import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
 
 import java.util.List;
 

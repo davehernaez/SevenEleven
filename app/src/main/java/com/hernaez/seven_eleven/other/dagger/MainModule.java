@@ -5,20 +5,10 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
-import com.hernaez.seven_eleven.model.businesslayer.NewOrder;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
-import com.hernaez.seven_eleven.model.businesslayer.PlaceOrder;
-import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
-import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
-import com.hernaez.seven_eleven.model.dataaccesslayer.HttpAdapter;
-import com.hernaez.seven_eleven.model.dataaccesslayer.LoginHttpAdapter;
-import com.hernaez.seven_eleven.model.dataaccesslayer.NewOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
-import com.hernaez.seven_eleven.model.dataaccesslayer.PlaceOrderHttp;
-import com.hernaez.seven_eleven.model.dataaccesslayer.ProductsHttp;
-import com.hernaez.seven_eleven.model.dataaccesslayer.ReOrderHttp;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.HttpService;
 import com.hernaez.seven_eleven.other.HttpConstant;
 import com.hernaez.seven_eleven.other.MainApplication;
@@ -49,7 +39,6 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
-import retrofit.http.Query;
 
 
 /**
@@ -90,44 +79,16 @@ public class MainModule {
 
     @Singleton
     @Provides
-    HttpAdapter provideLoginHttpAdapter() {
-        return new HttpAdapter();
-    }
-
-    @Singleton
-    @Provides
-    LoginHttpAdapter provideLoginHttpAdapter(HttpAdapter httpAdapter) {
-        return new LoginHttpAdapter(httpAdapter);
-    }
-
-    @Singleton
-    @Provides
     Login provideLogin(HttpService httpService, AndroidUtils androidUtils) {
         return new Login(httpService, androidUtils);
     }
 
     @Singleton
     @Provides
-    ProductsRetrotfitManager providesProductsRetrofitManager(HttpService httpService){
+    ProductsRetrotfitManager providesProductsRetrofitManager(HttpService httpService) {
         return new ProductsRetrotfitManager(httpService);
     }
-    @Singleton
-    @Provides
-    ReOrderHttp provideReOrderHttp(HttpAdapter httpAdapter) {
-        return new ReOrderHttp(httpAdapter);
-    }
 
-    @Singleton
-    @Provides
-    ReOrder provideReOrder(ReOrderHttp reOrderHttp) {
-        return new ReOrder(reOrderHttp);
-    }
-
-    @Singleton
-    @Provides
-    NewOrderHttp provideNewOrderHttp(HttpAdapter httpAdapter) {
-        return new NewOrderHttp(httpAdapter);
-    }
     @Provides
     Gson provideGson() {
         /**
@@ -147,12 +108,13 @@ public class MainModule {
 
 
     @Provides
-    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider,AndroidUtils androidUtils) {
-        return new RestAdapterRequestInterceptor(userAgentProvider,androidUtils);
+    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider, AndroidUtils androidUtils) {
+        return new RestAdapterRequestInterceptor(userAgentProvider, androidUtils);
     }
+
     @Provides
-    RestErrorHandler provideRestErrorHandler(Bus bus,RestAdapterRequestInterceptor restAdapterRequestInterceptor) {
-        return new RestErrorHandler(bus,restAdapterRequestInterceptor);
+    RestErrorHandler provideRestErrorHandler(Bus bus, RestAdapterRequestInterceptor restAdapterRequestInterceptor) {
+        return new RestErrorHandler(bus, restAdapterRequestInterceptor);
     }
 
     @Provides
@@ -164,37 +126,6 @@ public class MainModule {
         okHttpClient.setCache(cache);
         return okHttpClient;
     }
-    @Singleton
-    @Provides
-    NewOrder provideNewOrder(NewOrderHttp newOrderHttp) {
-        return new NewOrder(newOrderHttp);
-    }
-
-    @Singleton
-    @Provides
-    PlaceOrderHttp providePlaceOrderHttp(HttpAdapter httpAdapter) {
-        return new PlaceOrderHttp(httpAdapter);
-    }
-
-    @Singleton
-    @Provides
-    PlaceOrder providePlaceOrder(PlaceOrderHttp placeOrderHttp) {
-        return new PlaceOrder(placeOrderHttp);
-    }
-
-    @Singleton
-    @Provides
-    ProductsHttp providesProductHttp(HttpAdapter httpAdapter) {
-        return new ProductsHttp(httpAdapter);
-    }
-
-    @Singleton
-    @Provides
-    ProductManager providesProductManager(ProductsHttp productsHttp) {
-        return new ProductManager(productsHttp);
-    }
-
-    //
 
     @Provides
     RestAdapter provideRestAdapter(Context context, RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson, OkHttpClient okHttpClient) {

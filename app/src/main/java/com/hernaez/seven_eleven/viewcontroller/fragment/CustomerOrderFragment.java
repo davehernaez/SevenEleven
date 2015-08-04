@@ -1,7 +1,6 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
-import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.squareup.picasso.Picasso;
@@ -206,7 +204,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_finish_ordering:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_finish);
-                //androidUtils.loadFragment(getActivity(), R.id.container, CarouselFragment.newInstance());
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);

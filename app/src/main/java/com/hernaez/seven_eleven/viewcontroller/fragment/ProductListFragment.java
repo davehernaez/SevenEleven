@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.model.businesslayer.ProductManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
 
@@ -22,8 +21,6 @@ import butterknife.InjectView;
  * Created by TAS on 7/28/2015.
  */
 public class ProductListFragment extends BaseFragment {
-    @Inject
-    ProductManager productManager;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
 

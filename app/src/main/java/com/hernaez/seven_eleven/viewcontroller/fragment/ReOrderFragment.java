@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
-import com.hernaez.seven_eleven.model.businesslayer.ReOrder;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
 
@@ -34,8 +33,6 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Inject
     AndroidUtils androidUtils;
-    @Inject
-    ReOrder reOrder;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
 
@@ -175,7 +172,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     public void reorder(String product_name, String product_qty) {
 
         try {
-            reOrder.reOrder(product_name, product_qty);
+            productsRetrotfitManager.reOrder(product_name, Integer.parseInt(product_qty));
         } catch (Exception e) {
             e.printStackTrace();
         }
