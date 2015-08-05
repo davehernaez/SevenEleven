@@ -26,8 +26,10 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
+import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
@@ -48,11 +50,13 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     ArrayAdapter<String> adapter;
 
 
-
-@Inject
+    @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
     //@Inject
     //ProductManager productManager;
+
+    @Inject
+    OrderDaoManager orderDaoManager;
     @Inject
     OrderManager orderManager;
     @Inject
@@ -225,7 +229,9 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        checkOrder();
+
+                                        //checkOrder();
+                                        order();
                                         androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
                                     }
 
@@ -233,6 +239,26 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
                 break;
         }
+    }
+
+    public void order() {
+        OrderTable orderTable = new OrderTable();
+        orderTable.setId(Long.parseLong(prodid.toString()));
+        orderTable.setProductName(sp_prodname.getSelectedItem().toString());
+        orderTable.setProductQty(Integer.parseInt(qty.getText().toString()));
+        orderTable.setProductPrice(Double.parseDouble(tv_price.getText().toString()));
+        orderTable.setProductSubtotal(Double.parseDouble(tv_subTotal.getText().toString()));
+        orderTable.setProductImgPath(prodimg);
+        try {
+            if (orderDaoManager.getOrderProductName(getActivity(), orderTable) == true) {
+                toastMessage("Your orders were updated successfully!");
+            } else {
+                toastMessage("New orders placed. Thank you!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void checkOrder() {

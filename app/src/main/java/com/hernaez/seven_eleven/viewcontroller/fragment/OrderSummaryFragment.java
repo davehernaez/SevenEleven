@@ -1,6 +1,7 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,9 +19,11 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
+import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
-import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryAdapter;
+import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
+import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryDaoAdapter;
 
 import java.util.List;
 
@@ -38,7 +41,10 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     Double total;
     Integer orderId, userid;
 
-
+    @Inject
+    Context context;
+    @Inject
+    OrderDaoManager orderDaoManager;
     @Inject
     OrderManager orderManager;
     @Inject
@@ -61,7 +67,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
-        userid= 2;
+        userid = 2;
 
         populate();
 
@@ -73,6 +79,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
 
         btn_confirm.setOnClickListener(this);
+
     }
 
     @Override
@@ -110,7 +117,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
             case R.id.button_clear_summary:
                 YoYo.with(Techniques.Pulse).duration(500).playOn(btn_confirm);
                 try {
-                    if (orderManager.getAllOrders().toArray().length > 0) {
+                    if (orderDaoManager.getAllOrders(context).toArray().length > 0) {
                         new AlertDialog.Builder(getActivity())
                                 // Alert dialog for confirmation
                                 .setIcon(android.R.drawable.ic_input_add)
@@ -190,20 +197,22 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     }
 
     public void populate() {
-        final List<Product> products = orderManager.getAllOrders();
+        //final List<Product> products = orderManager.getAllOrders();
 
-        OrderSummaryAdapter myadapter = new OrderSummaryAdapter(getActivity(), R.layout.order_summary_holder, products);
+        final List<OrderTable> orders = orderDaoManager.getAllOrders(getActivity());
+
+        OrderSummaryDaoAdapter myadapter = new OrderSummaryDaoAdapter(getActivity(), R.layout.order_summary_holder, orders);
         lv.setAdapter(myadapter);
-        Integer count = products.toArray().length;
+        Integer count = orders.toArray().length;
         Double grandTotal = 0.00;
         Product product = new Product();
         for (int i = 0; i < count; i++) {
-            products.get(i);
+            orders.get(i);
 
-            product.productId = products.get(i).productId;
-            grandTotal += products.get(i).subtotal;
+            product.productId = Integer.parseInt(String.valueOf(orders.get(i).getId()));
+            grandTotal += orders.get(i).getProductSubtotal();
 
-            product.productQty = products.get(i).productQty;
+            product.productQty = orders.get(i).getProductQty();
 
         }
         tv_grantotal.setText(grandTotal.toString());
@@ -212,7 +221,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     }
 
     public void delete(String name) {
-        orderManager.deleteSpecific(name);
+        orderDaoManager.deleteSpecificByName(context, name);
         populate();
 
     }
@@ -221,7 +230,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     public void newOrder(Integer userid) throws Exception {
         Order order = productsRetrotfitManager.newOrder(userid);
         orderId = order.orderId;
-        Log.e("orderId",orderId+"");
+        Log.e("orderId", orderId + "");
     }
 
     @SuppressWarnings("deprecation")
@@ -231,22 +240,22 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     }
 
     public void deleteAll() {
-        orderManager.deleteAll();
+        orderDaoManager.deleteAll(getActivity());
         populate();
 
     }
 
     public void finishOrder() throws Exception {
 
-        List<Product> products = orderManager.getAllOrders();
+        List<OrderTable> products = orderDaoManager.getAllOrders(getActivity());
         Integer count = products.toArray().length;
 
         for (int i = 0; i < count; i++) {
 
             products.get(i);
             Product product = new Product();
-            product.productId = products.get(i).productId;
-            product.productQty = products.get(i).productQty;
+            product.productId = Integer.parseInt(String.valueOf(products.get(i).getId()));
+            product.productQty = products.get(i).getProductQty();
 
             placeOrder(orderId, product);
 

@@ -11,13 +11,13 @@ import de.greenrobot.daogenerator.Schema;
  */
 public class GreenDaoGenerator {
     public  static  void main(String[] args) throws  Exception{
-    Schema schema = new Schema(1,"com.hernaez.seven_eleven.model.dataaccesslayer.greendao");
-        Entity entity = schema.addEntity("Order_Table");
+    Schema schema = new Schema(2,"com.hernaez.seven_eleven.model.dataaccesslayer.greendao");
+        Entity entity = schema.addEntity("OrderTable");
         entity.addIdProperty();
         entity.addStringProperty("productName");
         entity.addIntProperty("productQty");
-        entity.addIntProperty("productPrice");
-        entity.addIntProperty("productSubtotal");
+        entity.addDoubleProperty("productPrice");
+        entity.addDoubleProperty("productSubtotal");
         entity.addStringProperty("productImgPath");
         String outputDirectory = "app/src/main/java";
         new DaoGenerator().generateAll(schema, outputDirectory);

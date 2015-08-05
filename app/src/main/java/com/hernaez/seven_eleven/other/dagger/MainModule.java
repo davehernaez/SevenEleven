@@ -1,14 +1,18 @@
 package com.hernaez.seven_eleven.other.dagger;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
+import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
 import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
+import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.DaoMaster;
+import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.DaoSession;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.HttpService;
 import com.hernaez.seven_eleven.other.HttpConstant;
 import com.hernaez.seven_eleven.other.MainApplication;
@@ -143,6 +147,21 @@ public class MainModule {
     @Provides
     HttpService provideUsertHttpService(RestAdapter restAdapter) {
         return restAdapter.create(HttpService.class);
+    }
+
+    @Singleton
+    @Provides
+    DaoSession provideDaoSession(Context context){
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "example-db", null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        return daoMaster.newSession();
+    }
+
+    @Singleton
+    @Provides
+    OrderDaoManager providesOrderDaoManager(DaoSession daoSession){
+        return new OrderDaoManager(daoSession);
     }
 
     @Singleton
