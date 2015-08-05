@@ -12,5 +12,4 @@ public class Product {
     public Double productPrice;
     public Integer productQty;
     public String productImgpath;
-    public Double subtotal;
 }

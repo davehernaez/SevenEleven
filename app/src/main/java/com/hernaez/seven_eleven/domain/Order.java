@@ -6,6 +6,4 @@ package com.hernaez.seven_eleven.domain;
 public class Order {
     public Integer orderId;
     public Product product;
-    public Double total;
-    public Product orderedProduct;
 }

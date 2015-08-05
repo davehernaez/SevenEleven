@@ -28,9 +28,6 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     EditText dialog_qty;
     TextView tv_prodname;
 
-    Thread thread;
-    Integer userid;
-
     @Inject
     AndroidUtils androidUtils;
     @Inject

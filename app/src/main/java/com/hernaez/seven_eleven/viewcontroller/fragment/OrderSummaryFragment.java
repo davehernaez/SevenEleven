@@ -20,7 +20,6 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
-import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryDaoAdapter;
@@ -45,8 +44,6 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     Context context;
     @Inject
     OrderDaoManager orderDaoManager;
-    @Inject
-    OrderManager orderManager;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
 
@@ -197,7 +194,6 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     }
 
     public void populate() {
-        //final List<Product> products = orderManager.getAllOrders();
 
         final List<OrderTable> orders = orderDaoManager.getAllOrders(getActivity());
 

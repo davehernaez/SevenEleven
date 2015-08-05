@@ -1,8 +1,8 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -24,10 +24,8 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
-import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
-import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
@@ -43,7 +41,6 @@ import butterknife.InjectView;
 public class CustomerOrderFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher {
 
     Integer available_qty;
-    Intent i;
     String prodimg;
     Integer prodid;
 
@@ -52,13 +49,10 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
-    //@Inject
-    //ProductManager productManager;
-
+    @Inject
+    Context context;
     @Inject
     OrderDaoManager orderDaoManager;
-    @Inject
-    OrderManager orderManager;
     @Inject
     AndroidUtils androidUtils;
 
@@ -121,7 +115,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         try {
             adapter = new ArrayAdapter<String>(
-                    getActivity(),
+                    context,
                     android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,7 +176,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     intqtyminus--;
                     qty.setText(intqtyminus.toString());
                 } else if (intqtyminus == 1) {
-                    Toast.makeText(getActivity(),
+                    Toast.makeText(context,
                             "At least 1 item must be ordered", Toast.LENGTH_LONG)
                             .show();
                     btn_minus.setEnabled(false);
@@ -200,7 +194,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     qty.setText(intqtyplus.toString());
                 } else if (Integer.parseInt(qty.getText().toString()) == available_qty) {
                     btn_plus.setEnabled(false);
-                    Toast.makeText(getActivity(),
+                    Toast.makeText(context,
                             "Maximum available quantity reached.",
                             Toast.LENGTH_LONG).show();
 
@@ -211,7 +205,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(context)
                         // Alert dialog for confirmation
                         .setIcon(android.R.drawable.ic_input_add)
                         .setTitle("Confirm")
@@ -229,10 +223,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
-                                        //checkOrder();
                                         order();
-                                        androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
+                                        androidUtils.loadFragment((ActionBarActivity) context, R.id.container, CarouselFragment.newInstance());
                                     }
 
                                 }).setNegativeButton("No", null).show();
@@ -249,8 +241,9 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         orderTable.setProductPrice(Double.parseDouble(tv_price.getText().toString()));
         orderTable.setProductSubtotal(Double.parseDouble(tv_subTotal.getText().toString()));
         orderTable.setProductImgPath(prodimg);
+
         try {
-            if (orderDaoManager.getOrderProductName(getActivity(), orderTable) == true) {
+            if (orderDaoManager.getOrderProductName(context, orderTable) == true) {
                 toastMessage("Your orders were updated successfully!");
             } else {
                 toastMessage("New orders placed. Thank you!");
@@ -261,29 +254,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public void checkOrder() {
-        Product product = new Product();
-        product.productId = prodid;
-        product.productName = sp_prodname.getSelectedItem().toString();
-        product.productQty = Integer.parseInt(qty.getText().toString());
-        product.productPrice = Double.parseDouble(tv_price.getText().toString());
-        product.subtotal = Double.parseDouble(tv_subTotal.getText().toString());
-        product.productImgpath = prodimg;
-
-        Order order = new Order();
-        order.product = product;
-        order.total = Double.parseDouble(tv_subTotal.getText().toString());
-        if (
-                orderManager.checkOrders(order) == true) {
-            toastMessage("New orders placed. Thank you!");
-        } else if (orderManager.checkOrders(order) == false) {
-            toastMessage("Added " + product.productQty + " piece(s) to previously ordered " + product.productName + "(s)");
-        }
-
-    }
-
     public void toastMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -301,7 +273,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         available_qty = product.productQty;
         getSubTotal();
 
-        Picasso.with(getActivity()).load(product.productImgpath).resize(150, 120).into(img);
+        Picasso.with(context).load(product.productImgpath).resize(150, 120).into(img);
     }
 
     @Override

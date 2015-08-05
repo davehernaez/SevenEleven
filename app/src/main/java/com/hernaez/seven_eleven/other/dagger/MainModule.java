@@ -7,10 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
-import com.hernaez.seven_eleven.model.businesslayer.OrderManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
-import com.hernaez.seven_eleven.model.dataaccesslayer.DBHelper;
-import com.hernaez.seven_eleven.model.dataaccesslayer.OrderDao;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.DaoMaster;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.DaoSession;
 import com.hernaez.seven_eleven.model.dataaccesslayer.retrofit.HttpService;
@@ -151,7 +148,7 @@ public class MainModule {
 
     @Singleton
     @Provides
-    DaoSession provideDaoSession(Context context){
+    DaoSession provideDaoSession(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "example-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
@@ -160,26 +157,8 @@ public class MainModule {
 
     @Singleton
     @Provides
-    OrderDaoManager providesOrderDaoManager(DaoSession daoSession){
+    OrderDaoManager providesOrderDaoManager(DaoSession daoSession) {
         return new OrderDaoManager(daoSession);
-    }
-
-    @Singleton
-    @Provides
-    DBHelper providesDbHelper(Context context) {
-        return new DBHelper(context);
-    }
-
-    @Singleton
-    @Provides
-    OrderDao providesorderDao(DBHelper dbHelper) {
-        return new OrderDao(dbHelper);
-    }
-
-    @Singleton
-    @Provides
-    OrderManager providesorderManager(OrderDao orderDao) {
-        return new OrderManager(orderDao);
     }
 
 }
