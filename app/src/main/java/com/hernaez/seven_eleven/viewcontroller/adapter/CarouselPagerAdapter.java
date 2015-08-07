@@ -28,7 +28,6 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
      * @param fragmentManager
      */
     List<FragmentGenerate> list = new ArrayList<FragmentGenerate>();
-    List<FragmentGenerate> list2 = new ArrayList<FragmentGenerate>();
 
     public CarouselPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);

@@ -29,7 +29,6 @@ import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -80,6 +79,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.customer_order, container, false);
     }
 
@@ -96,6 +96,37 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
+        img.setOnClickListener(this);
+        /*try {
+            adapter = new ArrayAdapter<String>(
+                    getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        sp_prodname.setAdapter(adapter);*/
+
+        if (savedInstanceState != null) {
+            Log.e("bundle", "qty" +
+                    savedInstanceState.getInt("productQty") + " position: " +
+                    savedInstanceState.getInt("selectedPosition") + "");
+            Integer position = savedInstanceState.getInt("selectedPosition");
+            sp_prodname.setSelection(position, true);
+            Integer productQty = savedInstanceState.getInt("productQty");
+            qty.setText(productQty.toString());
+        } else if (savedInstanceState == null) {
+            qty.setText("1");
+            try {
+                adapter = new ArrayAdapter<String>(
+                        getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            sp_prodname.setAdapter(adapter);
+        }
 
         adapter = null;
 
@@ -111,15 +142,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         sp_prodname.setOnItemSelectedListener(this);
 
-        try {
-            adapter = new ArrayAdapter<String>(
-                    getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        sp_prodname.setAdapter(adapter);
     }
 
 
@@ -146,17 +169,9 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onSaveInstanceState2(Bundle outState) {
+        outState.putInt("productQty", Integer.parseInt(qty.getText().toString()));
+        outState.putInt("selectedPosition", sp_prodname.getSelectedItemPosition());
         outState.putInt("layoutId", layoutId);
     }
 
@@ -174,6 +189,11 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.imageView_Product_chosen:
+                YoYo.with(Techniques.Pulse).duration(400).playOn(img);
+                sp_prodname.setSelection(3, false);
+                break;
+
             case R.id.button_minus:
                 YoYo.with(Techniques.Flash).duration(500).playOn(qty);
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_minus);
@@ -268,7 +288,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        qty.setText("1");
+        //qty.setText("1");
         Product product = null;
         try {
             product = productsRetrotfitManager.getSpecificProduct(sp_prodname.getSelectedItem().toString());
@@ -304,8 +324,12 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public Integer saveState() {
-        return sp_prodname.getSelectedItemPosition();
+    public Bundle saveState() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("productQty", Integer.parseInt(qty.getText().toString()));
+        bundle.putInt("selectedPosition", sp_prodname.getSelectedItemPosition());
+
+        return bundle;
 
     }
 }
