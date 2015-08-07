@@ -55,6 +55,12 @@ public abstract class BaseFragment extends Fragment {
         super.onSaveInstanceState(outState);
         onSaveInstanceState2(outState);
     }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
     abstract public void onSaveInstanceState2(Bundle outState);
 
 }

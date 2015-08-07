@@ -2,24 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hernaez.seven_eleven"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".other.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".viewcontroller.activity.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".viewcontroller.activity.MainActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAINACTIVITY" />
 
@@ -38,56 +39,10 @@
 
         <activity
             android:name=".viewcontroller.activity.LoginActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.hernaez.seven_eleven.LOGIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".viewcontroller.activity.AdminPageActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.ADMINPAGE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".viewcontroller.activity.ProductListActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.PRODUCTLIST" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".viewcontroller.activity.CustomerOrderActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.CUSTOMERORDER" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".viewcontroller.activity.OrderSummaryActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.ORDERSUMMARY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".viewcontroller.activity.ReOrderActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.hernaez.seven_eleven.REORDER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

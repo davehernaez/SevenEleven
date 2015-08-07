@@ -1,7 +1,6 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +8,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +29,7 @@ import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -49,8 +50,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
-    @Inject
-    Context context;
     @Inject
     OrderDaoManager orderDaoManager;
     @Inject
@@ -74,7 +73,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     TextView tv_subTotal;
 
     @InjectView(R.id.spinner_product_name)
-    Spinner sp_prodname;
+    public Spinner sp_prodname;
 
     @InjectView(R.id.editText_qtydisplay)
     EditText qty;
@@ -98,7 +97,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
 
-
         adapter = null;
 
         btn_plus.setOnClickListener(this);
@@ -115,7 +113,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         try {
             adapter = new ArrayAdapter<String>(
-                    context,
+                    getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,6 +146,16 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onSaveInstanceState2(Bundle outState) {
         outState.putInt("layoutId", layoutId);
     }
@@ -176,7 +184,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     intqtyminus--;
                     qty.setText(intqtyminus.toString());
                 } else if (intqtyminus == 1) {
-                    Toast.makeText(context,
+                    Toast.makeText(getActivity(),
                             "At least 1 item must be ordered", Toast.LENGTH_LONG)
                             .show();
                     btn_minus.setEnabled(false);
@@ -194,7 +202,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     qty.setText(intqtyplus.toString());
                 } else if (Integer.parseInt(qty.getText().toString()) == available_qty) {
                     btn_plus.setEnabled(false);
-                    Toast.makeText(context,
+                    Toast.makeText(getActivity(),
                             "Maximum available quantity reached.",
                             Toast.LENGTH_LONG).show();
 
@@ -205,7 +213,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);
-                new AlertDialog.Builder(context)
+                new AlertDialog.Builder(getActivity())
                         // Alert dialog for confirmation
                         .setIcon(android.R.drawable.ic_input_add)
                         .setTitle("Confirm")
@@ -224,10 +232,10 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         order();
-                                        androidUtils.loadFragment((ActionBarActivity) context, R.id.container, CarouselFragment.newInstance());
+                                        androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
                                     }
 
-                                }).setNegativeButton("No", null).show();
+                                }).setNegativeButton("No", null).create().show();
 
                 break;
         }
@@ -243,7 +251,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         orderTable.setProductImgPath(prodimg);
 
         try {
-            if (orderDaoManager.getOrderProductName(context, orderTable) == true) {
+            if (orderDaoManager.getOrderProductName(getActivity(), orderTable) == true) {
                 toastMessage("Your orders were updated successfully!");
             } else {
                 toastMessage("New orders placed. Thank you!");
@@ -255,7 +263,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     }
 
     public void toastMessage(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -273,7 +281,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         available_qty = product.productQty;
         getSubTotal();
 
-        Picasso.with(context).load(product.productImgpath).resize(150, 120).into(img);
+        Picasso.with(getActivity()).load(product.productImgpath).resize(150, 120).into(img);
     }
 
     @Override
@@ -293,6 +301,11 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void afterTextChanged(Editable s) {
+
+    }
+
+    public Integer saveState() {
+        return sp_prodname.getSelectedItemPosition();
 
     }
 }

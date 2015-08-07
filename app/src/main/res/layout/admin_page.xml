@@ -4,31 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_login">
-
-        <com.rey.material.widget.TabPageIndicator
-            android:id="@+id/adminpage_header"
-            style="@style/Material.Widget.TabPageIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/adminpage_pages"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_weight="1" />
+        android:background="@drawable/bg_login"
+        android:gravity="center">
 
         <Button
             android:id="@+id/button_productList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
             android:layout_marginBottom="25dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
@@ -40,13 +26,11 @@
             android:id="@+id/button_for_reorder"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button_productList"
-            android:layout_centerHorizontal="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/bg_button"
             android:text="Products for Re-ordering" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

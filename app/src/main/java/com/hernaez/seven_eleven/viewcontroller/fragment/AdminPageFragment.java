@@ -22,6 +22,7 @@ import butterknife.InjectView;
  */
 public class AdminPageFragment extends BaseFragment implements View.OnClickListener {
 
+
     @InjectView(R.id.button_for_reorder)
     protected Button btn_for_reordering;
 
@@ -55,28 +56,30 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
     }
 
     public static AdminPageFragment newInstance() {
-        return new AdminPageFragment();
-        //return newInstance(R.layout.admin_page);
+        //return new AdminPageFragment();
+        return newInstance(R.layout.admin_page);
     }
 
-    /*public static AdminPageFragment newInstance(int layoutId) {
+    int currentItem = 0;
+
+    public static AdminPageFragment newInstance(int layoutId) {
         AdminPageFragment adminPageFragment = new AdminPageFragment();
         adminPageFragment.currentItem = layoutId;
         adminPageFragment.setRetainInstance(true);
         return adminPageFragment;
-    }*/
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_productList:
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_all_products);
-                androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, ProductListFragment.newInstance());
+                androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ProductListFragment.newInstance());
                 break;
 
             case R.id.button_for_reorder:
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_for_reordering);
-                androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, ReOrderFragment.newInstance());
+                androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ReOrderFragment.newInstance());
                 break;
         }
     }

@@ -3,6 +3,7 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ import butterknife.InjectView;
 public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     EditText dialog_qty;
     TextView tv_prodname;
-
     @Inject
     AndroidUtils androidUtils;
     @Inject
@@ -51,23 +51,43 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-
+        if (savedInstanceState != null) {
+            Log.e("Bundle", " Bundle not null " + savedInstanceState.getInt("testInt"));
+        }
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
+        outState.putInt("testInt", 42);
 
     }
 
-    public static ReOrderFragment newInstance() {
+    /*public static ReOrderFragment newInstance() {
         return new ReOrderFragment();
+    }*/
+    public static ReOrderFragment newInstance() {
+        return newInstance(R.layout.reorder);
+    }
+
+    int currentItem = 0;
+
+    public static ReOrderFragment newInstance(int layoutId) {
+        ReOrderFragment reOrderFragment = new ReOrderFragment();
+        reOrderFragment.currentItem = layoutId;
+        reOrderFragment.setRetainInstance(true);
+        return reOrderFragment;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         tv_prodname = (TextView) view.findViewById(R.id.textViewProduct_name);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog().show();
+            }
+        });
 
-        dialog();
     }
 
     public void populate() {
@@ -85,14 +105,14 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     }
 
-    public void dialog() {
+    public AlertDialog dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialog = inflater.inflate(R.layout.dialog_reorder, null);
         builder.setView(dialog);
 
         final AlertDialog ad = builder.create();
-        ad.show();
+        //ad.show();
         ad.setCancelable(false);
 
         Button btn_minus = (Button) dialog
@@ -162,8 +182,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
                 ad.dismiss();
             }
         });
-
-
+        return ad;
     }
 
     public void reorder(String product_name, String product_qty) {

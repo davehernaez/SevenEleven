@@ -201,4 +201,14 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
     public void onPageScrollStateChanged(int i) {
 
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }

@@ -22,6 +22,7 @@ import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
+import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryDaoAdapter;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
-        userid = 2;
+        userid = MainActivity.userid;
 
         populate();
 

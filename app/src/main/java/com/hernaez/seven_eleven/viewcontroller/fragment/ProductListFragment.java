@@ -67,8 +67,25 @@ public class ProductListFragment extends BaseFragment {
 
     }
 
-    public static ProductListFragment newInstance() {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+    /*public static ProductListFragment newInstance() {
         return new ProductListFragment();
+    }*/
+
+    public static ProductListFragment newInstance() {
+        return newInstance(R.layout.prdouct_list);
+    }
+
+    int currentItem = 0;
+
+    public static ProductListFragment newInstance(int layoutId) {
+        ProductListFragment productListFragment = new ProductListFragment();
+        productListFragment.currentItem = layoutId;
+        productListFragment.setRetainInstance(true);
+        return productListFragment;
     }
 
     public void populate() {
