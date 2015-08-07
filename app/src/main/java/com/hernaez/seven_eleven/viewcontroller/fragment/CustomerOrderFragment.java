@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,37 +95,13 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
-        img.setOnClickListener(this);
-        /*try {
-            adapter = new ArrayAdapter<String>(
-                    getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        sp_prodname.setAdapter(adapter);*/
-
-        if (savedInstanceState != null) {
-            Log.e("bundle", "qty" +
-                    savedInstanceState.getInt("productQty") + " position: " +
-                    savedInstanceState.getInt("selectedPosition") + "");
-            Integer position = savedInstanceState.getInt("selectedPosition");
-            sp_prodname.setSelection(position, true);
-            Integer productQty = savedInstanceState.getInt("productQty");
-            qty.setText(productQty.toString());
-        } else if (savedInstanceState == null) {
-            qty.setText("1");
-            try {
-                adapter = new ArrayAdapter<String>(
-                        getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
-            } catch (Exception e) {
-                e.printStackTrace();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                sp_prodname.setAdapter(adapter());
             }
-
-            sp_prodname.setAdapter(adapter);
-        }
+        });
 
         adapter = null;
 
@@ -135,6 +110,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         btn_finish.setOnClickListener(this);
         btn_finish.setVisibility(View.GONE);
         btn_buy.setOnClickListener(this);
+        img.setOnClickListener(this);
 
         qty.addTextChangedListener(this);
 
@@ -175,17 +151,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         outState.putInt("layoutId", layoutId);
     }
 
-    public static CustomerOrderFragment newInstance() {
-        return newInstance(R.layout.customer_order);
-    }
-
-    public static CustomerOrderFragment newInstance(int layoutId) {
-        CustomerOrderFragment customerOrderFragment = new CustomerOrderFragment();
-        customerOrderFragment.layoutId = layoutId;
-        customerOrderFragment.setRetainInstance(true);
-        return customerOrderFragment;
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -204,9 +169,15 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     intqtyminus--;
                     qty.setText(intqtyminus.toString());
                 } else if (intqtyminus == 1) {
-                    Toast.makeText(getActivity(),
-                            "At least 1 item must be ordered", Toast.LENGTH_LONG)
-                            .show();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),
+                                    "At least 1 item must be ordered", Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
                     btn_minus.setEnabled(false);
                 }
 
@@ -222,9 +193,15 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                     qty.setText(intqtyplus.toString());
                 } else if (Integer.parseInt(qty.getText().toString()) == available_qty) {
                     btn_plus.setEnabled(false);
-                    Toast.makeText(getActivity(),
-                            "Maximum available quantity reached.",
-                            Toast.LENGTH_LONG).show();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),
+                                    "Maximum available quantity reached.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
 
                 }
                 break;
@@ -233,32 +210,50 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);
-                new AlertDialog.Builder(getActivity())
-                        // Alert dialog for confirmation
-                        .setIcon(android.R.drawable.ic_input_add)
-                        .setTitle("Confirm")
-                        .setMessage(
-                                "Are you sure you want to buy "
-                                        + qty.getText().toString()
-                                        + " "
-                                        + sp_prodname.getSelectedItem().toString() // alert
-                                        // dialog
-                                        // message
-                                        + "(s) for P"
-                                        + tv_subTotal.getText().toString() + "?")
-                        .setPositiveButton("Yes",
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(getActivity())
+                                // Alert dialog for confirmation
+                                .setIcon(android.R.drawable.ic_input_add)
+                                .setTitle("Confirm")
+                                .setMessage(
+                                        "Are you sure you want to buy "
+                                                + qty.getText().toString()
+                                                + " "
+                                                + sp_prodname.getSelectedItem().toString() // alert
+                                                // dialog
+                                                // message
+                                                + "(s) for P"
+                                                + tv_subTotal.getText().toString() + "?")
+                                .setPositiveButton("Yes",
 
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        order();
-                                        androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
-                                    }
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                order();
+                                                androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
+                                            }
 
-                                }).setNegativeButton("No", null).create().show();
+                                        }).setNegativeButton("No", null).create().show();
+                    }
+                });
+
 
                 break;
         }
+    }
+
+    public ArrayAdapter adapter() {
+        try {
+            adapter = new ArrayAdapter<String>(
+                    getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, productsRetrotfitManager.getAllNames());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return adapter;
     }
 
     public void order() {
@@ -282,8 +277,14 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public void toastMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    public void toastMessage(final String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     @Override
@@ -300,7 +301,12 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         prodid = product.productId;
         available_qty = product.productQty;
         getSubTotal();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
         Picasso.with(getActivity()).load(product.productImgpath).resize(150, 120).into(img);
     }
 
@@ -324,12 +330,14 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public Bundle saveState() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("productQty", Integer.parseInt(qty.getText().toString()));
-        bundle.putInt("selectedPosition", sp_prodname.getSelectedItemPosition());
+    public static CustomerOrderFragment newInstance() {
+        return newInstance(R.layout.customer_order);
+    }
 
-        return bundle;
-
+    public static CustomerOrderFragment newInstance(int layoutId) {
+        CustomerOrderFragment customerOrderFragment = new CustomerOrderFragment();
+        customerOrderFragment.layoutId = layoutId;
+        customerOrderFragment.setRetainInstance(true);
+        return customerOrderFragment;
     }
 }
