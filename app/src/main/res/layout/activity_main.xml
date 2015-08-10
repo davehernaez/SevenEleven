@@ -17,7 +17,8 @@
         android:layout_below="@+id/tpi_header2"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#000000">
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_pages2"
             android:layout_width="match_parent"

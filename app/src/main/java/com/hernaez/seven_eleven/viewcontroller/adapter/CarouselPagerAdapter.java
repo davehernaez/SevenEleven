@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+
 
 import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;

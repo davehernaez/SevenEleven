@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
 
     @InjectView(R.id.vp_pages2)
     protected ViewPager pager;
-    int currentItem = 0;
+    int currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,42 +43,36 @@ public class MainActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (savedInstanceState != null) {
             Log.e("Bundle", "Bundle is not null. " + savedInstanceState.getInt("userId"));
-
+            currentItem = savedInstanceState.getInt("currentItem");
+        } else {
+            currentItem = 0;
         }
 
         if (extras != null) {
             userid = extras.getInt(EXTRA_USERID);
             Log.e("userid", userid + "");
         }
-
+        Log.e("fragmentTAG",getFragmentTag(pager.getCurrentItem()));
 
         thread = new Thread() {
             @Override
             public void run() {
                 if (userid == 2) {
+
                     pager.setAdapter(new CarouselPagerAdapter(getResources(), getSupportFragmentManager()));
-                    indicator.setViewPager(pager);
-                    pager.setCurrentItem(currentItem);
-                    //androidUtils.loadFragment(MainActivity.this, R.id.container, CarouselFragment.newInstance());
+
                 } else if (userid == 1) {
                     pager.setAdapter(new AdminPagerAdapter(getResources(), getSupportFragmentManager()));
-                    indicator.setViewPager(pager);
-                    pager.setCurrentItem(currentItem);
-                    //androidUtils.loadFragment(MainActivity.this, R.id.container, AdminPageFragment.newInstance());
-
                 }
+                indicator.setViewPager(pager);
+                pager.setCurrentItem(currentItem);
+
             }
         };
 
         thread.start();
 
 
-    }
-
-    public static void start(Activity me, User user) {
-        Intent intent = new Intent(me, MainActivity.class);
-        intent.putExtra(EXTRA_USERID, user.userId);
-        me.startActivity(intent);
     }
 
     @Override
@@ -94,12 +88,30 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("userId", userid);
+        outState.putInt("currentItem", currentItem);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         userid = savedInstanceState.getInt("userId");
+        currentItem = savedInstanceState.getInt("currentItem");
         super.onRestoreInstanceState(savedInstanceState);
     }
+
+
+    public static void start(Activity me, User user) {
+        Intent intent = new Intent(me, MainActivity.class);
+        intent.putExtra(EXTRA_USERID, user.userId);
+        me.startActivity(intent);
+    }
+
+    public String getFragmentTag(int position) {
+        return "android:switcher:" + R.id.vp_pages2 + ":" + position;
+    }
+
+    public void updateOrder(){
+
+    }
+
 }

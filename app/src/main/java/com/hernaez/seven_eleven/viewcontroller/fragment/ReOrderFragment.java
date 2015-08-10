@@ -167,7 +167,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
                 // TODO Auto-generated method stub
                 if (Integer.parseInt(dialog_qty.getText().toString()) >= 10) {
                     reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
-                    androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, AdminPageFragmentHolder.newInstance());
+                    //androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, AdminPageFragment.newInstance());
                     ad.dismiss();
                     androidUtils.alert("Order completed. Your product's quantity has been updated.");
                 } else {

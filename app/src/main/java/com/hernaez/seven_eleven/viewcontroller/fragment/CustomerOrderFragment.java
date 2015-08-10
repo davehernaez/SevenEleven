@@ -3,7 +3,8 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -103,10 +105,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
             }
         });
 
-        sp_prodname.setSaveEnabled(true);
-        if (savedInstanceState != null) {
-            sp_prodname.setSelection(savedInstanceState.getInt("selectedPosition"), true);
-        }
         adapter = null;
 
         btn_plus.setOnClickListener(this);
@@ -145,15 +143,12 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        layoutId = savedInstanceState.getInt("layoutId");
-        position = savedInstanceState.getInt("selectedPosition");
+
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
-        outState.putInt("productQty", Integer.parseInt(qty.getText().toString()));
-        outState.putInt("selectedPosition", sp_prodname.getSelectedItemPosition());
-        outState.putInt("layoutId", layoutId);
+
     }
 
     @Override
@@ -237,7 +232,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 order();
-                                                androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, CarouselFragment.newInstance());
+                                                refresh();
+                                                //androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, new CustomerOrderFragment());
                                             }
 
                                         }).setNegativeButton("No", null).create().show();
@@ -294,7 +290,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //qty.setText("1");
+        qty.setText("1");
         Product product = null;
         try {
             product = productsRetrotfitManager.getSpecificProduct(sp_prodname.getSelectedItem().toString());
@@ -335,6 +331,11 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     }
 
+    public void refresh() {
+        qty.setText("1");
+    }
+
+
     public static CustomerOrderFragment newInstance() {
         return newInstance(R.layout.customer_order);
     }
@@ -342,7 +343,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     public static CustomerOrderFragment newInstance(int layoutId) {
         CustomerOrderFragment customerOrderFragment = new CustomerOrderFragment();
         customerOrderFragment.layoutId = layoutId;
-        customerOrderFragment.setRetainInstance(true);
+        customerOrderFragment.setRetainInstance(false);
         return customerOrderFragment;
     }
 }

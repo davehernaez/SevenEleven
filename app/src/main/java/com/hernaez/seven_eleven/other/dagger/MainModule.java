@@ -21,8 +21,6 @@ import com.hernaez.seven_eleven.other.retrofit.UserAgentProvider;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragment;
-import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragmentHolder;
-import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ProductListFragment;
@@ -53,12 +51,9 @@ import retrofit.converter.GsonConverter;
 
                 MainApplication.class,
                 LoginActivity.class,
-
                 MainActivity.class,
-                CarouselFragment.class,
                 CustomerOrderFragment.class,
                 OrderSummaryFragment.class,
-                AdminPageFragmentHolder.class,
                 AdminPageFragment.class,
                 ReOrderFragment.class,
                 ProductListFragment.class

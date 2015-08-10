@@ -66,8 +66,13 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
         userid = MainActivity.userid;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                populate();
+            }
+        });
 
-        populate();
 
         total = 0.0;
 
@@ -88,24 +93,11 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        layoutId = savedInstanceState.getInt("layoutId");
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
 
-        outState.putInt("layoutId", layoutId);
-    }
-
-    public static OrderSummaryFragment newInstance() {
-        return newInstance(R.layout.order_summary);
-    }
-
-    public static OrderSummaryFragment newInstance(int layoutId) {
-        OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
-        orderSummaryFragment.layoutId = layoutId;
-        orderSummaryFragment.setRetainInstance(true);
-        return orderSummaryFragment;
     }
 
     @Override
@@ -259,6 +251,17 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
         }
 
 
+    }
+
+    public static OrderSummaryFragment newInstance() {
+        return newInstance(R.layout.order_summary);
+    }
+
+    public static OrderSummaryFragment newInstance(int layoutId) {
+        OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
+        orderSummaryFragment.layoutId = layoutId;
+        orderSummaryFragment.setRetainInstance(false);
+        return orderSummaryFragment;
     }
 
 

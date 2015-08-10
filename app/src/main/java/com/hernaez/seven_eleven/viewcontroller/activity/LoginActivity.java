@@ -1,16 +1,14 @@
 package com.hernaez.seven_eleven.viewcontroller.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -24,6 +22,7 @@ import com.hernaez.seven_eleven.model.businesslayer.Login;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 
 import java.util.HashMap;
+
 
 import javax.inject.Inject;
 
@@ -152,22 +151,25 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         }
 
     }
+    
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Exit")
-                .setMessage("Are you sure you want exit?")
-                .setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                finish();
-                            }
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
-                        }).setNegativeButton("No", null).show();
+        this.doubleBackToExitPressedOnce = true;
+        androidUtils.alert("Press \"Back\" again to exit");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     @Override
