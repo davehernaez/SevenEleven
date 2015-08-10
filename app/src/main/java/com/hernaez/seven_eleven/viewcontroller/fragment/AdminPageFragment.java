@@ -74,12 +74,12 @@ public class AdminPageFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.button_productList:
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_all_products);
-                androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ProductListFragment.newInstance());
+                //androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ProductListFragment.newInstance());
                 break;
 
             case R.id.button_for_reorder:
                 YoYo.with(Techniques.Pulse).duration(300).playOn(btn_for_reordering);
-                androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ReOrderFragment.newInstance());
+                //androidUtils.loadFragment((ActionBarActivity) getActivity(), getParentFragment().getId(), ReOrderFragment.newInstance());
                 break;
         }
     }

@@ -7,11 +7,22 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hernaez.seven_eleven.MainActivity" >
+    <com.rey.material.widget.TabPageIndicator
+        android:id="@+id/tpi_header2"
+        style="@style/Material.Widget.TabPageIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
 
     <FrameLayout
+        android:layout_below="@+id/tpi_header2"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_pages2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
     </FrameLayout>
 

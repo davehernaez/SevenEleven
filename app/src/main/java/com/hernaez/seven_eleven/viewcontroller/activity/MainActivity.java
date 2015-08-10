@@ -4,19 +4,19 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragmentHolder;
-import com.hernaez.seven_eleven.viewcontroller.fragment.CarouselFragment;
-import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
-import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
+import com.hernaez.seven_eleven.viewcontroller.adapter.AdminPagerAdapter;
+import com.hernaez.seven_eleven.viewcontroller.adapter.CarouselPagerAdapter;
 
 import javax.inject.Inject;
+
+import butterknife.InjectView;
 
 /**
  * Created by TAS on 7/21/2015.
@@ -27,8 +27,14 @@ public class MainActivity extends BaseActivity {
     public static Integer userid;
     @Inject
     AndroidUtils androidUtils;
-    Fragment customerOrderFragment, orderSummaryFragment;
     Thread thread;
+
+    @InjectView(R.id.tpi_header2)
+    protected com.rey.material.widget.TabPageIndicator indicator;
+
+    @InjectView(R.id.vp_pages2)
+    protected ViewPager pager;
+    int currentItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +46,25 @@ public class MainActivity extends BaseActivity {
 
         }
 
-        customerOrderFragment = new CustomerOrderFragment();
-        orderSummaryFragment = new OrderSummaryFragment();
-
         if (extras != null) {
             userid = extras.getInt(EXTRA_USERID);
             Log.e("userid", userid + "");
         }
 
+
         thread = new Thread() {
             @Override
             public void run() {
                 if (userid == 2) {
-                    androidUtils.loadFragment(MainActivity.this, R.id.container, CarouselFragment.newInstance());
+                    pager.setAdapter(new CarouselPagerAdapter(getResources(), getSupportFragmentManager()));
+                    indicator.setViewPager(pager);
+                    pager.setCurrentItem(currentItem);
+                    //androidUtils.loadFragment(MainActivity.this, R.id.container, CarouselFragment.newInstance());
                 } else if (userid == 1) {
-                    androidUtils.loadFragment(MainActivity.this, R.id.container, AdminPageFragmentHolder.newInstance());
+                    pager.setAdapter(new AdminPagerAdapter(getResources(), getSupportFragmentManager()));
+                    indicator.setViewPager(pager);
+                    pager.setCurrentItem(currentItem);
+                    //androidUtils.loadFragment(MainActivity.this, R.id.container, AdminPageFragment.newInstance());
 
                 }
             }

@@ -38,7 +38,7 @@ import butterknife.InjectView;
  * Created by TAS on 7/21/2015.
  */
 public class CustomerOrderFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher {
-
+    volatile Integer position;
     Integer available_qty;
     String prodimg;
     Integer prodid;
@@ -103,6 +103,10 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
             }
         });
 
+        sp_prodname.setSaveEnabled(true);
+        if (savedInstanceState != null) {
+            sp_prodname.setSelection(savedInstanceState.getInt("selectedPosition"), true);
+        }
         adapter = null;
 
         btn_plus.setOnClickListener(this);
@@ -142,6 +146,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         layoutId = savedInstanceState.getInt("layoutId");
+        position = savedInstanceState.getInt("selectedPosition");
     }
 
     @Override
