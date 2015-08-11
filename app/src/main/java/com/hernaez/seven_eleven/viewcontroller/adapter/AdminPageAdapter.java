@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by TAS on 7/28/2015.
  */
-public class AdminPagerAdapter extends FragmentPagerAdapter {
+public class AdminPageAdapter extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -27,7 +27,7 @@ public class AdminPagerAdapter extends FragmentPagerAdapter {
      */
     List<FragmentGenerate> list = new ArrayList<FragmentGenerate>();
 
-    public AdminPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
+    public AdminPageAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
 

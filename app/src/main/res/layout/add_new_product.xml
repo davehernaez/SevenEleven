@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/editText_newProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Product Name"
+                android:layout_marginTop="40dp" />
+
+            <EditText
+                android:id="@+id/editText_newProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText_newProductName"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:hint="Product Price"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editText_newProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@+id/buttonAddImage"
+                android:layout_below="@+id/editText_newProductPrice"
+                android:ems="10"
+                android:hint="Product Image"
+                />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:text="Add New Product"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:background="@drawable/add_image_icon"
+                android:id="@+id/buttonAddImage"
+                android:layout_below="@+id/editText_newProductPrice"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/editText_newProductImage"
+                android:layout_margin="5dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

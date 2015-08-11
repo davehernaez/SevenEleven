@@ -151,7 +151,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         }
 
     }
-    
+
     boolean doubleBackToExitPressedOnce = false;
 
     @Override

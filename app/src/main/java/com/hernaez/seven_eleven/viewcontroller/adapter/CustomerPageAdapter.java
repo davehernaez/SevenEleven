@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Pager adapter
  */
-public class CarouselPagerAdapter extends FragmentPagerAdapter {
+public class CustomerPageAdapter extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -31,7 +31,7 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter {
      */
     List<FragmentGenerate> list = new ArrayList<FragmentGenerate>();
 
-    public CarouselPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
+    public CustomerPageAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
         list.add(new FragmentGenerate() {

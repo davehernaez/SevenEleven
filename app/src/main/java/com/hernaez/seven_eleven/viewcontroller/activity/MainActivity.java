@@ -11,8 +11,8 @@ import android.util.Log;
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.adapter.AdminPagerAdapter;
-import com.hernaez.seven_eleven.viewcontroller.adapter.CarouselPagerAdapter;
+import com.hernaez.seven_eleven.viewcontroller.adapter.AdminPageAdapter;
+import com.hernaez.seven_eleven.viewcontroller.adapter.CustomerPageAdapter;
 
 import javax.inject.Inject;
 
@@ -59,10 +59,10 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 if (userid == 2) {
 
-                    pager.setAdapter(new CarouselPagerAdapter(getResources(), getSupportFragmentManager()));
+                    pager.setAdapter(new CustomerPageAdapter(getResources(), getSupportFragmentManager()));
 
                 } else if (userid == 1) {
-                    pager.setAdapter(new AdminPagerAdapter(getResources(), getSupportFragmentManager()));
+                    pager.setAdapter(new AdminPageAdapter(getResources(), getSupportFragmentManager()));
                 }
                 indicator.setViewPager(pager);
                 pager.setCurrentItem(currentItem);
@@ -108,10 +108,6 @@ public class MainActivity extends BaseActivity {
 
     public String getFragmentTag(int position) {
         return "android:switcher:" + R.id.vp_pages2 + ":" + position;
-    }
-
-    public void updateOrder(){
-
     }
 
 }
