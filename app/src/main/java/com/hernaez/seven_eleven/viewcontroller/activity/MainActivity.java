@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
@@ -108,6 +109,10 @@ public class MainActivity extends BaseActivity {
 
     public String getFragmentTag(int position) {
         return "android:switcher:" + R.id.vp_pages2 + ":" + position;
+    }
+
+    public void setPager(Integer position){
+
     }
 
 }

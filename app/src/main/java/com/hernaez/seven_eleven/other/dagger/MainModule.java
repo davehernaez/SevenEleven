@@ -20,7 +20,7 @@ import com.hernaez.seven_eleven.other.retrofit.RestErrorHandler;
 import com.hernaez.seven_eleven.other.retrofit.UserAgentProvider;
 import com.hernaez.seven_eleven.viewcontroller.activity.LoginActivity;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
-import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.AddNewProductFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.CustomerOrderFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.OrderSummaryFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ProductListFragment;
@@ -54,9 +54,9 @@ import retrofit.converter.GsonConverter;
                 MainActivity.class,
                 CustomerOrderFragment.class,
                 OrderSummaryFragment.class,
-                AdminPageFragment.class,
                 ReOrderFragment.class,
-                ProductListFragment.class
+                ProductListFragment.class,
+                AddNewProductFragment.class
         }
 )
 public class MainModule {

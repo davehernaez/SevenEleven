@@ -39,13 +39,13 @@ public class AndroidUtils {
     private final Context context;
     private String defaultDownloadLocation;
 
-    public AndroidUtils(Context context){
-        this.context=context;
-        this.manager=(DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+    public AndroidUtils(Context context) {
+        this.context = context;
+        this.manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
-    public String convertUriGalleryToString(Uri selectedImage){
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+    public String convertUriGalleryToString(Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
         Cursor cursor = context.getContentResolver().query(selectedImage,
                 filePathColumn, null, null, null);
@@ -68,16 +68,16 @@ public class AndroidUtils {
     }
 
     //requires permission WRITE_EXTERNAL_STORAGE
-    public void download(String downloadLink,String fileName){
+    public void download(String downloadLink, String fileName) {
         Uri source = Uri.parse(downloadLink);
-        DownloadManager.Request request=new DownloadManager.Request(source);
+        DownloadManager.Request request = new DownloadManager.Request(source);
         request.setDescription(downloadLink);
         request.setTitle(fileName);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         }
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
         request.setMimeType("application/vnd.android.package-archive");
 
         manager.enqueue(request);
@@ -112,7 +112,7 @@ public class AndroidUtils {
         me.startActivity(i);
     }
 
-    public void install(String fileLocation){
+    public void install(String fileLocation) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
 //        intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + fileName)), "application/vnd.android.package-archive");
 //        fileLocation="/mnt/sdcard/a.apk";
@@ -132,11 +132,11 @@ public class AndroidUtils {
         return false;
     }
 
-    public void alert(String message){
-        Toast.makeText(context, message,Toast.LENGTH_LONG).show();
+    public void alert(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public void simpleDownload(String urlString,File destination) throws IOException {
+    public void simpleDownload(String urlString, File destination) throws IOException {
         URL website = new URL(urlString);
         ReadableByteChannel rbc;
         rbc = Channels.newChannel(website.openStream());
@@ -162,16 +162,13 @@ public class AndroidUtils {
         return installed;
     }
 
-    public boolean isAppInstalledByAppName(String appName)
-    {
+    public boolean isAppInstalledByAppName(String appName) {
         List<PackageInfo> PackList = context.getPackageManager().getInstalledPackages(0);
-        for (int i=0; i < PackList.size(); i++)
-        {
+        for (int i = 0; i < PackList.size(); i++) {
             PackageInfo PackInfo = PackList.get(i);
-            if (  (PackInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-            {
+            if ((PackInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
                 String appTitle = PackInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
-                if(appName.equals(appTitle)){
+                if (appName.equals(appTitle)) {
                     return true;
                 }
             }
@@ -179,8 +176,8 @@ public class AndroidUtils {
         return false;
     }
 
-    public File getDefaultDownloadLocation(String fileName){
-        return new File(getDefaultDownloadLocation(),fileName);
+    public File getDefaultDownloadLocation(String fileName) {
+        return new File(getDefaultDownloadLocation(), fileName);
     }
 
     public File getDefaultDownloadLocation() {
@@ -194,7 +191,7 @@ public class AndroidUtils {
         File directory;
         if (Environment.getExternalStorageState() == null) {
             //create new file directory object
-            directory = new File(Environment.getDataDirectory()+ "/Downloads/");
+            directory = new File(Environment.getDataDirectory() + "/Downloads/");
             // if no directory exists, create new directory
             if (!directory.exists()) {
                 directory.mkdir();
@@ -219,9 +216,10 @@ public class AndroidUtils {
 
     /**
      * loads fragment on specied viewgroup Id
-     * @param actionBarActivity the actionbar activity that contains the fragment
+     *
+     * @param actionBarActivity            the actionbar activity that contains the fragment
      * @param viewGroupFragmentContainerId contains the viewgroup id that will contain the fragment
-     * @param fragment the fragment that we will place inside the viewgroup
+     * @param fragment                     the fragment that we will place inside the viewgroup
      */
 
     public static void loadFragment(ActionBarActivity activity,int viewGroupFragmentContainerId,Fragment fragment){
@@ -232,7 +230,6 @@ public class AndroidUtils {
 
     }
 
-
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -240,17 +237,17 @@ public class AndroidUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void sendMail(String to,String subject,String message){
-        sendMail(to,subject,message,"Send Email");
+    public void sendMail(String to, String subject, String message) {
+        sendMail(to, subject, message, "Send Email");
     }
 
-    public void sendMail(String to,String subject,String message,String dialogTitle){
+    public void sendMail(String to, String subject, String message, String dialogTitle) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
-        intent.putExtra(Intent.EXTRA_EMAIL,to);
+        intent.putExtra(Intent.EXTRA_EMAIL, to);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        context.startActivity(Intent.createChooser(intent,dialogTitle));
+        context.startActivity(Intent.createChooser(intent, dialogTitle));
 
     }
 }

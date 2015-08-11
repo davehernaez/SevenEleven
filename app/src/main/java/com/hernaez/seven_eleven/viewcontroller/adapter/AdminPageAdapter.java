@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.hernaez.seven_eleven.viewcontroller.fragment.AdminPageFragment;
+import com.hernaez.seven_eleven.viewcontroller.fragment.AddNewProductFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ProductListFragment;
 import com.hernaez.seven_eleven.viewcontroller.fragment.ReOrderFragment;
 
@@ -30,19 +30,17 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
     public AdminPageAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         this.resources = resources;
-
         list.add(new FragmentGenerate() {
             @Override
-            public AdminPageFragment newInstance() {
-                return AdminPageFragment.newInstance();
+            public ProductListFragment newInstance() {
+                return ProductListFragment.newInstance();
             }
 
             @Override
             public String instanceName() {
-                return "Admin Page";
+                return "All Products";
             }
         });
-
         list.add(new FragmentGenerate() {
             @Override
             public ReOrderFragment newInstance() {
@@ -56,8 +54,8 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
         });
         list.add(new FragmentGenerate() {
             @Override
-            public ProductListFragment newInstance() {
-                return ProductListFragment.newInstance();
+            public AddNewProductFragment newInstance() {
+                return AddNewProductFragment.newInstance();
             }
 
             @Override
@@ -65,6 +63,7 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
                 return "All Products";
             }
         });
+
     }
 
 

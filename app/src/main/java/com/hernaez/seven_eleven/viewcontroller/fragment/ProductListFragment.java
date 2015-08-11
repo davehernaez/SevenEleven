@@ -1,6 +1,8 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
+import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
 
 import javax.inject.Inject;
@@ -23,6 +27,8 @@ import butterknife.InjectView;
 public class ProductListFragment extends BaseFragment {
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
+    @Inject
+    AndroidUtils utils;
 
     @InjectView(R.id.listView_productList)
     ListView lv;
@@ -37,15 +43,8 @@ public class ProductListFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                TextView name = (TextView) view
-                        .findViewById(R.id.textViewProduct_name);
-                TextView price = (TextView) view
-                        .findViewById(R.id.textViewProduct_price);
-
-                Toast.makeText(getActivity(),
-                        "You clicked: " + name.getText().toString()+" p" +price.getText().toString(),
-                        Toast.LENGTH_SHORT).show();
+                utils.alert("Long click to update product details.");
+                utils.loadFragment((ActionBarActivity)getActivity(), R.id.container, new AddNewProductFragment());
                 // TODO Auto-generated method stub
 
             }

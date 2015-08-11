@@ -44,22 +44,23 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                populate();
+            }
+        });
 
-        populate();
 
         lv.setOnItemClickListener(this);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            Log.e("Bundle", " Bundle not null " + savedInstanceState.getInt("testInt"));
-        }
     }
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
-        outState.putInt("testInt", 42);
 
     }
 
