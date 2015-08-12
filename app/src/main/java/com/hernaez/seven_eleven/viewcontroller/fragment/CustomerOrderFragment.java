@@ -282,7 +282,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                androidUtils.alert(message);
             }
         });
 

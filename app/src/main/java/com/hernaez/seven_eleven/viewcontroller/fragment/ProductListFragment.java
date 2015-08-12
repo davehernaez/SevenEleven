@@ -44,7 +44,7 @@ public class ProductListFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 utils.alert("Long click to update product details.");
-                utils.loadFragment((ActionBarActivity)getActivity(), R.id.container, new AddNewProductFragment());
+                //utils.loadFragment((ActionBarActivity)getActivity(), R.id.container, new AddNewProductFragment());
                 // TODO Auto-generated method stub
 
             }

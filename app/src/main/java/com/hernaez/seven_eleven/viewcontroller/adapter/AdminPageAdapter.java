@@ -60,7 +60,7 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
 
             @Override
             public String instanceName() {
-                return "All Products";
+                return "Add New Product";
             }
         });
 

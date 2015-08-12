@@ -20,8 +20,8 @@
                 android:layout_below="@+id/textView"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Product Name"
-                android:layout_marginTop="40dp" />
+                android:layout_marginTop="40dp"
+                android:hint="Product Name" />
 
             <EditText
                 android:id="@+id/editText_newProductPrice"
@@ -38,13 +38,14 @@
                 android:id="@+id/editText_newProductImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/editText_newProductPrice"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="0dp"
+                android:layout_marginBottom="20dp"
                 android:layout_toLeftOf="@+id/buttonAddImage"
-                android:layout_below="@+id/editText_newProductPrice"
                 android:ems="10"
-                android:hint="Product Image"
-                />
+                android:visibility="gone"
+                android:hint="Paste a URL" />
 
 
             <TextView
@@ -58,18 +59,40 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
+                android:id="@+id/buttonAddImage"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
-                android:background="@drawable/add_image_icon"
-                android:id="@+id/buttonAddImage"
-                android:layout_below="@+id/editText_newProductPrice"
-                android:layout_alignParentRight="true"
                 android:layout_alignBottom="@+id/editText_newProductImage"
-                android:layout_margin="5dp" />
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/editText_newProductPrice"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/add_image_icon" />
+
+            <Button
+                android:id="@+id/buttonCancelNewProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/buttonAddImage"
+                android:layout_marginLeft="20dp"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/buttonDoneAddNewProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/buttonCancelNewProduct"
+                android:layout_marginRight="20dp"
+                android:text="Done" />
 
         </RelativeLayout>
     </ScrollView>
+
 
 </RelativeLayout>
 

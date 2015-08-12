@@ -17,4 +17,5 @@ public class HttpConstant {
     public static final String HTTP_REORDER = "/android_connect/reorder.php";
     public static final String HTTP_PLACE_ORDER = "/android_connect/place_order.php";
     public static final String HTTP_NEW_ORDER = "/android_connect/order.php";
+    public static final String HTTP_ADD_NEW_PRODUCT = "/android_connect/add_new_product.php";
 }

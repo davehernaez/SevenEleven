@@ -22,7 +22,12 @@ public interface HttpService {
     public static final String PARAM_ORDER_ID = "orderId";
     public static final String PARAM_PRODUCT_ID = "productId";
     public static final String PARAM_ORDER_QTY = "orderQty";
+
     public static final String PARAM_PRODUCT_NAME = "productName";
+    public static final String PARAM_PRODUCT_PRICE = "productPrice";
+    public static final String PARAM_PRODUCT_IMAGEPATH = "productImgpath";
+    public static final String PARAM_PRODUCT_QTY = "productQty";
+
     public static final String PARAM_REORDER_QTY = "productQty";
 
 
@@ -30,8 +35,8 @@ public interface HttpService {
     @POST(HttpConstant.HTTP_LOGIN)
 //    @GET(HttpConstant.HTTP_LOGIN)
     User userLogin(
-//            @Query(PARAM_LOGINUSERS_USERNAME) String username, @Query(PARAM_LOGINUSERS_PASSWORD) String password);
-            @Field(PARAM_LOGINUSERS_USERNAME) String username, @Field(PARAM_LOGINUSERS_PASSWORD) String password);
+            @Field(PARAM_LOGINUSERS_USERNAME) String username,
+            @Field(PARAM_LOGINUSERS_PASSWORD) String password);
 
     @GET(HttpConstant.HTTP_GET_ALL_PRODUCTS)
     List<Product> getAllProducts();
@@ -61,4 +66,13 @@ public interface HttpService {
     Order reOrder(
             @Field(PARAM_PRODUCT_NAME) String productName,
             @Field(PARAM_REORDER_QTY) Integer productQty);
+
+    @FormUrlEncoded
+    @POST(HttpConstant.HTTP_ADD_NEW_PRODUCT)
+    Product addNewProduct(
+            @Field(PARAM_PRODUCT_NAME) String productName,
+            @Field(PARAM_PRODUCT_QTY) Integer productQty,
+            @Field(PARAM_PRODUCT_PRICE) Double productPrice,
+            @Field(PARAM_PRODUCT_IMAGEPATH) String productImagePath);
+
 }

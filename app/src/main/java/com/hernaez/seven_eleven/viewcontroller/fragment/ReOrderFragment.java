@@ -14,10 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -95,15 +98,20 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     public void populate() {
 
         ReOrderAdapter myadapter = null;
+        List<Product> productList = null;
         try {
-            myadapter = new ReOrderAdapter(getActivity(),
-                    R.layout.list_item, productsRetrotfitManager.getAllReorders());
-            lv.setAdapter(myadapter);
-
-        } catch (Exception e) {
+            productList = productsRetrotfitManager.getAllReorders();
+        }catch(RuntimeException runTime){
+            runTime.printStackTrace();
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-
+        if (productList != null) {
+            myadapter = new ReOrderAdapter(getActivity(),
+                    R.layout.list_item, productList);
+            lv.setAdapter(myadapter);
+        }
 
     }
 

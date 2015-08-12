@@ -45,9 +45,9 @@ public class ProductsRetrotfitManager {
         return productNames;
     }
 
-    public Product getSpecificProduct(String name) throws  Exception{
+    public Product getSpecificProduct(String name) throws Exception {
         Product specificProduct = httpService.getSpecificProduct(name);
-        return  specificProduct;
+        return specificProduct;
     }
 
     public Order newOrder(Integer userid) throws Exception {
@@ -61,8 +61,16 @@ public class ProductsRetrotfitManager {
 
     }
 
-    public void reOrder(String product_name, Integer product_qty) throws Exception{
+    public void reOrder(String product_name, Integer product_qty) throws Exception {
 
         httpService.reOrder(product_name, product_qty);
+    }
+
+    public void addNewProduct(Product product) throws Exception {
+        //create new httpservice to add a new product to database here
+        httpService.addNewProduct(product.productName,
+                product.productQty,
+                product.productPrice,
+                product.productImgpath);
     }
 }
