@@ -56,7 +56,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         holder.prodname.setText(product.productName);
         holder.prodname.setTextColor(Color.parseColor("#121212"));
         holder.prodqty.setText(product.productQty.toString());
-        Log.e("class name", context.getClass().getName());
 
         holder.prodprice.setText(product.productPrice.toString());
 

@@ -70,9 +70,6 @@ public class ProductListFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
     }
-    /*public static ProductListFragment newInstance() {
-        return new ProductListFragment();
-    }*/
 
     public static ProductListFragment newInstance() {
         return newInstance(R.layout.prdouct_list);
