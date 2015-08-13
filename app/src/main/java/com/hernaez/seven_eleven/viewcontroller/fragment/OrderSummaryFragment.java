@@ -24,6 +24,8 @@ import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryDaoAdapter;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -40,7 +42,8 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     Double total;
     Integer orderId, userid;
-
+    @Inject
+    Bus bus;
     @Inject
     Context context;
     @Inject
@@ -72,6 +75,8 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
                 populate();
             }
         });
+
+        bus.register(this);
 
 
         total = 0.0;
@@ -251,6 +256,11 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
         }
 
 
+    }
+
+    @Subscribe
+    public void refreshListView(OrderSummaryFragment event) {
+        populate();
     }
 
     public static OrderSummaryFragment newInstance() {

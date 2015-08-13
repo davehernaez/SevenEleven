@@ -30,6 +30,7 @@ import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.model.dataaccesslayer.greendao.OrderTable;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -54,6 +55,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     OrderDaoManager orderDaoManager;
     @Inject
     AndroidUtils androidUtils;
+    @Inject
+    Bus bus;
 
     @InjectView(R.id.button_plus)
     Button btn_plus;
@@ -105,6 +108,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
         });
 
         adapter = null;
+        bus.register(this);
 
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
@@ -327,6 +331,8 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     public void refresh() {
         qty.setText("1");
+        bus.post(new OrderSummaryFragment());
+
     }
 
 
