@@ -81,6 +81,9 @@ public class MainActivity extends BaseActivity {
         new AlertDialog.Builder(this).setTitle("Exit").setMessage("Would you like to exit?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(
+                        "com.hernaez.seven_eleven.LOGIN");
+                startActivity(i);
                 finish();
             }
         }).setNegativeButton("No", null).show();

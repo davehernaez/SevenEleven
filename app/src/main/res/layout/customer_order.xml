@@ -162,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:backgroundTint="#66CCCC"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:weightSum="2">
 
@@ -207,9 +208,9 @@
 
         <Button
             android:id="@+id/button_buy"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="150dp"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
@@ -217,28 +218,9 @@
             android:minWidth="80dp"
              />
 
-        <Button
-            android:id="@+id/button_cancel"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/btn_cancel"
-            android:maxHeight="75dp"
-            android:maxWidth="100dp"
-            android:minWidth="80dp"
-             />
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/button_finish_ordering"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_finish"
-        android:padding="15dp" />
+
 
 </LinearLayout>

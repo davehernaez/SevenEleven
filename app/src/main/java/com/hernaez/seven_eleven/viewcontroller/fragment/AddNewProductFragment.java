@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -184,8 +183,19 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
     }
 
     public void animateFlashPulse(View view) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         YoYo.with(Techniques.Pulse).delay(100).playOn(view);
         YoYo.with(Techniques.Flash).delay(200).playOn(view);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public static AddNewProductFragment newInstance() {

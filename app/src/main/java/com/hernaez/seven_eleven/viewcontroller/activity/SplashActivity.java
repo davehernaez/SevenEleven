@@ -3,6 +3,8 @@ package com.hernaez.seven_eleven.viewcontroller.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -22,10 +24,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash);
 
         imgv1 = (ImageView) findViewById(R.id.imageview_splash_image);
-
-
-        YoYo.with(Techniques.ZoomIn).delay(1000).playOn(imgv1);
-
+        YoYo.with(Techniques.FadeOut).delay(900).duration(1700).playOn(imgv1);
 
         t.start();
 
@@ -35,7 +34,7 @@ public class SplashActivity extends Activity {
         public void run() {
 
             try {
-                sleep(2500);
+                sleep(2400);
 
                 Intent i = new Intent(
                         "com.hernaez.seven_eleven.LOGIN");

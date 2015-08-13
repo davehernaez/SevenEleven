@@ -1,13 +1,16 @@
 package com.hernaez.seven_eleven.viewcontroller.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -125,6 +128,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                     public void run() {
                         androidUtils.alert("Logging in as admin...");
                         MainActivity.start(LoginActivity.this, user);
+                        finish();
                         //AdminPageActivity.start(LoginActivity.this, user);
                     }
                 });
@@ -134,6 +138,7 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                     public void run() {
                         androidUtils.alert("Logging in...");
                         MainActivity.start(LoginActivity.this, user);
+                        finish();
                         //CustomerOrderActivity.start(LoginActivity.this, user);
                     }
                 });
@@ -178,7 +183,6 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
         etUsername.setEnabled(true);
         etPassword.setEnabled(true);
         etUsername.requestFocus();
-        etPassword.setText("");
         super.onResume();
     }
 
@@ -206,11 +210,15 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
         super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString("password", etPassword
+                .getText().toString());
     }
+
 }

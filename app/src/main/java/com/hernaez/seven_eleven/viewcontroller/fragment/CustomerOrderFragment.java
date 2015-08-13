@@ -59,8 +59,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
     Button btn_plus;
     @InjectView(R.id.button_minus)
     Button btn_minus;
-    @InjectView(R.id.button_finish_ordering)
-    Button btn_finish;
+
     @InjectView(R.id.button_buy)
     Button btn_buy;
 
@@ -109,8 +108,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
         btn_plus.setOnClickListener(this);
         btn_minus.setOnClickListener(this);
-        btn_finish.setOnClickListener(this);
-        btn_finish.setVisibility(View.GONE);
         btn_buy.setOnClickListener(this);
         img.setOnClickListener(this);
 
@@ -204,9 +201,6 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
 
                 }
-                break;
-            case R.id.button_finish_ordering:
-                YoYo.with(Techniques.Pulse).duration(400).playOn(btn_finish);
                 break;
             case R.id.button_buy:
                 YoYo.with(Techniques.Pulse).duration(400).playOn(btn_buy);

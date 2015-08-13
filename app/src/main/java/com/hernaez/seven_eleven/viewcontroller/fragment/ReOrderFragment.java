@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,7 +57,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
         });
 
 
-        lv.setOnItemClickListener(this);
+
     }
 
     @Override
@@ -101,16 +103,23 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
         List<Product> productList = null;
         try {
             productList = productsRetrotfitManager.getAllReorders();
-        }catch(RuntimeException runTime){
+        } catch (RuntimeException runTime) {
             runTime.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (productList != null) {
             myadapter = new ReOrderAdapter(getActivity(),
                     R.layout.list_item, productList);
             lv.setAdapter(myadapter);
+            lv.setOnItemClickListener(this);
+        } else {
+            List<String> stringList = new ArrayList<String>();
+            stringList.add("No products need reordering.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1
+                    , stringList);
+            lv.setAdapter(adapter);
+
         }
 
     }
