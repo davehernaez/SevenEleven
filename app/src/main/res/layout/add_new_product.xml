@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/buttonAddImage"
+                android:layout_below="@+id/imageView_uploadImage"
                 android:layout_marginLeft="20dp"
                 android:text="Cancel" />
 
@@ -90,8 +90,17 @@
                 android:layout_marginRight="20dp"
                 android:text="Done" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView_uploadImage"
+                android:layout_below="@+id/buttonAddImage"
+                android:layout_centerInParent="true"/>
+
         </RelativeLayout>
     </ScrollView>
+
+
 
 
 </RelativeLayout>
