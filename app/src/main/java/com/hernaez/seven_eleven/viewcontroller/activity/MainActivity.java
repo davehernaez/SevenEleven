@@ -1,6 +1,7 @@
 package com.hernaez.seven_eleven.viewcontroller.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.User;
+import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.adapter.AdminPageAdapter;
 import com.hernaez.seven_eleven.viewcontroller.adapter.CustomerPageAdapter;
@@ -28,6 +30,8 @@ public class MainActivity extends BaseActivity {
     public static Integer userid;
     @Inject
     AndroidUtils androidUtils;
+    @Inject
+    OrderDaoManager orderDaoManager;
     Thread thread;
 
     @InjectView(R.id.tpi_header2)
@@ -53,7 +57,6 @@ public class MainActivity extends BaseActivity {
             userid = extras.getInt(EXTRA_USERID);
             Log.e("userid", userid + "");
         }
-        Log.e("fragmentTAG",getFragmentTag(pager.getCurrentItem()));
 
         thread = new Thread() {
             @Override
@@ -78,15 +81,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this).setTitle("Exit").setMessage("Would you like to exit?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        dialog().show();
+        /*new AlertDialog.Builder(this).setTitle("Exit").setMessage("Would you like to exit? Unfinished orders will be deleted.").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(
+                orderDaoManager.deleteAll(MainActivity.this);
+                final Intent i = new Intent(
                         "com.hernaez.seven_eleven.LOGIN");
                 startActivity(i);
                 finish();
             }
-        }).setNegativeButton("No", null).show();
+        }).setNegativeButton("No", null).show();*/
     }
 
     @Override
@@ -110,12 +115,38 @@ public class MainActivity extends BaseActivity {
         me.startActivity(intent);
     }
 
-    public String getFragmentTag(int position) {
-        return "android:switcher:" + R.id.vp_pages2 + ":" + position;
-    }
+    public AlertDialog.Builder dialog() {
+        AlertDialog.Builder alertDialog;
+        alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Exit");
+        alertDialog.setNegativeButton("No", null).setCancelable(false);
+        if (userid == 1) {
+            alertDialog.setMessage("Are you sure you want to exit? Unsaved changes will be lost.");
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Intent i = new Intent(
+                            "com.hernaez.seven_eleven.LOGIN");
+                    startActivity(i);
+                    finish();
+                }
+            });
+        } else if (userid == 2) {
+            alertDialog.setMessage("Are you sure you want to exit? Unfinished orders will be deleted.");
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    orderDaoManager.deleteAll(MainActivity.this);
+                    final Intent i = new Intent(
+                            "com.hernaez.seven_eleven.LOGIN");
+                    startActivity(i);
+                    finish();
+                }
+            });
+        }
 
-    public void setPager(Integer position){
 
+        return alertDialog;
     }
 
 }

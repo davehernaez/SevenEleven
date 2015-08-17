@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEEFF"
-    android:alpha="0.9"
-    android:orientation="vertical" >
+    android:background="#EDEDED"
+    android:padding="15dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView_order_summary_image"
@@ -20,24 +20,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="#1b1b1b" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:gravity="center">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price: P" />
+            android:text="Price: P "
+            android:textColor="#1b1b1b" />
 
         <TextView
             android:id="@+id/textView_order_summary_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#FF0000" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,35 +50,38 @@
         android:background="#E5E5E5"
         android:fadingEdgeLength="5dp"
         android:requiresFadingEdge="horizontal|vertical"
-        android:weightSum="4" >
+        android:weightSum="4">
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:text="Ordered Quantity:" />
+            android:text="Ordered Quantity:"
+            android:textColor="#1b1b1b" />
 
         <TextView
             android:id="@+id/textView_order_summary_qty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:textColor="#1b1b1b" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:text="Subtotal: P" />
+            android:text="Subtotal: P"
+            android:textColor="#1b1b1b" />
 
         <TextView
             android:id="@+id/textView_subtotal_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0" />
+            android:text="0"
+            android:textColor="#1b1b1b" />
     </LinearLayout>
 
 </LinearLayout>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Order;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.OrderDaoManager;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
@@ -331,7 +332,7 @@ public class CustomerOrderFragment extends BaseFragment implements View.OnClickL
 
     public void refresh() {
         qty.setText("1");
-        bus.post(new OrderSummaryFragment());
+        bus.post(new Order());
 
     }
 

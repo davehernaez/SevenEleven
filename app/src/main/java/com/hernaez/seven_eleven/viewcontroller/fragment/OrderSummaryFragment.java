@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.hernaez.seven_eleven.viewcontroller.adapter.OrderSummaryDaoAdapter;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,11 +82,6 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
 
         total = 0.0;
-
-        lv.setOnItemLongClickListener(this);
-
-        lv.setOnItemClickListener(this);
-
 
         btn_confirm.setOnClickListener(this);
 
@@ -193,10 +190,19 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     public void populate() {
 
-        final List<OrderTable> orders = orderDaoManager.getAllOrders(getActivity());
+        List<OrderTable> orders = orderDaoManager.getAllOrders(getActivity());
+        if (orders.toArray().length == 0) {
+            List<String> stringList = new ArrayList<String>();
+            stringList.add("You have no orders yet.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, stringList);
+            lv.setAdapter(adapter);
+        } else {
+            OrderSummaryDaoAdapter myadapter = new OrderSummaryDaoAdapter(getActivity(), R.layout.order_summary_holder, orders);
+            lv.setAdapter(myadapter);
+            lv.setOnItemLongClickListener(this);
+            lv.setOnItemClickListener(this);
+        }
 
-        OrderSummaryDaoAdapter myadapter = new OrderSummaryDaoAdapter(getActivity(), R.layout.order_summary_holder, orders);
-        lv.setAdapter(myadapter);
         Integer count = orders.toArray().length;
         Double grandTotal = 0.00;
         Product product = new Product();
@@ -220,14 +226,12 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
 
     }
 
-    @SuppressWarnings("deprecation")
     public void newOrder(Integer userid) throws Exception {
         Order order = productsRetrotfitManager.newOrder(userid);
         orderId = order.orderId;
         Log.e("orderId", orderId + "");
     }
 
-    @SuppressWarnings("deprecation")
     public void placeOrder(Integer orderid, Product product) throws Exception {
         productsRetrotfitManager.placeOrder(orderid, product);
 
@@ -259,7 +263,7 @@ public class OrderSummaryFragment extends BaseFragment implements AdapterView.On
     }
 
     @Subscribe
-    public void refreshListView(OrderSummaryFragment event) {
+    public void refreshListView(Order event) {
         populate();
     }
 
