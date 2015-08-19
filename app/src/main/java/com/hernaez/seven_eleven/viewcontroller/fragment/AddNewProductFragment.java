@@ -60,6 +60,11 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         buttonCancel.setOnClickListener(this);
         editTextProductname.requestFocus();
         editTextProductImage.addTextChangedListener(this);
+
+        if (savedInstanceState != null) {
+            photo = savedInstanceState.getParcelable("bitmap");
+            imageViewUpload.setImageBitmap(photo);
+        }
     }
 
     @Override
@@ -74,7 +79,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onSaveInstanceState2(Bundle outState) {
-
+        outState.putParcelable("bitmap", photo);
     }
 
     @Override
@@ -107,7 +112,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
                 animateFlashPulse(buttonCancel);
                 editTextProductname.setText("");
                 editTextProductImage.setText("");
-                editTextProductImage.setVisibility(getView().GONE);
+                editTextProductImage.setVisibility(View.GONE);
                 editTextProductPrice.setText("");
                 imageViewUpload.setImageBitmap(null);
                 break;
@@ -189,36 +194,29 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public void animateFlashPulse(View view) {
+    public void animateFlashPulse(final View view) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                YoYo.with(Techniques.Pulse).delay(50).playOn(view);
+                YoYo.with(Techniques.Flash).delay(50).playOn(view);
             }
         });
-        YoYo.with(Techniques.Pulse).delay(100).playOn(view);
-        YoYo.with(Techniques.Flash).delay(200).playOn(view);
+
     }
+
+    Bitmap photo;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             Log.e("Result", "result is ok");
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            photo = (Bitmap) data.getExtras().get("data");
             imageViewUpload.setImageBitmap(photo);
             imageViewUpload.setVisibility(View.VISIBLE);
 
         }
-    }
-
-    public static AddNewProductFragment newInstance() {
-        return new AddNewProductFragment();
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
 
     @Override
@@ -231,5 +229,14 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         if (!TextUtils.isEmpty(editTextProductImage.getText().toString())) {
             Picasso.with(getActivity()).load(editTextProductImage.getText().toString()).resize(300, 300).into(imageViewUpload);
         }
+    }
+
+    public static AddNewProductFragment newInstance() {
+        return new AddNewProductFragment();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
     }
 }
