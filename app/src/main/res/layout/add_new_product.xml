@@ -20,7 +20,7 @@
                 android:layout_below="@+id/textView"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:hint="Product Name" />
 
             <EditText
@@ -63,7 +63,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
-                android:layout_alignBottom="@+id/editText_newProductImage"
+                android:layout_alignTop="@+id/editText_newProductImage"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/editText_newProductPrice"
                 android:layout_marginLeft="5dp"
@@ -72,6 +72,7 @@
 
             <Button
                 android:id="@+id/buttonCancelNewProduct"
+                android:layout_marginTop="45dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -94,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_uploadImage"
-                android:layout_below="@+id/buttonAddImage"
+                android:layout_below="@+id/editText_newProductImage"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>

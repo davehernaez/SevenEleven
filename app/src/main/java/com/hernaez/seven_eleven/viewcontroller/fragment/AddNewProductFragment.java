@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +22,7 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
-
-import java.io.File;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -33,7 +31,7 @@ import butterknife.InjectView;
 /**
  * Created by TAS on 8/11/2015.
  */
-public class AddNewProductFragment extends BaseFragment implements View.OnClickListener {
+public class AddNewProductFragment extends BaseFragment implements View.OnClickListener, TextWatcher {
     @Inject
     AndroidUtils utils;
     @Inject
@@ -61,6 +59,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         buttonDone.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
         editTextProductname.requestFocus();
+        editTextProductImage.addTextChangedListener(this);
     }
 
     @Override
@@ -110,6 +109,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
                 editTextProductImage.setText("");
                 editTextProductImage.setVisibility(getView().GONE);
                 editTextProductPrice.setText("");
+                imageViewUpload.setImageBitmap(null);
                 break;
         }
     }
@@ -132,11 +132,12 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
                 {
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-                    File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                    // File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
 
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                    //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                    //Log.e("uri", Uri.fromFile(file) + "");
 
                     startActivityForResult(intent, 1);
 
@@ -155,6 +156,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
                     editTextProductImage.setVisibility(View.VISIBLE);
                     dialog.dismiss();
                     editTextProductImage.requestFocus();
+
                 } else if (options[item].equals("Cancel")) {
 
                     dialog.dismiss();
@@ -200,12 +202,34 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+            Log.e("Result", "result is ok");
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageViewUpload.setImageBitmap(photo);
+            imageViewUpload.setVisibility(View.VISIBLE);
 
-        //super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public static AddNewProductFragment newInstance() {
         return new AddNewProductFragment();
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (!TextUtils.isEmpty(editTextProductImage.getText().toString())) {
+            Picasso.with(getActivity()).load(editTextProductImage.getText().toString()).resize(300, 300).into(imageViewUpload);
+        }
+    }
 }
