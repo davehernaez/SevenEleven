@@ -14,15 +14,13 @@ public class Login {
     HttpService httpService;
     AndroidUtils androidUtils;
 
-    public Login(/*LoginHttpAdapter loginHttpAdapter*/HttpService httpService, AndroidUtils androidUtils){
-        //this.loginHttpAdapter=loginHttpAdapter;
+    public Login(/*LoginHttpAdapter loginHttpAdapter*/HttpService httpService, AndroidUtils androidUtils) {
         this.httpService = httpService;
         this.androidUtils = androidUtils;
     }
 
     public User userLogin(String username, String password) throws Exception {
-        Log.e("UserLogin","UserLogin...");
-        //User user=loginHttpAdapter.getUser(username,password);
+        Log.e("UserLogin", "UserLogin...");
         User user = httpService.userLogin(username, password);
 
         return user;

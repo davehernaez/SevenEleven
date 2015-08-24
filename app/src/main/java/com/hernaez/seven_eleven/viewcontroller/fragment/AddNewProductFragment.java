@@ -1,10 +1,13 @@
 package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -23,6 +27,10 @@ import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -64,6 +72,10 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         if (savedInstanceState != null) {
             photo = savedInstanceState.getParcelable("bitmap");
             imageViewUpload.setImageBitmap(photo);
+            if (savedInstanceState.getBoolean("dialog") == true) {
+                //selectImage().show();
+                Log.e("dialog", "Showing" + savedInstanceState.getBoolean("dialog"));
+            }
         }
     }
 
@@ -80,6 +92,12 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onSaveInstanceState2(Bundle outState) {
         outState.putParcelable("bitmap", photo);
+        if (selectImage().isShowing()) {
+            outState.putBoolean("dialog", true);
+            //selectImage().dismiss();
+        }
+
+
     }
 
     @Override
@@ -88,7 +106,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
             case R.id.buttonAddImage:
                 animateFlashPulse(buttonAddImage);
-                selectImage();
+                selectImage().show();
 
                 break;
 
@@ -119,7 +137,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         }
     }
 
-    private void selectImage() {
+    private AlertDialog selectImage() {
 
         final CharSequence[] options = {"Camera", "Gallery", "Paste a URL", "Cancel"};
 
@@ -138,11 +156,6 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
                 {
 
                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    // File file = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-
-                    //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                    //Log.e("uri", Uri.fromFile(file) + "");
 
                     startActivityForResult(intent, 1);
 
@@ -172,7 +185,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
         });
 
-        builder.show();
+        return builder.create();
 
     }
 
@@ -211,11 +224,28 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-            Log.e("Result", "result is ok");
-            photo = (Bitmap) data.getExtras().get("data");
-            imageViewUpload.setImageBitmap(photo);
-            imageViewUpload.setVisibility(View.VISIBLE);
+            try {
+                Picasso.with(getActivity()).load(getImageUri(getActivity(), (Bitmap) data.getExtras().get("data"))).resize(400, 350).into(imageViewUpload);
+            } catch (OutOfMemoryError e) {
+                utils.alert("Image is too large.");
+            }
 
+        }
+        if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
+
+            Uri picUri = data.getData();
+            if (picUri != null) {
+                try {
+                    Picasso.with(getActivity()).load(getImageUri(getActivity(), android.provider.MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri))).resize(400, 350).into(imageViewUpload);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (OutOfMemoryError e) {
+                    Toast.makeText(getActivity(), "Image is too large. choose other", Toast.LENGTH_LONG).show();
+                }
+
+            }
         }
     }
 
@@ -231,12 +261,19 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         }
     }
 
-    public static AddNewProductFragment newInstance() {
-        return new AddNewProductFragment();
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    }
+
+    public Uri getImageUri(Context context, Bitmap bitmapImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmapImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static AddNewProductFragment newInstance() {
+        return new AddNewProductFragment();
     }
 }

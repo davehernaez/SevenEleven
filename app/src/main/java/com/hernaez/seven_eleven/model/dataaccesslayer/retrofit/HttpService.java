@@ -33,7 +33,6 @@ public interface HttpService {
 
     @FormUrlEncoded
     @POST(HttpConstant.HTTP_LOGIN)
-//    @GET(HttpConstant.HTTP_LOGIN)
     User userLogin(
             @Field(PARAM_LOGINUSERS_USERNAME) String username,
             @Field(PARAM_LOGINUSERS_PASSWORD) String password);

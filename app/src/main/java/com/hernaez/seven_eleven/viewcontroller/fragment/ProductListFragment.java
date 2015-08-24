@@ -12,10 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hernaez.seven_eleven.R;
+import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -71,19 +73,6 @@ public class ProductListFragment extends BaseFragment {
         super.onDetach();
     }
 
-    public static ProductListFragment newInstance() {
-        return newInstance(R.layout.prdouct_list);
-    }
-
-    int currentItem = 0;
-
-    public static ProductListFragment newInstance(int layoutId) {
-        ProductListFragment productListFragment = new ProductListFragment();
-        productListFragment.currentItem = layoutId;
-        productListFragment.setRetainInstance(true);
-        return productListFragment;
-    }
-
     public void populate() {
 
         try {
@@ -97,5 +86,23 @@ public class ProductListFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Subscribe
+    public void refresh(Product ptoduct){
+        populate();
+    }
+
+    public static ProductListFragment newInstance() {
+        return newInstance(R.layout.prdouct_list);
+    }
+
+    int currentItem = 0;
+
+    public static ProductListFragment newInstance(int layoutId) {
+        ProductListFragment productListFragment = new ProductListFragment();
+        productListFragment.currentItem = layoutId;
+        productListFragment.setRetainInstance(true);
+        return productListFragment;
     }
 }

@@ -20,6 +20,7 @@ import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,8 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     AndroidUtils androidUtils;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
+    @Inject
+    Bus bus;
 
     @InjectView(R.id.listView_reorder)
     protected ListView lv;
@@ -57,7 +60,6 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
         });
 
 
-
     }
 
     @Override
@@ -72,18 +74,6 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
     /*public static ReOrderFragment newInstance() {
         return new ReOrderFragment();
     }*/
-    public static ReOrderFragment newInstance() {
-        return newInstance(R.layout.reorder);
-    }
-
-    int currentItem = 0;
-
-    public static ReOrderFragment newInstance(int layoutId) {
-        ReOrderFragment reOrderFragment = new ReOrderFragment();
-        reOrderFragment.currentItem = layoutId;
-        reOrderFragment.setRetainInstance(true);
-        return reOrderFragment;
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -187,6 +177,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
                     reorder(tv_prodname.getText().toString(), dialog_qty.getText().toString());
                     //androidUtils.loadFragment((ActionBarActivity) getActivity(), R.id.container, AdminPageFragment.newInstance());
                     ad.dismiss();
+                    bus.post(new Product());
                     androidUtils.alert("Order completed. Your product's quantity has been updated.");
                 } else {
                     androidUtils.alert("At least 10 must be ordered.");
@@ -211,6 +202,19 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static ReOrderFragment newInstance() {
+        return newInstance(R.layout.reorder);
+    }
+
+    int currentItem = 0;
+
+    public static ReOrderFragment newInstance(int layoutId) {
+        ReOrderFragment reOrderFragment = new ReOrderFragment();
+        reOrderFragment.currentItem = layoutId;
+        reOrderFragment.setRetainInstance(true);
+        return reOrderFragment;
     }
 
 }

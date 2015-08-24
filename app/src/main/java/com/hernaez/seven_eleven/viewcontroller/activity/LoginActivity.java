@@ -129,7 +129,6 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                         androidUtils.alert("Logging in as admin...");
                         MainActivity.start(LoginActivity.this, user);
                         finish();
-                        //AdminPageActivity.start(LoginActivity.this, user);
                     }
                 });
             } else if (user.userType.equals(User.USERTYPE_USER)) {
@@ -139,7 +138,6 @@ public class LoginActivity extends BaseActivity implements ViewPagerEx.OnPageCha
                         androidUtils.alert("Logging in...");
                         MainActivity.start(LoginActivity.this, user);
                         finish();
-                        //CustomerOrderActivity.start(LoginActivity.this, user);
                     }
                 });
             }
