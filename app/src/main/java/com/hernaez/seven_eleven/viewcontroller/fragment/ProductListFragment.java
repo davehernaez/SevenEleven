@@ -17,6 +17,7 @@ import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
 import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ProductListAdapter;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
@@ -31,13 +32,15 @@ public class ProductListFragment extends BaseFragment {
     ProductsRetrotfitManager productsRetrotfitManager;
     @Inject
     AndroidUtils utils;
+    @Inject
+    Bus bus;
 
     @InjectView(R.id.listView_productList)
     ListView lv;
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
-
+        bus.register(this);
         populate();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,7 +92,7 @@ public class ProductListFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void refresh(Product ptoduct){
+    public void refresh(Product product) {
         populate();
     }
 

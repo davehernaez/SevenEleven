@@ -27,9 +27,9 @@ public interface HttpService {
     public static final String PARAM_PRODUCT_PRICE = "productPrice";
     public static final String PARAM_PRODUCT_IMAGEPATH = "productImgpath";
     public static final String PARAM_PRODUCT_QTY = "productQty";
+    public static final String PARAM_PRODUCT_IMAGESTRING = "imageString";
 
     public static final String PARAM_REORDER_QTY = "productQty";
-
 
     @FormUrlEncoded
     @POST(HttpConstant.HTTP_LOGIN)
@@ -72,6 +72,7 @@ public interface HttpService {
             @Field(PARAM_PRODUCT_NAME) String productName,
             @Field(PARAM_PRODUCT_QTY) Integer productQty,
             @Field(PARAM_PRODUCT_PRICE) Double productPrice,
-            @Field(PARAM_PRODUCT_IMAGEPATH) String productImagePath);
+            @Field(PARAM_PRODUCT_IMAGEPATH) String productImagePath,
+            @Field(PARAM_PRODUCT_IMAGESTRING) String ImageString);
 
 }

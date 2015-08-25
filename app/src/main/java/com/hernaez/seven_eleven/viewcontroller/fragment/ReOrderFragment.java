@@ -2,8 +2,6 @@ package com.hernaez.seven_eleven.viewcontroller.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +16,9 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
-import com.hernaez.seven_eleven.viewcontroller.activity.MainActivity;
 import com.hernaez.seven_eleven.viewcontroller.adapter.ReOrderAdapter;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +50,7 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onActivityCreated2(Bundle savedInstanceState) {
+        bus.register(this);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -86,6 +85,13 @@ public class ReOrderFragment extends BaseFragment implements AdapterView.OnItemC
         });
 
     }
+
+    @Subscribe
+    public void refresh(Product product){
+        populate();
+
+    }
+
 
     public void populate() {
 

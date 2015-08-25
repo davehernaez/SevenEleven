@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.hernaez.seven_eleven.R;
 import com.hernaez.seven_eleven.domain.Product;
 import com.hernaez.seven_eleven.model.businesslayer.ProductsRetrotfitManager;
 import com.hernaez.seven_eleven.other.helper.AndroidUtils;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -44,6 +47,8 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
     AndroidUtils utils;
     @Inject
     ProductsRetrotfitManager productsRetrotfitManager;
+    @Inject
+    Bus bus;
 
     @InjectView(R.id.editText_newProductName)
     protected EditText editTextProductname;
@@ -115,11 +120,26 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
                 if (!TextUtils.isEmpty(editTextProductname.getText()) && !TextUtils.isEmpty(editTextProductPrice.getText()) && !TextUtils.isEmpty(editTextProductImage.getText())) {
                     if (addNewProduct(editTextProductname.getText().toString(),
                             Double.parseDouble(editTextProductPrice.getText().toString()),
-                            editTextProductImage.getText().toString())) {
+                            editTextProductImage.getText().toString(), null)) {
+                        bus.post(new Product());
                         editTextProductname.setText("");
                         editTextProductImage.setText("");
                         editTextProductImage.setVisibility(getView().GONE);
                         editTextProductPrice.setText("");
+                        imageViewUpload.setImageBitmap(null);
+                    }
+                } else if (!TextUtils.isEmpty(editTextProductname.getText()) && !TextUtils.isEmpty(editTextProductPrice.getText()) && TextUtils.isEmpty(editTextProductImage.getText())) {
+                    final String BASE_URL = "http://seventen.tastradesoft.com/android_connect/images/";
+                    Bitmap bitmap = ((BitmapDrawable) imageViewUpload.getDrawable()).getBitmap();
+                    if (addNewProduct(editTextProductname.getText().toString(),
+                            Double.parseDouble(editTextProductPrice.getText().toString()), BASE_URL,
+                            ImageString(bitmap))) {
+                        bus.post(new Product());
+                        editTextProductname.setText("");
+                        editTextProductImage.setText("");
+                        editTextProductImage.setVisibility(getView().GONE);
+                        editTextProductPrice.setText("");
+                        imageViewUpload.setImageBitmap(null);
                     }
                 } else {
                     utils.alert("Please fill up all fields.");
@@ -189,7 +209,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    public boolean addNewProduct(String productName, Double productPrice, String productImage) {
+    public boolean addNewProduct(String productName, Double productPrice, String productImage, String imageString) {
 
         Product product = new Product();
         product.productName = productName;
@@ -198,7 +218,7 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         product.productQty = 0;
 
         try {
-            productsRetrotfitManager.addNewProduct(product);
+            productsRetrotfitManager.addNewProduct(product, imageString);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,7 +290,16 @@ public class AddNewProductFragment extends BaseFragment implements View.OnClickL
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmapImage, "Title", null);
+        String imageString = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
         return Uri.parse(path);
+    }
+
+    public String ImageString(Bitmap bitmapImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String imageString = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
+
+        return imageString;
     }
 
     public static AddNewProductFragment newInstance() {

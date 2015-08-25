@@ -66,11 +66,11 @@ public class ProductsRetrotfitManager {
         httpService.reOrder(product_name, product_qty);
     }
 
-    public void addNewProduct(Product product) throws Exception {
+    public void addNewProduct(Product product, String imageString) throws Exception {
         //create new httpservice to add a new product to database here
         httpService.addNewProduct(product.productName,
                 product.productQty,
                 product.productPrice,
-                product.productImgpath);
+                product.productImgpath, imageString);
     }
 }
